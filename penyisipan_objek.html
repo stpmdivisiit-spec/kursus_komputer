@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemformatan & Penyisipan Objek - Microsoft PowerPoint</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        /* PowerPoint Orange Theme */
+        .header-bg {
+            background: linear-gradient(135deg, #d83b01 0%, #a82e00 100%);
+        }
+        .content-card {
+            border-top: 5px solid #d83b01;
+        }
+        .icon-box {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background-color: #fcece6; /* Soft orange/peach */
+            color: #d83b01;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+        .text-ppt {
+            color: #d83b01 !important;
+        }
+        .bg-ppt-soft {
+            background-color: #fcece6;
+        }
+        .setup-detail-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #e9ecef;
+            margin-bottom: 2rem;
+        }
+        .setup-detail-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.08)!important;
+        }
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .feature-list > li {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            color: #495057;
+            border-bottom: 1px dashed #dee2e6;
+            padding-bottom: 1rem;
+        }
+        .feature-list > li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .feature-list > li strong {
+            color: #212529;
+        }
+        .pro-tip {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            font-size: 0.9rem;
+            color: #664d03;
+        }
+        
+        /* Slide Simulation CSS */
+        .slide-sim {
+            background-color: #fff;
+            width: 100%;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .smartart-demo {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+        }
+        .smartart-box {
+            background-color: #d83b01;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border-radius: 5px;
+            flex: 1;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        .smartart-arrow {
+            color: #adb5bd;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header-bg text-white py-5 mb-5 shadow-sm">
+        <div class="container">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <a href="Index.html" class="btn btn-light btn-sm rounded-pill px-3 fw-medium d-inline-flex align-items-center gap-2 text-dark">
+                    <i class="bi bi-arrow-left"></i> Kembali Ke Halaman Utama
+                </a>
+
+
+                <span class="badge bg-white text-dark rounded-pill shadow-sm fw-bold"><i class="bi bi-book me-1 text-ppt"></i> Tingkat Dasar</span>
+            </div>
+            <h1 class="display-5 fw-bold mb-2">Pemformatan & Penyisipan Objek</h1>
+            <p class="lead mb-0 opacity-75 d-flex align-items-center gap-2">
+                <i class="bi bi-easel"></i> Mengubah Teks Membosankan Menjadi Visual Interaktif
+            </p>
+        </div>
+    </header>
+
+    <div class="container-fluid mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                
+                <!-- Main Content Card -->
+                <div class="card shadow-sm border-0 content-card rounded-4 mb-4">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h2 class="h3 fw-bold mb-3 text-ppt">Kekuatan Visual dalam Presentasi</h2>
+                            <p class="text-secondary mx-auto" style="max-width: 800px;">
+                                Presentasi yang sukses tidak hanya mengandalkan kata-kata, tetapi juga pada kemampuan visual untuk menceritakan pesan. Di tab <strong>Insert</strong>, PowerPoint menyediakan berbagai "balok mainan" (Objek) seperti Gambar, Bentuk (Shapes), Ikon, hingga Diagram otomatis (SmartArt) yang siap Anda rangkai.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1. GAMBAR & IKON -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light p-4 d-flex flex-column align-items-center justify-content-center border-end">
+                            <img src="https://placehold.co/600x400/e9ecef/495057?text=[Image+of+Menu+Insert+Pictures+dan+Icons]" class="img-fluid rounded shadow-sm border mb-3" alt="Insert Pictures and Icons">
+                            <span class="text-muted small text-center">Menu Pictures dan Icons di Tab Insert</span>
+                        </div>
+                        <div class="col-md-7 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <div class="icon-box"><i class="bi bi-image"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold text-ppt mb-0">1. Gambar dan Ikon</h3>
+                                    <span class="text-muted small">Menarik perhatian dalam sekejap mata</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">Otak manusia memproses gambar 60.000 kali lebih cepat daripada teks. Selalu usahakan untuk memiliki setidaknya satu elemen visual pendukung di setiap slide Anda.</p>
+                            
+                            <ul class="feature-list small mb-0">
+                                <li>
+                                    <h6 class="fw-bold mb-1">Menyisipkan Gambar (Pictures)</h6>
+                                    <p class="text-muted mb-0">Anda bisa mengambil gambar dari komputer (<em>This Device</em>) atau langsung mencari gambar resolusi tinggi gratis melalui <em>Stock Images</em> bawaan PowerPoint. Pastikan gambar ditarik dari sudutnya (ujung) saat mengubah ukuran agar proporsinya tidak gepeng/berubah.</p>
+                                </li>
+                                <li>
+                                    <h6 class="fw-bold mb-1">Menggunakan Ikon (Icons)</h6>
+                                    <p class="text-muted mb-0">PowerPoint memiliki ribuan ikon vektor gratis (seperti ikon telepon, orang, jam, dll). Ikon sangat bagus digunakan untuk menggantikan "Bullet points" (titik hitam) yang membosankan. Karena berbasis vektor, ikon tidak akan pecah meski diperbesar seukuran layar penuh, dan warnanya bisa Anda ubah sesuka hati.</p>
+                                </li>
+                                <li>
+                                    <h6 class="fw-bold mb-1">Pemformatan Gambar (Picture Format)</h6>
+                                    <p class="text-muted mb-0">Setelah gambar disisipkan, klik gambar tersebut. Akan muncul tab baru bernama <strong>Picture Format</strong>. Di sini Anda bisa memotong gambar (<em>Crop</em>), memberi bingkai bayangan (<em>Picture Styles</em>), atau menghapus latar belakang gambar (<em>Remove Background</em>).</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. SHAPES & TEXT BOX -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light p-4 d-flex flex-column align-items-center justify-content-center border-end">
+                            <img src="https://placehold.co/600x400/e9ecef/495057?text=[Image+of+Berbagai+Shapes+di+PowerPoint]" class="img-fluid rounded shadow-sm border mb-3" alt="Shapes in PowerPoint">
+                            <span class="text-muted small text-center">Koleksi Shapes (Bentuk) yang sangat beragam</span>
+                        </div>
+                        <div class="col-md-7 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <div class="icon-box"><i class="bi bi-bounding-box-circles"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold text-ppt mb-0">2. Bentuk (Shapes) & Kotak Teks</h3>
+                                    <span class="text-muted small">Bahan bangunan dasar desain slide</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">Shapes bukan sekadar hiasan. Shapes digunakan untuk memisahkan area, membuat tombol, hingga membangun diagram alur (flowchart) buatan sendiri.</p>
+                            
+                            <ul class="feature-list small mb-0">
+                                <li>
+                                    <h6 class="fw-bold mb-1">Menggambar Shapes</h6>
+                                    <p class="text-muted mb-0">Klik <strong>Insert > Shapes</strong>. Pilih bentuk yang Anda inginkan (misal: Persegi dengan sudut melengkung). Klik dan tarik (drag) <em>mouse</em> Anda di atas slide untuk menggambarnya. <br><em>Tips: Tahan tombol <strong>Shift</strong> saat menggambar lingkaran agar hasilnya benar-benar bulat sempurna (bukan lonjong).</em></p>
+                                </li>
+                                <li>
+                                    <h6 class="fw-bold mb-1">Mengetik di dalam Shapes</h6>
+                                    <p class="text-muted mb-0">Anda tidak perlu menimpa Shapes dengan Text Box baru. Cukup <strong>Klik Shapes tersebut dan langsung mulai mengetik</strong>. Teks akan secara otomatis berada di tengah-tengah bentuk tersebut.</p>
+                                </li>
+                                <li>
+                                    <h6 class="fw-bold mb-1">Text Box (Kotak Teks)</h6>
+                                    <p class="text-muted mb-0">Jika Anda hanya butuh tulisan yang melayang bebas tanpa kotak berwarna di belakangnya, gunakan <strong>Insert > Text Box</strong>. Berbeda dengan Microsoft Word, di PowerPoint, Anda <strong>wajib</strong> menggunakan Text Box jika ingin menambahkan tulisan di luar area <em>Layout</em> bawaan.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. SMARTART -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="card-body p-4 p-lg-5">
+                        <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                            <div class="icon-box"><i class="bi bi-diagram-3"></i></div>
+                            <div>
+                                <h3 class="h4 fw-bold text-ppt mb-0">3. Keajaiban SmartArt</h3>
+                                <span class="text-muted small">Jalan pintas membuat infografis seketika</span>
+                            </div>
+                        </div>
+
+                        <p class="text-secondary mb-4">
+                            Jika Anda memiliki poin-poin yang menggambarkan sebuah <strong>Proses</strong> (Langkah 1, 2, 3) atau <strong>Struktur Organisasi</strong> (Ketua, Wakil, Anggota), jangan pernah menampilkannya sebagai teks biasa. Gunakan fitur <strong>SmartArt</strong> untuk mengubahnya menjadi diagram dinamis hanya dengan dua kali klik.
+                        </p>
+
+                        <!-- Simulasi SmartArt -->
+                        <div class="row g-4 mt-2 mb-4 align-items-center">
+                            <!-- Teks Biasa -->
+                            <div class="col-md-4">
+                                <h6 class="fw-bold text-muted text-center mb-2">Teks Biasa (Membosankan)</h6>
+                                <div class="bg-light p-3 rounded border h-100">
+                                    <ul class="mb-0 text-dark small">
+                                        <li class="mb-2">Tahap 1: Riset Pasar</li>
+                                        <li class="mb-2">Tahap 2: Produksi Barang</li>
+                                        <li>Tahap 3: Peluncuran</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 text-center d-none d-md-block">
+                                <i class="bi bi-arrow-right-circle-fill text-ppt fs-2"></i>
+                                <div class="small text-muted fw-bold mt-1">Convert to SmartArt</div>
+                            </div>
+
+                            <!-- SmartArt -->
+                            <div class="col-md-7">
+                                <h6 class="fw-bold text-success text-center mb-2">Setelah Diubah ke SmartArt (Menarik)</h6>
+                                <div class="smartart-demo">
+                                    <div class="smartart-box">1. Riset<br>Pasar</div>
+                                    <i class="bi bi-caret-right-fill smartart-arrow"></i>
+                                    <div class="smartart-box" style="background-color: #fd7e14;">2. Produksi<br>Barang</div>
+                                    <i class="bi bi-caret-right-fill smartart-arrow"></i>
+                                    <div class="smartart-box" style="background-color: #ffc107; color: black;">3. Rilis<br>Produk</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pro-tip">
+                            <strong>Cara Super Cepat:</strong> Anda sudah terlanjur mengetik teks poin-poin? Jangan dihapus! Blok teks Anda tersebut, klik kanan, lalu pilih menu <strong>"Convert to SmartArt"</strong>. PowerPoint akan menyulap teks Anda menjadi diagram seketika tanpa perlu mengetik ulang!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. MENGATUR POSISI (ALIGN & ARRANGE) -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light p-4 d-flex flex-column align-items-center justify-content-center border-end">
+                            <img src="https://placehold.co/600x400/e9ecef/495057?text=[Image+of+Fitur+Align+dan+Arrange+Object]" class="img-fluid rounded shadow-sm border mb-3" alt="Align and Arrange Objects">
+                            <span class="text-muted small text-center">Gunakan menu Align untuk merapikan objek yang berantakan.</span>
+                        </div>
+                        <div class="col-md-7 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <div class="icon-box"><i class="bi bi-distribute-horizontal"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold text-ppt mb-0">4. Mengatur Posisi Objek</h3>
+                                    <span class="text-muted small">Rahasia desain yang presisi dan rapi</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">Mengeser kotak teks dan gambar secara manual dengan *mouse* seringkali membuat susunannya miring sebelah. PowerPoint menyediakan alat penggaris tak kasat mata bernama <strong>Arrange / Align</strong>.</p>
+                            
+                            <ul class="feature-list small mb-0">
+                                <li>
+                                    <h6 class="fw-bold mb-1">Perataan Presisi (Align)</h6>
+                                    <p class="text-muted mb-0">Blok beberapa objek sekaligus (tahan tombol Ctrl sambil klik objek). Masuk ke menu <strong>Format > Align</strong>. <br>
+                                    - Pilih <strong>Align Center</strong> agar semua objek lurus tepat di garis tengah vertikal.<br>
+                                    - Pilih <strong>Distribute Horizontally</strong> agar jarak rongga (spasi) antar kotak satu dan kotak lainnya otomatis sama persis ukurannya.</p>
+                                </li>
+                                <li>
+                                    <h6 class="fw-bold mb-1">Urutan Tumpukan (Bring to Front / Send to Back)</h6>
+                                    <p class="text-muted mb-0">Slide PowerPoint berlapis-lapis seperti kue. Jika teks Anda tiba-tiba tertutup oleh gambar besar yang baru saja dimasukkan, klik kanan pada gambar tersebut dan pilih <strong>Send to Back</strong> (Kirim ke Belakang) agar teks yang tenggelam muncul kembali ke permukaan.</p>
+                                </li>
+                                <li>
+                                    <h6 class="fw-bold mb-1">Mengelompokkan Objek (Group)</h6>
+                                    <p class="text-muted mb-0">Jika Anda telah membuat desain kompleks dari gabungan banyak <em>Shapes</em> dan ikon, blok semuanya lalu tekan <strong>Ctrl + G</strong> (Group). Mereka akan menyatu menjadi satu objek utuh, sehingga jika digeser atau diperbesar ukurannya, posisinya tidak akan tercerai-berai.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.css"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

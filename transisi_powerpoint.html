@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transisi (Transitions) - Microsoft PowerPoint</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        /* PowerPoint Orange Theme - Medium Level */
+        .header-bg {
+            background: linear-gradient(135deg, #d83b01 0%, #8a2500 100%);
+        }
+        .content-card {
+            border-top: 5px solid #d83b01;
+        }
+        .icon-box {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background-color: #fcece6;
+            color: #d83b01;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+        .text-ppt {
+            color: #d83b01 !important;
+        }
+        .bg-ppt-soft {
+            background-color: #fcece6;
+        }
+        .setup-detail-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #e9ecef;
+            margin-bottom: 2rem;
+        }
+        .setup-detail-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.08)!important;
+        }
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .feature-list > li {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            color: #495057;
+            border-bottom: 1px dashed #dee2e6;
+            padding-bottom: 1rem;
+        }
+        .feature-list > li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .feature-list > li strong {
+            color: #212529;
+        }
+        .pro-tip {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.95rem;
+            color: #664d03;
+        }
+        
+        /* Simulation Visuals */
+        .transition-demo-box {
+            background-color: #fff;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .transition-arrow {
+            font-size: 2.5rem;
+            color: #adb5bd;
+            margin: 15px 0;
+        }
+        .slide-mockup {
+            width: 100px;
+            height: 60px;
+            background-color: #2b3035;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin: 0 auto;
+            border: 2px solid #495057;
+        }
+        .slide-mockup-alt {
+            background-color: #d83b01;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header-bg text-white py-5 mb-5 shadow-sm">
+        <div class="container">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <a href="Index.html" class="btn btn-light btn-sm rounded-pill px-3 fw-medium d-inline-flex align-items-center gap-2 text-dark">
+                    <i class="bi bi-arrow-left"></i> Kembali Ke Halaman Utama
+                </a>
+
+                <span class="badge bg-white text-dark rounded-pill shadow-sm fw-bold"><i class="bi bi-layers-half me-1 text-ppt"></i> Tingkat Menengah</span>
+            </div>
+            <h1 class="display-5 fw-bold mb-2">Transisi (Transitions)</h1>
+            <p class="lead mb-0 opacity-75 d-flex align-items-center gap-2">
+                <i class="bi bi-easel"></i> Menghubungkan Antar-Slide Secara Elegan
+            </p>
+        </div>
+    </header>
+
+    <div class="container-fluid mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                
+                <!-- Main Content Card -->
+                <div class="card shadow-sm border-0 content-card rounded-4 mb-4">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h2 class="h3 fw-bold mb-3 text-ppt">Transisi vs Animasi: Apa Bedanya?</h2>
+                            <p class="text-secondary mx-auto" style="max-width: 800px;">
+                                Kesalahan umum pengguna tingkat menengah adalah menyamakan Transisi dan Animasi. <br>
+                                <strong>Transisi</strong> adalah efek visual yang terjadi saat Anda berpindah dari <em>satu halaman slide ke halaman slide berikutnya</em>. Sedangkan <strong>Animasi</strong> adalah efek pergerakan objek (teks/gambar) <em>di dalam satu halaman slide yang sama</em>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1. KATEGORI TRANSISI -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light p-4 d-flex flex-column align-items-center justify-content-center border-end">
+                            <img src="https://placehold.co/600x400/e9ecef/495057?text=[Image+of+Galeri+Efek+Transisi+di+PowerPoint]" class="img-fluid rounded shadow-sm border mb-3" alt="Galeri Transisi PowerPoint">
+                            <span class="text-muted small text-center">Tiga kategori utama efek transisi pada Tab Transitions.</span>
+                        </div>
+                        <div class="col-md-7 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <div class="icon-box"><i class="bi bi-collection-play"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold text-ppt mb-0">1. Memilih Efek Transisi</h3>
+                                    <span class="text-muted small">Tiga kategori visual penghubung slide</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">Pilih slide Anda di panel sebelah kiri, lalu buka tab <strong>Transitions</strong>. Klik tanda panah bawah (More) pada galeri efek untuk melihat seluruh koleksi transisi yang dibagi menjadi 3 kategori:</p>
+                            
+                            <ul class="feature-list small mb-0">
+                                <li>
+                                    <h6 class="fw-bold mb-1">Subtle (Halus & Profesional)</h6>
+                                    <p class="text-muted mb-0">Efek yang sangat dasar, lembut, dan tidak mengganggu. Sangat disarankan untuk presentasi bisnis, sidang skripsi, atau laporan resmi. Contoh favorit: <strong>Fade</strong> (Memudar perlahan), <strong>Push</strong> (Mendorong slide sebelumnya), dan <strong>Wipe</strong> (Menyapu layar).</p>
+                                </li>
+                                <li>
+                                    <h6 class="fw-bold mb-1">Exciting (Menarik Perhatian)</h6>
+                                    <p class="text-muted mb-0">Efek 3D yang sangat mencolok dan dramatis. Gunakan dengan sangat hati-hati dan jarang-jarang (misal hanya saat pindah bab besar). Contoh: <strong>Curtains</strong> (Tirai terbuka), <strong>Origami</strong> (Burung kertas terbang), atau <strong>Fracture</strong> (Kaca pecah).</p>
+                                </li>
+                                <li>
+                                    <h6 class="fw-bold mb-1">Dynamic Content (Konten Dinamis)</h6>
+                                    <p class="text-muted mb-0">Transisi unik di mana hanya konten (teks/gambar) yang bergerak pindah, sementara <strong>Latar Belakang (Background) slide tetap diam di tempat</strong>. Contoh: <strong>Pan, Ferris Wheel, Conveyor</strong>. Sangat keren jika Anda menggunakan satu gambar latar belakang yang sama untuk beberapa slide berurutan.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. EFFECT OPTIONS -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light p-4 d-flex flex-column align-items-center justify-content-center border-end">
+                            <img src="https://placehold.co/600x400/e9ecef/495057?text=[Image+of+Tombol+Effect+Options+untuk+Transisi+Push]" class="img-fluid rounded shadow-sm border mb-3" alt="Effect Options Transisi">
+                            <span class="text-muted small text-center">Mengubah arah dorongan pada efek Push.</span>
+                        </div>
+                        <div class="col-md-7 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <div class="icon-box"><i class="bi bi-arrows-move"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold text-ppt mb-0">2. Effect Options (Opsi Efek)</h3>
+                                    <span class="text-muted small">Mengontrol arah datangnya transisi</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">Sebagian besar efek transisi tidak kaku. Anda bisa mengubah perilakunya melalui tombol <strong>Effect Options</strong> yang terletak tepat di sebelah kanan galeri transisi.</p>
+                            
+                            <ul class="feature-list small mb-0">
+                                <li>
+                                    <h6 class="fw-bold mb-1">Mengubah Arah Gerak</h6>
+                                    <p class="text-muted mb-0">Misalnya, jika Anda memilih efek <strong>Push</strong> (Dorong). Secara default, slide baru akan mendorong dari bawah ke atas. Dengan <em>Effect Options</em>, Anda bisa mengubahnya menjadi <em>From Left, From Right, From Top</em>, atau <em>From Bottom</em>.</p>
+                                </li>
+                                <li>
+                                    <h6 class="fw-bold mb-1">Mengubah Bentuk Transisi</h6>
+                                    <p class="text-muted mb-0">Pada efek tertentu seperti <strong>Shape</strong> atau <strong>Wipe</strong>, <em>Effect Options</em> memungkinkan Anda mengubah polanya (misalnya dari bentuk Lingkaran menjadi bentuk Berlian/Wajik, atau menyapu secara diagonal).</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. PENGATURAN WAKTU (TIMING) -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="card-body p-4 p-lg-5">
+                        <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                            <div class="icon-box"><i class="bi bi-stopwatch"></i></div>
+                            <div>
+                                <h3 class="h4 fw-bold text-ppt mb-0">3. Pengaturan Waktu (Timing)</h3>
+                                <span class="text-muted small">Kontrol penuh atas durasi dan otomatisasi slide</span>
+                            </div>
+                        </div>
+
+                        <p class="text-secondary mb-4">
+                            Di ujung kanan tab Transitions, terdapat grup <strong>Timing</strong>. Ini adalah pusat kendali durasi efek visual Anda, dan alat rahasia untuk membuat slide berjalan sendiri tanpa perlu Anda "klik".
+                        </p>
+
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="bg-light p-3 rounded border h-100">
+                                    <h6 class="fw-bold text-ppt"><i class="bi bi-hourglass-split me-2"></i>Duration (Durasi)</h6>
+                                    <p class="small text-muted mb-0">Mengatur <strong>seberapa lambat atau cepat efek visual transisi itu terjadi</strong>. <br><br>
+                                    Misal: Anda memilih efek "Fade". Jika Durasi diatur 00.50, layar akan memudar dengan sangat cepat (setengah detik). Jika diatur 03.00, layar akan memudar perlahan dan dramatis selama 3 detik penuh.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="bg-light p-3 rounded border h-100">
+                                    <h6 class="fw-bold text-ppt"><i class="bi bi-check2-all me-2"></i>Apply to All (Terapkan ke Semua)</h6>
+                                    <p class="small text-muted mb-0">Anda tidak perlu mengatur efek satu per satu untuk 50 halaman slide Anda. Cukup atur satu slide pertama (Pilih efek "Fade", atur durasi), lalu klik tombol <strong>Apply To All</strong>. Seluruh slide dokumen akan memiliki transisi seragam secara instan.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="bg-light p-4 rounded border">
+                                    <h6 class="fw-bold text-ppt"><i class="bi bi-fast-forward-circle me-2"></i>Advance Slide (Perpindahan Slide)</h6>
+                                    <p class="small text-muted mb-2">Ini menentukan <strong>kapan</strong> halaman berpindah ke slide berikutnya. Terdapat dua <em>checkbox</em>:</p>
+                                    <ul class="small text-muted mb-0">
+                                        <li class="mb-2">☑️ <strong>On Mouse Click:</strong> (Bawaan) Slide hanya akan berpindah jika Anda menekan tombol *mouse*, *keyboard* (panah kanan), atau *presenter clicker*.</li>
+                                        <li>☑️ <strong>After [00:00.00]:</strong> Slide akan <strong>berjalan otomatis</strong> (auto-play) setelah sekian detik. Sangat berguna jika Anda membuat video presentasi otomatis, *slide show* foto pernikahan, atau *digital signage* di lobi kantor yang diputar berulang-ulang tanpa disentuh orang.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. BEST PRACTICES (PRAKTIK TERBAIK) -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="card-body p-4 p-lg-5">
+                        <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                            <div class="icon-box"><i class="bi bi-star-fill"></i></div>
+                            <div>
+                                <h3 class="h4 fw-bold text-ppt mb-0">4. Praktik Terbaik (Best Practices)</h3>
+                                <span class="text-muted small">Hindari jebakan presentasi norak</span>
+                            </div>
+                        </div>
+
+                        <div class="pro-tip mb-4">
+                            <strong><i class="bi bi-lightbulb-fill text-warning me-2"></i>Prinsip Desain Profesional:</strong><br>
+                            Audiens hadir untuk mendengar ide Anda, bukan untuk melihat pameran efek komputer. Penggunaan efek transisi yang terlalu ramai (seperti layar hancur, burung terbang, atau suara tepuk tangan) justru akan membuat presentasi Anda terlihat kekanak-kanakan dan tidak serius.
+                        </div>
+
+                        <div class="row g-4 mt-2">
+                            <!-- Bad Practice -->
+                            <div class="col-md-6">
+                                <h6 class="fw-bold text-danger text-center mb-3"><i class="bi bi-x-circle-fill me-2"></i>HINDARI INI (Amatir)</h6>
+                                <div class="transition-demo-box">
+                                    <div class="slide-mockup">Slide 1</div>
+                                    <div class="transition-arrow">
+                                        <div class="small text-danger fw-bold mb-1" style="font-size: 0.8rem;">Efek: Crush / Origami</div>
+                                        <i class="bi bi-arrow-down-circle"></i>
+                                    </div>
+                                    <div class="slide-mockup slide-mockup-alt">Slide 2</div>
+                                    <p class="small text-muted mt-3 mb-0">Menggunakan transisi ekstrem (kertas terlipat/hancur) di setiap slide. Kadang ditambah efek suara "Swoosh" atau "Ledakan". Sangat memusingkan audiens.</p>
+                                </div>
+                            </div>
+
+                            <!-- Good Practice -->
+                            <div class="col-md-6">
+                                <h6 class="fw-bold text-success text-center mb-3"><i class="bi bi-check-circle-fill me-2"></i>LAKUKAN INI (Profesional)</h6>
+                                <div class="transition-demo-box">
+                                    <div class="slide-mockup">Slide 1</div>
+                                    <div class="transition-arrow">
+                                        <div class="small text-success fw-bold mb-1" style="font-size: 0.8rem;">Efek: Fade (00.50)</div>
+                                        <i class="bi bi-arrow-down-circle"></i>
+                                    </div>
+                                    <div class="slide-mockup slide-mockup-alt">Slide 2</div>
+                                    <p class="small text-muted mt-3 mb-0">Menggunakan efek <strong>FADE</strong> (memudar) dengan durasi cepat untuk seluruh halaman (<em>Apply to All</em>). Halus, elegan, dan membuat mata audiens tetap nyaman fokus pada materi.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.css"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

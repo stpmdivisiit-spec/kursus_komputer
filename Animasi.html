@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animasi (Animations) - Microsoft PowerPoint</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        /* PowerPoint Orange Theme - Medium Level */
+        .header-bg {
+            background: linear-gradient(135deg, #d83b01 0%, #8a2500 100%);
+        }
+        .content-card {
+            border-top: 5px solid #d83b01;
+        }
+        .icon-box {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background-color: #fcece6;
+            color: #d83b01;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+        .text-ppt {
+            color: #d83b01 !important;
+        }
+        .bg-ppt-soft {
+            background-color: #fcece6;
+        }
+        .setup-detail-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #e9ecef;
+            margin-bottom: 2rem;
+        }
+        .setup-detail-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.08)!important;
+        }
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .feature-list > li {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            color: #495057;
+            border-bottom: 1px dashed #dee2e6;
+            padding-bottom: 1rem;
+        }
+        .feature-list > li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .feature-list > li strong {
+            color: #212529;
+        }
+        .pro-tip {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.95rem;
+            color: #664d03;
+        }
+        
+        /* Animation Types Badges */
+        .anim-badge-entrance { background-color: #198754; color: white; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; }
+        .anim-badge-emphasis { background-color: #ffc107; color: black; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; }
+        .anim-badge-exit { background-color: #dc3545; color: white; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; }
+        .anim-badge-path { background-color: #0dcaf0; color: black; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; }
+
+        /* Simulation Visuals */
+        .anim-demo-box {
+            background-color: #fff;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+        }
+        .pane-sim {
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .pane-header {
+            background-color: #e9ecef;
+            padding: 8px 12px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #ced4da;
+            display: flex;
+            justify-content: space-between;
+        }
+        .pane-item {
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: white;
+        }
+        .pane-item:hover { background-color: #f1f3f5; cursor: pointer; }
+        .pane-star-green { color: #198754; font-size: 1.1rem; }
+        .pane-star-yellow { color: #ffc107; font-size: 1.1rem; }
+        .pane-timeline { height: 8px; background-color: #ffd8a8; border-radius: 4px; border: 1px solid #f59f00; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header-bg text-white py-5 mb-5 shadow-sm">
+        <div class="container">
+            <div class="d-flex align-items-center gap-3 mb-3">
+
+                <a href="Index.html" class="btn btn-light btn-sm rounded-pill px-3 fw-medium d-inline-flex align-items-center gap-2 text-dark">
+                    <i class="bi bi-arrow-left"></i> Kembali Ke Halaman Utama
+                </a>
+
+                <span class="badge bg-white text-dark rounded-pill shadow-sm fw-bold"><i class="bi bi-layers-half me-1 text-ppt"></i> Tingkat Menengah</span>
+            </div>
+            <h1 class="display-5 fw-bold mb-2">Animasi (Animations)</h1>
+            <p class="lead mb-0 opacity-75 d-flex align-items-center gap-2">
+                <i class="bi bi-stars"></i> Menghidupkan Objek dan Mengontrol Alur Informasi
+            </p>
+        </div>
+    </header>
+
+    <div class="container-fluid mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                
+                <!-- Main Content Card -->
+                <div class="card shadow-sm border-0 content-card rounded-4 mb-4">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h2 class="h3 fw-bold mb-3 text-ppt">Mengendalikan Mata Audiens</h2>
+                            <p class="text-secondary mx-auto" style="max-width: 800px;">
+                                Mengapa kita butuh animasi? Jika Anda menampilkan 5 poin pembahasan sekaligus, audiens akan membaca poin ke-5 saat Anda masih berbicara tentang poin ke-1. <strong>Animasi menahan informasi</strong> agar muncul perlahan-lahan sesuai dengan kecepatan presentasi Anda.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1. 4 KELOMPOK WARNA ANIMASI -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light p-4 d-flex flex-column align-items-center justify-content-center border-end">
+                            <img src="https://placehold.co/600x400/e9ecef/495057?text=[Image+of+Galeri+Animasi+Hijau+Kuning+Merah]" class="img-fluid rounded shadow-sm border mb-3" alt="Kategori Animasi">
+                            <span class="text-muted small text-center">Buka Tab <strong>Animations</strong> dan klik objek untuk melihat galeri ini.</span>
+                        </div>
+                        <div class="col-md-7 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <div class="icon-box"><i class="bi bi-palette"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold text-ppt mb-0">1. Empat Kategori Animasi</h3>
+                                    <span class="text-muted small">Pahami fungsi berdasarkan warnanya</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">PowerPoint membagi animasi menjadi 4 kelompok warna. Anda harus memilih objek (teks/gambar) terlebih dahulu agar menu animasi ini bisa diklik.</p>
+                            
+                            <ul class="feature-list small mb-0">
+                                <li>
+                                    <h6 class="fw-bold mb-2"><span class="anim-badge-entrance me-2">HIJAU</span> Entrance (Efek Masuk)</h6>
+                                    <p class="text-muted mb-0">Objek awalnya <strong>tidak ada di layar</strong>, lalu muncul. <br><em>Contoh terbaik:</em> Fade (muncul perlahan), Fly In (terbang dari bawah), Float In (melayang masuk).</p>
+                                </li>
+                                <li>
+                                    <h6 class="fw-bold mb-2"><span class="anim-badge-emphasis me-2">KUNING</span> Emphasis (Penekanan)</h6>
+                                    <p class="text-muted mb-0">Objek <strong>sudah ada di layar</strong>, dan melakukan suatu gerakan untuk menarik perhatian. <br><em>Contoh terbaik:</em> Pulse (berdenyut), Grow/Shrink (membesar/mengecil), Font Color (berubah warna).</p>
+                                </li>
+                                <li>
+                                    <h6 class="fw-bold mb-2"><span class="anim-badge-exit me-2">MERAH</span> Exit (Efek Keluar)</h6>
+                                    <p class="text-muted mb-0">Objek <strong>sudah ada di layar</strong>, lalu pergi menghilang dari layar. <br><em>Contoh terbaik:</em> Fade (memudar hilang), Fly Out (terbang keluar layar).</p>
+                                </li>
+                                <li class="border-0 pb-0">
+                                    <h6 class="fw-bold mb-2"><span class="anim-badge-path me-2">GARIS BIRU</span> Motion Paths (Jalur Gerak)</h6>
+                                    <p class="text-muted mb-0">Memindahkan objek dari titik A ke titik B di dalam layar sesuai garis yang Anda gambar (misal: memindahkan gambar mobil dari kiri ke kanan slide).</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. ANIMATION PANE -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light p-4 border-end">
+                            <div class="pane-sim shadow-sm">
+                                <div class="pane-header">
+                                    <span>Animation Pane</span>
+                                    <i class="bi bi-x-lg"></i>
+                                </div>
+                                <div class="pane-item">
+                                    <i class="bi bi-mouse text-muted"></i> <!-- On Click -->
+                                    <i class="bi bi-star-fill pane-star-green"></i>
+                                    <span class="flex-grow-1">1. Judul Presentasi</span>
+                                    <div class="pane-timeline" style="width: 30px;"></div>
+                                </div>
+                                <div class="pane-item bg-light">
+                                    <i class="bi bi-mouse text-muted"></i>
+                                    <i class="bi bi-star-fill pane-star-green"></i>
+                                    <span class="flex-grow-1 fw-bold text-primary">2. Poin Pertama</span>
+                                    <div class="pane-timeline" style="width: 50px;"></div>
+                                </div>
+                                <div class="pane-item">
+                                    <i class="bi bi-clock text-muted"></i> <!-- After Previous -->
+                                    <i class="bi bi-star-fill pane-star-yellow"></i>
+                                    <span class="flex-grow-1">Picture 3</span>
+                                    <div class="pane-timeline" style="width: 40px; margin-left: 50px; background-color: #ffe066; border-color: #f59f00;"></div>
+                                </div>
+                            </div>
+                            <p class="text-muted small text-center mt-3 mb-0"><strong>Simulasi Panel Animasi:</strong> Anda bisa menarik item (drag) ke atas/bawah untuk mengubah urutan munculnya.</p>
+                        </div>
+                        <div class="col-md-7 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <div class="icon-box"><i class="bi bi-card-checklist"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold text-ppt mb-0">2. Animation Pane (Panel Animasi)</h3>
+                                    <span class="text-muted small">Pusat kendali rahasia para desainer</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">Di menu tab Animations, selalu klik tombol <strong>Animation Pane</strong>. Panel ini akan muncul di sebelah kanan layar Anda. Ini adalah "Studio Sutradara" Anda.</p>
+                            
+                            <ul class="feature-list small mb-0">
+                                <li>
+                                    <h6 class="fw-bold mb-1">Melihat Urutan Tayang</h6>
+                                    <p class="text-muted mb-0">Panel ini menampilkan daftar semua objek yang dianimasikan sesuai urutan. Angka 1 akan muncul pertama kali diklik, lalu angka 2, dst. Anda bisa <strong>mengklik dan menarik (drag)</strong> daftar tersebut untuk mengubah urutan tampil tanpa harus menghapus animasinya.</p>
+                                </li>
+                                <li>
+                                    <h6 class="fw-bold mb-1">Fitur 'Add Animation' (Tambah Animasi)</h6>
+                                    <p class="text-muted mb-0 text-danger fw-bold">KESALAHAN PEMULA:</p>
+                                    <p class="text-muted mb-0">Jika objek sudah punya animasi Hijau, dan Anda mengklik animasi Kuning di galeri atas, animasi Hijaunya akan <strong>hilang tertimpa</strong>. <br>Jika Anda ingin 1 objek punya 2 animasi sekaligus (Muncul, lalu Berkedip), Anda WAJIB mengeklik tombol <strong>"Add Animation"</strong> yang ada di panel atas.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. PENGATURAN WAKTU (START TIMING) -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="card-body p-4 p-lg-5">
+                        <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                            <div class="icon-box"><i class="bi bi-clock-history"></i></div>
+                            <div>
+                                <h3 class="h4 fw-bold text-ppt mb-0">3. Kapan Animasi Bergerak? (Start Timing)</h3>
+                                <span class="text-muted small">Mengurangi kebiasaan "Klik-Klik-Klik" pada mouse</span>
+                            </div>
+                        </div>
+
+                        <p class="text-secondary mb-4">
+                            Di sudut kanan atas tab Animations, terdapat pengaturan <strong>Timing</strong>. Bagian terpentingnya adalah opsi <strong>Start</strong>. Anda tidak perlu mengklik mouse puluhan kali jika Anda mengatur ini dengan benar.
+                        </p>
+
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <div class="bg-light p-3 rounded border h-100">
+                                    <h6 class="fw-bold"><i class="bi bi-mouse text-ppt me-2"></i>On Click (Saat Diklik)</h6>
+                                    <p class="small text-muted mb-0">Animasi akan diam membeku, dan baru akan mengeksekusi gerakannya saat Anda menekan tombol *Next/Clicker* atau mengklik *mouse*.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="bg-light p-3 rounded border h-100">
+                                    <h6 class="fw-bold"><i class="bi bi-distribute-vertical text-ppt me-2"></i>With Previous</h6>
+                                    <p class="small text-muted mb-0"><strong>(Bersamaan)</strong> Animasi berjalan <em>berbarengan</em> dengan animasi tepat di atasnya. <br><em>Contoh: Teks judul muncul ke atas BERSAMAAN dengan logo membesar.</em></p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="bg-light p-3 rounded border h-100">
+                                    <h6 class="fw-bold"><i class="bi bi-fast-forward text-ppt me-2"></i>After Previous</h6>
+                                    <p class="small text-muted mb-0"><strong>(Otomatis Berurutan)</strong> Begitu animasi di atasnya selesai, animasi ini akan langsung berjalan secara otomatis <em>tanpa perlu diklik</em>.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. CONTOH PRAKTIS / STUDI KASUS -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="card-body p-4 p-lg-5">
+                        <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                            <div class="icon-box"><i class="bi bi-play-btn-fill"></i></div>
+                            <div>
+                                <h3 class="h4 fw-bold text-ppt mb-0">4. Contoh Penggunaan Tingkat Menengah</h3>
+                                <span class="text-muted small">Implementasi di dunia nyata</span>
+                            </div>
+                        </div>
+
+                        <!-- Kasus 1 -->
+                        <div class="row g-4 mb-5 align-items-center">
+                            <div class="col-md-6">
+                                <h5 class="fw-bold text-dark">Kasus 1: Memunculkan Teks Satu per Satu</h5>
+                                <p class="text-muted small mb-3">Sangat efektif saat Anda menjelaskan daftar/list. Audiens tidak bisa membaca poin ke-3 saat Anda masih bicara poin ke-1.</p>
+                                <ol class="text-muted small ps-3">
+                                    <li class="mb-2">Ketik 3 baris poin di *Text Box* Anda.</li>
+                                    <li class="mb-2">Klik *Text Box* tersebut, pilih animasi <strong>Fade (Hijau)</strong>.</li>
+                                    <li class="mb-2">Buka <strong>Effect Options</strong>.</li>
+                                    <li>Pilih <strong>"By Paragraph"</strong>. PowerPoint otomatis akan memecah 1 kotak itu menjadi 3 animasi *On Click* yang berbeda!</li>
+                                </ol>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="anim-demo-box bg-dark text-white">
+                                    <h6 class="text-warning mb-3">Strategi Marketing 2024:</h6>
+                                    <div class="d-flex gap-2 mb-2"><span class="badge bg-secondary">Klik 1</span> <span>1. Optimalisasi Media Sosial</span></div>
+                                    <div class="d-flex gap-2 mb-2"><span class="badge bg-secondary">Klik 2</span> <span class="opacity-50">2. Diskon Pelanggan Baru</span></div>
+                                    <div class="d-flex gap-2"><span class="badge bg-secondary">Klik 3</span> <span class="opacity-25">3. Kerjasama Influencer</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Kasus 2 -->
+                        <div class="row g-4 align-items-center border-top pt-4">
+                            <div class="col-md-6 order-2 order-md-1">
+                                <div class="anim-demo-box">
+                                    <img src="https://placehold.co/400x200/e9ecef/495057?text=[Grafik+Batang+Bertumbuh]" class="img-fluid border" alt="Chart Animation">
+                                    <div class="mt-2 text-center small fw-bold text-ppt">Animasi: Wipe (Up) -> Effect Options: By Category</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 order-1 order-md-2">
+                                <h5 class="fw-bold text-dark">Kasus 2: Menganimasikan Grafik (Chart)</h5>
+                                <p class="text-muted small mb-3">Menganimasikan grafik batang agar muncul satu per satu per bulan, sehingga Anda bisa membangun "ketegangan" (suspense) saat presentasi target penjualan.</p>
+                                <ol class="text-muted small ps-3">
+                                    <li class="mb-2">Masukkan Chart/Grafik dari Excel.</li>
+                                    <li class="mb-2">Beri animasi <strong>Wipe (Hijau)</strong> dan atur Effect Options <strong>From Bottom</strong> (agar batang seolah tumbuh ke atas).</li>
+                                    <li class="mb-2">Klik <strong>Effect Options</strong> lagi, lalu pilih <strong>By Category</strong> atau <strong>By Series</strong>.</li>
+                                    <li>Sekarang, setiap batang pada grafik akan muncul secara terpisah setiap kali Anda mengklik mouse!</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- PRO TIP: ANIMATION PAINTER -->
+                <div class="pro-tip shadow-sm mb-4 border-start-0 border-top-0 border-bottom-0 border-end border-5 border-warning">
+                    <h5 class="fw-bold mb-2"><i class="bi bi-brush-fill me-2 text-warning"></i>Alat Rahasia: Animation Painter (Kuas Animasi)</h5>
+                    <p class="mb-0 text-muted">
+                        Punya 10 foto dan Anda ingin kesepuluh foto tersebut memiliki efek animasi "Zoom masuk lalu Berputar" yang rumit? Jangan buat satu per satu! <br>
+                        Buat animasinya di foto pertama hingga sempurna. Klik foto pertama > Klik ganda tombol <strong>Animation Painter</strong> (berada di tab Animations) > Lalu klik foto ke-2, ke-3, hingga ke-10. Efek animasi kompleks itu akan di-<em>copy-paste</em> dalam hitungan detik! Tekan ESC di keyboard untuk mematikan kuasnya.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.css"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide Master - Microsoft PowerPoint</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        /* PowerPoint Master Level Theme (Deep Red/Maroon) */
+        .header-bg {
+            background: linear-gradient(135deg, #b30000 0%, #660000 100%);
+        }
+        .content-card {
+            border-top: 5px solid #b30000;
+        }
+        .icon-box {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background-color: #fcebeb; /* Soft red */
+            color: #b30000;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+        .text-ppt-master {
+            color: #b30000 !important;
+        }
+        .bg-ppt-soft {
+            background-color: #fcebeb;
+        }
+        .setup-detail-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #e9ecef;
+            margin-bottom: 2rem;
+        }
+        .setup-detail-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.08)!important;
+        }
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .feature-list > li {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            color: #495057;
+            border-bottom: 1px dashed #dee2e6;
+            padding-bottom: 1rem;
+        }
+        .feature-list > li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .feature-list > li strong {
+            color: #212529;
+        }
+        .pro-tip {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.95rem;
+            color: #664d03;
+        }
+        
+        /* Simulation Visuals */
+        .master-demo-box {
+            background-color: #fff;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .master-hierarchy {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+            padding-left: 20px;
+        }
+        .master-parent {
+            width: 120px;
+            aspect-ratio: 16/9;
+            background-color: #2b3035;
+            border: 2px solid #b30000;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.7rem;
+            position: relative;
+            margin-bottom: 15px;
+        }
+        .master-parent::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 20px;
+            width: 2px;
+            height: 15px;
+            background-color: #adb5bd;
+        }
+        .master-child-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-left: 40px;
+            position: relative;
+        }
+        .master-child-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 15px;
+            left: 20px;
+            width: 2px;
+            background-color: #adb5bd;
+        }
+        .master-child {
+            width: 100px;
+            aspect-ratio: 16/9;
+            background-color: #e9ecef;
+            border: 1px solid #adb5bd;
+            color: #495057;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            position: relative;
+        }
+        .master-child::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -20px;
+            width: 20px;
+            height: 2px;
+            background-color: #adb5bd;
+        }
+
+        /* Custom Layout Demo */
+        .layout-mockup {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background-color: #f8f9fa;
+            border: 2px dashed #adb5bd;
+            position: relative;
+            padding: 10px;
+        }
+        .placeholder-title {
+            height: 20%;
+            border: 1px dashed #6c757d;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            color: #6c757d;
+            font-size: 0.8rem;
+            margin-bottom: 5%;
+        }
+        .placeholder-picture {
+            height: 70%;
+            width: 40%;
+            border: 1px dashed #b30000;
+            background-color: #fcebeb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #b30000;
+            font-size: 1.5rem;
+            float: left;
+            margin-right: 5%;
+        }
+        .placeholder-text {
+            height: 70%;
+            width: 55%;
+            border: 1px dashed #6c757d;
+            display: flex;
+            align-items: flex-start;
+            padding: 10px;
+            color: #6c757d;
+            font-size: 0.7rem;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header-bg text-white py-5 mb-5 shadow-sm">
+        <div class="container">
+            <div class="d-flex align-items-center gap-3 mb-3">
+
+                <a href="Index.html" class="btn btn-light btn-sm rounded-pill px-3 fw-medium d-inline-flex align-items-center gap-2 text-dark">
+                    <i class="bi bi-arrow-left"></i> Kembali Ke Halaman Utama
+                </a>
+
+                <span class="badge bg-warning text-dark rounded-pill shadow-sm fw-bold"><i class="bi bi-star-fill me-1"></i> Tingkat Mahir</span>
+            </div>
+            <h1 class="display-5 fw-bold mb-2">Slide Master</h1>
+            <p class="lead mb-0 opacity-75 d-flex align-items-center gap-2">
+                <i class="bi bi-gear-wide-connected"></i> Menguasai "Ruang Mesin" Presentasi Anda
+            </p>
+        </div>
+    </header>
+
+    <div class="container-fluid mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                
+                <!-- Main Content Card -->
+                <div class="card shadow-sm border-0 content-card rounded-4 mb-4">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h2 class="h3 fw-bold mb-3 text-ppt-master">Apa itu Slide Master?</h2>
+                            <p class="text-secondary mx-auto" style="max-width: 800px;">
+                                Jika Anda meng-copy-paste logo perusahaan ke 50 slide secara manual, Anda bekerja seperti pemula. <strong>Slide Master</strong> adalah "ruang belakang" (backstage) dari PowerPoint. Ini adalah cetak biru (blueprint) utama yang mengontrol bagaimana tampilan font, warna, tata letak, dan logo untuk seluruh presentasi Anda.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1. MENGAKSES & ANATOMI SLIDE MASTER -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light p-4 border-end d-flex align-items-center justify-content-center">
+                            <div class="master-demo-box w-100">
+                                <h6 class="fw-bold text-muted mb-3 w-100 border-bottom pb-2 text-start">Anatomi Slide Master</h6>
+                                <div class="master-hierarchy">
+                                    <div class="master-parent">1. Master Utama</div>
+                                    <div class="master-child-container">
+                                        <div class="master-child">Layout: Title</div>
+                                        <div class="master-child">Layout: Content</div>
+                                        <div class="master-child">Layout: 2 Columns</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <div class="icon-box"><i class="bi bi-diagram-3-fill"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold text-ppt-master mb-0">1. Akses & Anatomi Master</h3>
+                                    <span class="text-muted small">Memahami hierarki cetak biru</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">Untuk masuk ke ruang mesin ini, klik tab <strong>View > Slide Master</strong>. Tampilan layar Anda akan berubah, dan Anda akan melihat daftar slide yang berbeda di sebelah kiri.</p>
+                            
+                            <ul class="feature-list small mb-0">
+                                <li>
+                                    <h6 class="fw-bold mb-1">Slide Master Utama (Paling Atas)</h6>
+                                    <p class="text-muted mb-0">Ini adalah slide yang ukurannya sedikit lebih besar dan berada di urutan paling atas. <strong>Apapun yang Anda ubah di sini, akan berdampak ke SEMUA slide di bawahnya.</strong> Ubah font judul di sini, maka font seluruh presentasi Anda ikut berubah.</p>
+                                </li>
+                                <li>
+                                    <h6 class="fw-bold mb-1">Slide Layouts (Anak-anak Master)</h6>
+                                    <p class="text-muted mb-0">Slide-slide kecil yang menjorok ke dalam di bawah Master Utama. Ini mewakili jenis layout spesifik (Title Slide, Two Content, Blank). Jika Anda menaruh logo di layout "Title Slide", logo tersebut <em>hanya</em> akan muncul di slide yang menggunakan layout tersebut.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. KASUS 1: WATERMARK / LOGO PERMANEN -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="card-body p-4 p-lg-5">
+                        <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                            <div class="icon-box"><i class="bi bi-building"></i></div>
+                            <div>
+                                <h3 class="h4 fw-bold text-ppt-master mb-0">2. Kasus 1: Memasang Logo Permanen</h3>
+                                <span class="text-muted small">Mencegah logo tergeser atau terhapus tidak sengaja</span>
+                            </div>
+                        </div>
+
+                        <p class="text-secondary mb-4">
+                            Saat membuat template presentasi perusahaan (Corporate Template), logo perusahaan harus berada di pojok kanan atas setiap halaman, dan <strong>tidak boleh bisa di-klik atau digeser</strong> oleh karyawan yang menggunakannya.
+                        </p>
+
+                        <div class="row g-4 align-items-center">
+                            <div class="col-md-6">
+                                <h6 class="fw-bold text-dark">Langkah-langkah Eksekusi:</h6>
+                                <ol class="text-muted small ps-3 mb-0">
+                                    <li class="mb-2">Buka tab <strong>View > Slide Master</strong>.</li>
+                                    <li class="mb-2"><strong>Sangat Penting:</strong> Scroll panel kiri ke paling atas, lalu <strong>klik Slide Master Utama (Slide Nomor 1)</strong>.</li>
+                                    <li class="mb-2">Pergi ke tab <strong>Insert > Pictures</strong>. Masukkan logo perusahaan Anda.</li>
+                                    <li class="mb-2">Kecilkan logo dan letakkan di pojok kanan atas.</li>
+                                    <li>Klik tombol <strong>Close Master View</strong> (tanda silang merah di tab Slide Master).</li>
+                                </ol>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <div class="bg-ppt-soft p-4 rounded border">
+                                    <h6 class="fw-bold text-ppt-master mb-3">Hasilnya:</h6>
+                                    <p class="small text-dark mb-0">
+                                        Saat Anda kembali ke mode edit biasa, logo tersebut akan muncul di setiap slide. Jika Anda mencoba mengkliknya, <strong>logo tersebut tidak bisa diklik!</strong> Logo itu kini telah menyatu dengan <em>background</em>. Jika Anda menambah 100 slide baru, logo itu otomatis muncul.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. KASUS 2: MEMBUAT LAYOUT KUSTOM SENDIRI -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="card-body p-4 p-lg-5">
+                        <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                            <div class="icon-box"><i class="bi bi-layout-text-window-reverse"></i></div>
+                            <div>
+                                <h3 class="h4 fw-bold text-ppt-master mb-0">3. Kasus 2: Membuat Custom Layout</h3>
+                                <span class="text-muted small">Merancang template "Profil Tim" dengan Placeholders</span>
+                            </div>
+                        </div>
+
+                        <p class="text-secondary mb-4">
+                            Terkadang layout bawaan PowerPoint tidak cukup. Misalnya, Anda ingin membuat layout khusus bernama "Profil Karyawan" yang mewajibkan pengguna memasukkan Foto di kiri dan Nama/Biodata di kanan.
+                        </p>
+
+                        <div class="row g-4 align-items-center">
+                            <div class="col-md-6">
+                                <div class="master-demo-box bg-light">
+                                    <h6 class="fw-bold text-muted mb-2">Simulasi Custom Layout</h6>
+                                    <div class="layout-mockup">
+                                        <div class="placeholder-title">Klik untuk ketik Nama...</div>
+                                        <div class="placeholder-picture"><i class="bi bi-image"></i></div>
+                                        <div class="placeholder-text">Klik untuk ketik Biodata...</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="fw-bold text-dark">Langkah Membuatnya:</h6>
+                                <ol class="text-muted small ps-3 mb-0">
+                                    <li class="mb-2">Buka <strong>View > Slide Master</strong>.</li>
+                                    <li class="mb-2">Klik tombol <strong>Insert Layout</strong> di menu atas. Sebuah layout kosong baru akan muncul.</li>
+                                    <li class="mb-2">Beri nama layout ini dengan klik <strong>Rename</strong> (Misal: "Profil Karyawan").</li>
+                                    <li class="mb-2">Klik tombol <strong>Insert Placeholder</strong>. Anda bisa memilih <em>Picture</em> (untuk mewajibkan input foto) lalu gambar kotaknya di sisi kiri.</li>
+                                    <li class="mb-2">Klik lagi <strong>Insert Placeholder > Text</strong>, dan gambar kotaknya di sisi kanan.</li>
+                                    <li>Keluar dari Master. Sekarang saat Anda menambah slide baru, layout "Profil Karyawan" karya Anda sendiri akan muncul di daftar menu Layout!</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. CARA KELUAR DARI SLIDE MASTER (CRUCIAL) -->
+                <div class="pro-tip shadow-sm mb-4 border-start-0 border-top-0 border-bottom-0 border-end border-5 border-danger">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <i class="bi bi-exclamation-octagon-fill fs-1 text-danger"></i>
+                        <div>
+                            <h5 class="fw-bold mb-1 text-danger">PERINGATAN KERAS: Jangan Mengetik Isi Presentasi di Sini!</h5>
+                            <span class="small text-muted">Kesalahan paling umum pengguna awam</span>
+                        </div>
+                    </div>
+                    
+                    <p class="mb-3 text-dark">
+                        Banyak pengguna awam yang tidak sengaja masuk ke Slide Master, lalu mereka mulai mengetik poin-poin materi presentasi mereka (seperti Visi Misi perusahaan) di dalam master. Ini akan <strong>merusak seluruh presentasi Anda</strong>. Ingat aturan ini:
+                    </p>
+                    
+                    <ul class="small text-dark mb-0 fw-bold">
+                        <li class="mb-1">Slide Master HANYA untuk mengatur Desain (Logo, Font, Warna Background, Kotak Placeholder).</li>
+                        <li class="mb-3">Materi (Isi Teks, Tabel Data, Foto aktual) harus diketik di tampilan normal.</li>
+                        <li><strong>Cara Keluar:</strong> Pastikan Anda selalu menekan tombol <span class="bg-danger text-white px-2 py-1 rounded"><i class="bi bi-x-square me-1"></i>Close Master View</span> setelah selesai mendesain!</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.css"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

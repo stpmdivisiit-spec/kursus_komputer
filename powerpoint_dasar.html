@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desain Slide Lengkap - Microsoft PowerPoint</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        /* PowerPoint Orange Theme */
+        .header-bg {
+            background: linear-gradient(135deg, #d83b01 0%, #a82e00 100%);
+        }
+        .content-card {
+            border-top: 5px solid #d83b01;
+        }
+        .icon-box {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background-color: #fcece6; /* Soft orange/peach */
+            color: #d83b01;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+        .text-ppt {
+            color: #d83b01 !important;
+        }
+        .bg-ppt-soft {
+            background-color: #fcece6;
+        }
+        .setup-detail-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #e9ecef;
+            margin-bottom: 2rem;
+        }
+        .setup-detail-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.08)!important;
+        }
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .feature-list > li {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            color: #495057;
+            border-bottom: 1px dashed #dee2e6;
+            padding-bottom: 1rem;
+        }
+        .feature-list > li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .feature-list > li strong {
+            color: #212529;
+        }
+        .pro-tip {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            font-size: 0.9rem;
+            color: #664d03;
+        }
+        
+        /* Slide Simulation CSS */
+        .slide-sim {
+            background-color: #fff;
+            aspect-ratio: 16 / 9;
+            width: 100%;
+            border: 2px solid #343a40;
+            border-radius: 6px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Good vs Bad Text Slide */
+        .slide-bad { background-color: #ffffff; }
+        .slide-bad-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 10px; text-align: center; text-decoration: underline; color: black; }
+        .slide-bad-text { font-size: 0.55rem; line-height: 1.3; text-align: justify; color: #000; }
+        
+        .slide-good { background-color: #2b3035; color: white; justify-content: center; }
+        .slide-good-title { font-size: 1.4rem; font-weight: bold; margin-bottom: 15px; color: #f8f9fa; border-left: 5px solid #d83b01; padding-left: 12px; }
+        .slide-good-content { display: flex; gap: 20px; align-items: center; }
+        .slide-good-icon { font-size: 3rem; color: #d83b01; }
+        .slide-good-points { font-size: 0.85rem; line-height: 1.8; }
+        .slide-good-points ul { padding-left: 15px; margin-bottom: 0; }
+
+        /* Contrast Simulation */
+        .slide-contrast-bad { background-color: #0d6efd; color: #dc3545; justify-content: center; align-items: center; text-align: center;}
+        .slide-contrast-good { background-color: #0d6efd; color: #ffffff; justify-content: center; align-items: center; text-align: center;}
+        .contrast-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 10px; }
+        .contrast-sub { font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header-bg text-white py-5 mb-5 shadow-sm">
+        <div class="container">
+            <div class="d-flex align-items-center gap-3 mb-3">
+
+                <a href="Index.html" class="btn btn-light btn-sm rounded-pill px-3 fw-medium d-inline-flex align-items-center gap-2 text-dark">
+                    <i class="bi bi-arrow-left"></i> Kembali Ke Halaman Utama
+                </a>
+                
+                <span class="badge bg-white text-dark rounded-pill shadow-sm fw-bold"><i class="bi bi-book me-1 text-ppt"></i> Tingkat Dasar</span>
+            </div>
+            <h1 class="display-5 fw-bold mb-2">Panduan Komprehensif Desain Slide</h1>
+            <p class="lead mb-0 opacity-75 d-flex align-items-center gap-2">
+                <i class="bi bi-easel"></i> Microsoft PowerPoint - Seni Presentasi Visual
+            </p>
+        </div>
+    </header>
+
+    <div class="container-fluid mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                
+                <!-- Main Content Card -->
+                <div class="card shadow-sm border-0 content-card rounded-4 mb-4">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h2 class="h3 fw-bold mb-3 text-ppt">Visualisasi Pesan, Bukan Dokumen untuk Dibaca</h2>
+                            <p class="text-secondary mx-auto" style="max-width: 800px;">
+                                Kesalahan paling mematikan bagi pemula adalah memindahkan seluruh isi makalah ke dalam PowerPoint. Ingatlah prinsip ini: <strong>PowerPoint adalah alat bantu visual untuk presentasi Anda, bukan layar untuk dibaca oleh audiens Anda.</strong> Jika audiens sibuk membaca layar, mereka akan berhenti mendengarkan Anda.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1. TATA LETAK (LAYOUT) -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light p-4 d-flex flex-column align-items-center justify-content-center border-end">
+                            <img src="https://placehold.co/600x400/e9ecef/495057?text=[Image+of+Berbagai+Pilihan+Layout+Slide+PowerPoint]" class="img-fluid rounded shadow-sm border mb-3" alt="Layout Menu PowerPoint">
+                            <span class="text-muted small text-center">Gunakan menu <strong>Home > Layout</strong> untuk mengganti kerangka slide tanpa harus menggeser kotak secara manual.</span>
+                        </div>
+                        <div class="col-md-7 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <div class="icon-box"><i class="bi bi-layout-text-window"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold text-ppt mb-0">1. Memilih Layout yang Tepat</h3>
+                                    <span class="text-muted small">Kerangka dasar setiap halaman</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">Jangan membuang waktu membuat kotak teks (Text Box) dari nol untuk setiap slide. PowerPoint sudah menyiapkan cetakan <em>Layout</em> yang presisi dan sejajar.</p>
+                            
+                            <ul class="feature-list small mb-0">
+                                <li>
+                                    <h6 class="fw-bold mb-1"><i class="bi bi-aspect-ratio text-ppt me-2"></i>Title Slide (Slide Judul)</h6>
+                                    <p class="text-muted mb-0">Hanya gunakan ini <strong>satu kali</strong> di halaman paling awal (pembuka) atau paling akhir (penutup). Teks judul akan otomatis berada di tengah-tengah layar dengan ukuran sangat besar.</p>
+                                </li>
+                                <li>
+                                    <h6 class="fw-bold mb-1"><i class="bi bi-card-heading text-ppt me-2"></i>Title and Content (Judul dan Konten)</h6>
+                                    <p class="text-muted mb-0">Layout standar (<em>default</em>) yang paling sering dipakai. Bagian atas untuk judul slide, dan kotak besar di bawah memiliki ikon *shortcut* di tengahnya untuk memasukkan Teks, Tabel, Grafik, atau Gambar secara instan.</p>
+                                </li>
+                                <li>
+                                    <h6 class="fw-bold mb-1"><i class="bi bi-layout-split text-ppt me-2"></i>Two Content (Dua Konten)</h6>
+                                    <p class="text-muted mb-0">Sangat sempurna untuk membandingkan dua hal (Misal: Kelebihan vs Kekurangan), atau menaruh teks poin-poin di sisi kiri dan foto pendukung di sisi kanan.</p>
+                                </li>
+                                <li>
+                                    <h6 class="fw-bold mb-1"><i class="bi bi-square text-ppt me-2"></i>Blank (Kosong)</h6>
+                                    <p class="text-muted mb-0">Kanvas yang sepenuhnya bersih. Gunakan layout ini jika Anda ingin memasukkan <strong>Foto Berukuran Penuh (Full-screen)</strong> yang menutupi seluruh layar tanpa terhalang kotak teks judul bawaan.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. TIPOGRAFI & UKURAN FONT -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light p-4 d-flex flex-column align-items-center justify-content-center border-end">
+                            <div class="bg-white border rounded shadow-sm p-4 w-100 text-center">
+                                <h1 style="font-family: 'Times New Roman', serif;" class="mb-3 border-bottom pb-2">Ini adalah Serif<br><span class="fs-6 text-muted">Kuno, berkait, susah dibaca di layar (Misal: Times New Roman)</span></h1>
+                                <h1 style="font-family: 'Segoe UI', Arial, sans-serif;" class="mb-0">Ini adalah Sans-Serif<br><span class="fs-6 text-muted">Modern, bersih, mudah dibaca di layar (Misal: Arial, Calibri, Roboto)</span></h1>
+                            </div>
+                        </div>
+                        <div class="col-md-7 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <div class="icon-box"><i class="bi bi-fonts"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold text-ppt mb-0">2. Tipografi & Hierarki Visual</h3>
+                                    <span class="text-muted small">Seni memilih dan mengatur teks</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">Font (huruf) yang Anda pilih menentukan "nada" atau *mood* presentasi Anda. Aturan utamanya adalah: <strong>Keterbacaan di atas segalanya</strong>.</p>
+                            
+                            <ul class="feature-list small mb-0">
+                                <li>
+                                    <h6 class="fw-bold mb-1">Gunakan Font Sans-Serif</h6>
+                                    <p class="text-muted mb-0">Untuk presentasi digital di proyektor, hindari font yang memiliki "kait/ekor" di ujung hurufnya (Serif) seperti <em>Times New Roman</em>. Gunakan font Sans-Serif yang bersih dan tegas seperti <strong>Arial, Calibri, Segoe UI, Montserrat, atau Roboto</strong>.</p>
+                                </li>
+                                <li>
+                                    <h6 class="fw-bold mb-1">Aturan Ukuran Minimal (24pt)</h6>
+                                    <p class="text-muted mb-0">Jangan pernah menggunakan ukuran teks di bawah <strong>24 point</strong> untuk isi materi Anda. Orang yang duduk di barisan paling belakang ruangan harus bisa membacanya tanpa menyipitkan mata. Untuk Judul, gunakan ukuran <strong>40pt hingga 60pt</strong>.</p>
+                                </li>
+                                <li>
+                                    <h6 class="fw-bold mb-1">Hierarki Visual (Besar ke Kecil)</h6>
+                                    <p class="text-muted mb-0">Mata manusia secara otomatis akan membaca tulisan yang paling besar terlebih dahulu. Buat perbedaan ukuran yang drastis antara Judul (Sangat Besar) dan Isi Teks (Normal). Ini akan memandu audiens mengetahui mana poin yang paling penting.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. ATURAN EMAS: MINIMALISIR TEKS (Simulasi) -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="card-body p-4 p-lg-5">
+                        <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                            <div class="icon-box"><i class="bi bi-scissors"></i></div>
+                            <div>
+                                <h3 class="h4 fw-bold text-ppt mb-0">3. Aturan Emas 6x6 & Whitespace</h3>
+                                <span class="text-muted small">Hindari jebakan "Death by PowerPoint"</span>
+                            </div>
+                        </div>
+
+                        <div class="row align-items-center mb-4">
+                            <div class="col-lg-8">
+                                <p class="text-secondary mb-0">
+                                    <strong>Aturan 6x6:</strong> Usahakan maksimal hanya ada <strong>6 baris poin</strong> dalam satu slide, dan maksimal <strong>6 kata</strong> per barisnya. Tulis intisarinya saja (Kata Kunci). Penjelasan panjang dan detailnya harus keluar dari mulut Anda saat presentasi.
+                                </p>
+                            </div>
+                            <div class="col-lg-4 mt-3 mt-lg-0">
+                                <div class="bg-ppt-soft p-3 rounded border text-center">
+                                    <strong class="text-ppt d-block mb-1">Ruang Kosong (Whitespace)</strong>
+                                    <span class="small text-muted">Jangan penuhi seluruh layar dengan objek. Ruang kosong/area polos di slide sangat penting agar mata audiens bisa "bernapas" dan presentasi terlihat elegan.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Simulasi Perbandingan Slide Text -->
+                        <div class="row g-4 mt-2">
+                            <!-- Slide Buruk -->
+                            <div class="col-md-6">
+                                <h6 class="fw-bold text-danger text-center mb-3"><i class="bi bi-x-circle-fill me-2"></i>Contoh Slide yang BURUK</h6>
+                                <div class="slide-sim slide-bad">
+                                    <div class="slide-bad-title">Dampak Pemanasan Global terhadap Lingkungan</div>
+                                    <div class="slide-bad-text">
+                                        Pemanasan global adalah suatu proses meningkatnya suhu rata-rata atmosfer, laut, dan daratan Bumi. Suhu rata-rata global pada permukaan Bumi telah meningkat 0.74 ± 0.18 °C selama seratus tahun terakhir. Intergovernmental Panel on Climate Change (IPCC) menyimpulkan bahwa sebagian besar peningkatan suhu rata-rata global sejak pertengahan abad ke-20 kemungkinan besar disebabkan oleh meningkatnya konsentrasi gas-gas rumah kaca akibat aktivitas manusia melalui efek rumah kaca. Dampak dari pemanasan global antara lain adalah iklim mulai tidak stabil, es di kutub utara dan selatan mulai mencair sehingga menyebabkan permukaan air laut naik, suhu global cenderung meningkat yang berakibat pada kekeringan di berbagai wilayah, gangguan ekologis di mana hewan dan tumbuhan banyak yang mati karena tidak bisa beradaptasi, serta timbulnya berbagai penyakit yang mengancam kesehatan manusia. Oleh karena itu, kita harus segera melakukan tindakan pencegahan seperti mengurangi emisi karbon...
+                                    </div>
+                                </div>
+                                <div class="mt-3 text-center">
+                                    <span class="badge bg-danger">Masalah:</span>
+                                    <p class="small text-muted mt-1 mb-0">Audiens akan membaca teks dalam hati (lebih cepat dari Anda berbicara). Setelah selesai membaca, mereka akan bosan dan bermain HP.</p>
+                                </div>
+                            </div>
+
+                            <!-- Slide Baik -->
+                            <div class="col-md-6">
+                                <h6 class="fw-bold text-success text-center mb-3"><i class="bi bi-check-circle-fill me-2"></i>Contoh Slide yang BAIK</h6>
+                                <div class="slide-sim slide-good">
+                                    <div class="slide-good-title">Dampak Pemanasan Global</div>
+                                    <div class="slide-good-content">
+                                        <div class="slide-good-icon">
+                                            <i class="bi bi-thermometer-sun"></i>
+                                        </div>
+                                        <div class="slide-good-points">
+                                            <ul>
+                                                <li class="mb-3">Suhu Bumi meningkat (+0.74 °C).</li>
+                                                <li class="mb-3">Es kutub mencair & air laut naik.</li>
+                                                <li class="mb-3">Perubahan iklim & cuaca ekstrem.</li>
+                                                <li>Kerusakan ekologi (hewan/tumbuhan).</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-3 text-center">
+                                    <span class="badge bg-success">Solusi:</span>
+                                    <p class="small text-muted mt-1 mb-0">Slide bersih, banyak ruang kosong, poin singkat. Audiens akan fokus menatap Anda untuk mendengarkan cerita detail dari poin tersebut.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- 4. WARNA & KONTRAS -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="card-body p-4 p-lg-5">
+                        <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                            <div class="icon-box"><i class="bi bi-circle-half"></i></div>
+                            <div>
+                                <h3 class="h4 fw-bold text-ppt mb-0">4. Prinsip Kontras Warna</h3>
+                                <span class="text-muted small">Memastikan tulisan terbaca dari jarak jauh</span>
+                            </div>
+                        </div>
+
+                        <p class="text-secondary mb-4">
+                            Proyektor di ruang rapat seringkali tidak secerah layar laptop Anda. Jika Anda menggunakan kombinasi warna yang salah, teks Anda akan "hilang" tertelan latar belakang. Aturan paling dasar: <strong>Latar Terang = Teks Gelap</strong>, dan <strong>Latar Gelap = Teks Terang</strong>.
+                        </p>
+
+                        <!-- Simulasi Perbandingan Kontras -->
+                        <div class="row g-4 mt-2">
+                            <!-- Kontras Buruk -->
+                            <div class="col-md-6">
+                                <div class="slide-sim slide-contrast-bad">
+                                    <div class="contrast-title">Target Kuartal III</div>
+                                    <div class="contrast-sub">Pencapaian penjualan harus menyentuh angka 50 Miliar pada bulan ini.</div>
+                                </div>
+                                <div class="mt-3 text-center">
+                                    <p class="small fw-bold text-danger mb-1"><i class="bi bi-x-circle me-1"></i>Kontras Buruk</p>
+                                    <p class="small text-muted mb-0">Teks merah di atas latar biru membuat mata sakit dan hampir tidak terbaca saat diproyeksikan (karena warnanya bertabrakan/getar).</p>
+                                </div>
+                            </div>
+
+                            <!-- Kontras Baik -->
+                            <div class="col-md-6">
+                                <div class="slide-sim slide-contrast-good">
+                                    <div class="contrast-title">Target Kuartal III</div>
+                                    <div class="contrast-sub">Pencapaian penjualan harus menyentuh angka 50 Miliar pada bulan ini.</div>
+                                </div>
+                                <div class="mt-3 text-center">
+                                    <p class="small fw-bold text-success mb-1"><i class="bi bi-check-circle me-1"></i>Kontras Baik</p>
+                                    <p class="small text-muted mb-0">Teks putih murni di atas latar biru pekat. Sangat tajam, tegas, dan mudah dibaca oleh siapapun dari jarak sejauh apapun.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. FITUR CERDAS: POWERPOINT DESIGNER -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light p-4 d-flex flex-column align-items-center justify-content-center border-end">
+                            <img src="https://placehold.co/600x400/e9ecef/495057?text=[Image+of+Panel+Designer+PowerPoint+di+Kanan+Layar]" class="img-fluid rounded shadow-sm border mb-3" alt="PowerPoint Designer">
+                            <span class="text-muted small text-center">Panel <em>Designer / Design Ideas</em> memberikan rekomendasi instan.</span>
+                        </div>
+                        <div class="col-md-7 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <div class="icon-box"><i class="bi bi-stars"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold text-ppt mb-0">5. Bantuan AI: PowerPoint Designer</h3>
+                                    <span class="text-muted small">Desain profesional otomatis dalam satu klik</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">Mendesain secara manual memakan waktu. Di versi PowerPoint terbaru (Office 365 / 2019+), terdapat fitur kecerdasan buatan (AI) yang akan merombak slide Anda menjadi mahakarya visual seketika.</p>
+                            
+                            <ul class="feature-list small mb-0">
+                                <li>
+                                    <h6 class="fw-bold mb-1">Cara Kerjanya Sangat Sederhana:</h6>
+                                    <p class="text-muted mb-0">1. Ketik teks Anda (Judul dan Poin-poin) di slide putih polos.<br>
+                                    2. Masukkan 1 atau 2 gambar/foto secara acak ke dalam slide.<br>
+                                    3. Klik tab <strong>Home</strong> atau <strong>Design</strong>, lalu klik tombol <strong>Designer</strong> (atau <em>Design Ideas</em>) di sudut kanan atas.</p>
+                                </li>
+                                <li class="mt-3">
+                                    <h6 class="fw-bold mb-1">Hasil Magis dari AI:</h6>
+                                    <p class="text-muted mb-0">Panel di kanan akan terbuka, menyajikan berbagai variasi tata letak profesional. AI ini bisa: 
+                                        <strong>Otomatis memotong foto (Crop)</strong> agar artistik, 
+                                        <strong>Menemukan ikon yang relevan</strong> dengan kata-kata yang Anda ketik, dan 
+                                        mengubah poin teks membosankan menjadi <strong>diagram infografis (SmartArt)</strong> secara otomatis!
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.css"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
