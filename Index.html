@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Belajar Microsoft Office</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        /* Custom Tab Styling */
+        .custom-tab {
+            border: 1px solid #dee2e6;
+            color: #6c757d;
+            background-color: #fff;
+            transition: all 0.2s ease-in-out;
+            text-align: left;
+        }
+        .custom-tab:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-2px);
+            box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+        }
+        
+        /* Active Tab Colors */
+        .nav-pills .nav-item .word-tab.active {
+            background-color: #0d6efd;
+            color: #fff;
+            border-color: #0d6efd;
+            box-shadow: 0 .5rem 1rem rgba(13, 110, 253, 0.15);
+        }
+        .nav-pills .nav-item .excel-tab.active {
+            background-color: #198754;
+            color: #fff;
+            border-color: #198754;
+            box-shadow: 0 .5rem 1rem rgba(25, 135, 84, 0.15);
+        }
+        .nav-pills .nav-item .ppt-tab.active {
+            background-color: #fd7e14;
+            color: #fff;
+            border-color: #fd7e14;
+            box-shadow: 0 .5rem 1rem rgba(253, 126, 20, 0.15);
+        }
+
+        /* Custom Colors for PPT (Orange) */
+        .bg-orange { background-color: #fd7e14 !important; }
+        .text-orange { color: #fd7e14 !important; }
+        .bg-orange-subtle { background-color: #fff3cd !important; }
+        .border-orange { border-color: #fd7e14 !important; }
+
+        /* Item Hover Effect */
+        .feature-item .bi-chevron-right {
+            opacity: 0.3;
+            transition: opacity 0.2s;
+        }
+        .feature-item:hover .bi-chevron-right {
+            opacity: 1;
+        }
+        .feature-item:hover h5 {
+            color: #495057;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container py-5">
+        
+        <!-- Header -->
+        <div class="text-center mb-5">
+            <h1 class="display-5 fw-bold text-dark mb-3">Panduan Office 365</h1>
+            <p class="lead text-muted mx-auto" style="max-width: 600px;">
+                Pelajari fitur-fitur esensial dari Microsoft Word, Excel, dan PowerPoint dari tingkat dasar hingga mahir.
+            </p>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <ul class="nav nav-pills d-flex flex-column flex-md-row justify-content-center gap-3 mb-5" id="office-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link custom-tab word-tab active w-100 d-flex align-items-center gap-3 py-3 px-4 rounded-4" id="word-tab" data-bs-toggle="pill" data-bs-target="#word" type="button" role="tab" aria-selected="true">
+                    <i class="bi bi-file-earmark-word fs-3"></i>
+                    <div>
+                        <small class="d-block opacity-75 fw-medium lh-1 mb-1">Pengolah Kata</small>
+                        <strong class="fs-5 lh-1">Microsoft Word</strong>
+                    </div>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link custom-tab excel-tab w-100 d-flex align-items-center gap-3 py-3 px-4 rounded-4" id="excel-tab" data-bs-toggle="pill" data-bs-target="#excel" type="button" role="tab" aria-selected="false">
+                    <i class="bi bi-file-earmark-spreadsheet fs-3"></i>
+                    <div>
+                        <small class="d-block opacity-75 fw-medium lh-1 mb-1">Pengolah Angka</small>
+                        <strong class="fs-5 lh-1">Microsoft Excel</strong>
+                    </div>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link custom-tab ppt-tab w-100 d-flex align-items-center gap-3 py-3 px-4 rounded-4" id="ppt-tab" data-bs-toggle="pill" data-bs-target="#ppt" type="button" role="tab" aria-selected="false">
+                    <i class="bi bi-file-earmark-slides fs-3"></i>
+                    <div>
+                        <small class="d-block opacity-75 fw-medium lh-1 mb-1">Aplikasi Presentasi</small>
+                        <strong class="fs-5 lh-1">Microsoft PowerPoint</strong>
+                    </div>
+                </button>
+            </li>
+        </ul>
+
+        <!-- Tab Content Area -->
+        <div class="tab-content" id="office-tabsContent">
+
+            <!-- ===================== WORD PANE ===================== -->
+            <div class="tab-pane fade show active" id="word" role="tabpanel" aria-labelledby="word-tab">
+                <div class="card shadow rounded-4 border-0 border-top border-primary border-5">
+                    <!-- App Header -->
+                    <div class="card-header bg-primary-subtle p-4 d-flex align-items-center gap-3 border-bottom-0 rounded-top-4">
+                        <div class="bg-white text-primary p-3 rounded-3 shadow-sm d-inline-flex">
+                            <i class="bi bi-file-earmark-word fs-2 lh-1"></i>
+                        </div>
+                        <div>
+                            <h2 class="h3 fw-bold text-primary mb-1">Microsoft Word</h2>
+                            <p class="text-secondary mb-0">Aplikasi pengolah kata yang dominan digunakan untuk memproduksi dokumen seperti surat, laporan, dan artikel.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- App Content -->
+                    <div class="card-body p-4 p-md-5">
+                        <div class="row g-5">
+                            
+                            <!-- Dasar -->
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4">
+                                    <div class="p-2 bg-primary-subtle text-primary rounded">
+                                        <i class="bi bi-book fs-5"></i>
+                                    </div>
+                                    <h3 class="h5 fw-bold mb-0">Tingkat Dasar</h3>
+                                </div>
+                               
+                                <div class="feature-item mb-4 cursor-pointer">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
+                                        <a href="pendahuluan_word.html">Pengenalan Esensial Word</a> 
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Menguasai Microsoft Word bukan hanya tentang bisa mengetik dengan cepat. Anda harus tahu cara menyimpan file dengan aman, mengedit teks secara efisien, serta mengatur kerangka judul agar dokumen Anda rapi dan siap untuk pengaturan tingkat lanjut (seperti Daftar Isi Otomatis).</p>
+                                </div>
+
+                                
+                                <div class="feature-item mb-4 cursor-pointer">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
+                                        <a href="word.html">Pengenalan Antarmuka</a> 
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Di bagian atas terdapat Ribbon yang mengelompokkan perintah dalam berbagai tab, serta Quick Access Toolbar untuk akses cepat ke tombol seperti Save (simpan), Undo (membatalkan tindakan), dan Redo.</p>
+                                </div>
+                                <div class="feature-item mb-4">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
+                                       <a href="margin.html">Pengaturan Kertas & Margin</a> 
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Margin adalah batas ukuran tepi lembar kerja (atas, bawah, kiri, kanan). Anda bisa mengaturnya melalui tab Layout > Margins. Orientasi kertas juga dapat diubah menjadi Portrait atau Landscape melalui Layout > Orientation.</p>
+                                </div>
+                                <div class="feature-item mb-4">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
+                                        <a href="Tipografi.html">Tipografi & Paragraf</a> 
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Mengubah font, ukuran, warna teks, serta menebalkan (Bold), memiringkan (Italic), dan memberi garis bawah (Underline) ada di tab Home. Perataan paragraf dan jarak spasi baris juga diatur di tab ini.</p>
+                                </div>
+                            </div>
+
+                            <!-- Menengah -->
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4">
+                                    <div class="p-2 bg-primary-subtle text-primary rounded">
+                                        <i class="bi bi-layers fs-5"></i>
+                                    </div>
+                                    <h3 class="h5 fw-bold mb-0">Tingkat Menengah</h3>
+                                </div>
+                                
+                                <div class="feature-item mb-4">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
+                                        <a href="word_lanjutan.html">Lanjutan Word</a> 
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Di tingkat ini, Anda tidak lagi hanya mengetik lurus dari atas ke bawah. Anda akan belajar bagaimana memanipulasi struktur fisik kertas (sebagian portrait, sebagian landscape), membuat desain multi-kolom layaknya majalah, hingga melakukan revisi dokumen bersama rekan kerja.</p>
+                                </div>
+
+
+                                <div class="feature-item mb-4">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
+                                        <a href="menyisipkan_tabel.html">Menyisipkan Tabel</a> 
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Tabel membantu menyajikan data secara sederhana. Klik Insert > Table dan tentukan jumlah baris dan kolom. Anda juga bisa menggabungkan sel (Merge Cells).</p>
+                                </div>
+                                <div class="feature-item mb-4">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
+                                        <a href="gambar_Ilustrasi.html">Gambar dan Ilustrasi</a> 
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Masukkan gambar melalui Insert > Pictures. Gunakan fitur Wrap Text untuk mengatur bagaimana teks mengelilingi gambar, seperti Square, Tight, Behind Text, atau In Front of Text.</p>
+                                </div>
+                                <div class="feature-item mb-4">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
+                                        <a href="header_footer.html">Header, Footer, & Page Number</a> 
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Header untuk catatan berulang di bagian atas, Footer di bawah, dan Page Number untuk penomoran halaman yang bisa disisipkan dari tab Insert.</p>
+                                </div>
+                            </div>
+
+                            <!-- Mahir -->
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4">
+                                    <div class="p-2 bg-primary-subtle text-primary rounded">
+                                        <i class="bi bi-lightning-charge fs-5"></i>
+                                    </div>
+                                    <h3 class="h5 fw-bold mb-0">Tingkat Mahir</h3>
+                                </div>
+                                
+                                <div class="feature-item mb-4">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
+                                        <a href="mailing.html">Mail Merge (Surat Massal)</a> 
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Digunakan untuk membuat surat, label, atau amplop dalam jumlah banyak menggunakan template Word dan daftar penerima (misalnya dari data Excel). Contoh: Membuat surat undangan dengan nama/alamat yang berubah otomatis tanpa diketik satu per satu.</p>
+                                </div>
+                                <div class="feature-item mb-4">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
+                                        <a href="daftar_isi.html">Daftar Isi & Indeks Otomatis</a> 
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Pembuatan Daftar Isi otomatis (Table of Content) mempermudah navigasi. Pembuatan indeks menggunakan AutoMark (Concordance Index) berguna untuk dokumen panjang.</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===================== EXCEL PANE ===================== -->
+            <div class="tab-pane fade" id="excel" role="tabpanel" aria-labelledby="excel-tab">
+                <div class="card shadow rounded-4 border-0 border-top border-success border-5">
+                    <div class="card-header bg-success-subtle p-4 d-flex align-items-center gap-3 border-bottom-0 rounded-top-4">
+                        <div class="bg-white text-success p-3 rounded-3 shadow-sm d-inline-flex">
+                            <i class="bi bi-file-earmark-spreadsheet fs-2 lh-1"></i>
+                        </div>
+                        <div>
+                            <h2 class="h3 fw-bold text-success mb-1">Microsoft Excel</h2>
+                            <p class="text-secondary mb-0">Sangat fundamental dalam analisis data, manajemen basis data, dan komputasi menggunakan sel yang terstruktur dalam baris dan kolom.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body p-4 p-md-5">
+                        <div class="row g-5">
+                            <!-- Dasar -->
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4">
+                                    <div class="p-2 bg-success-subtle text-success rounded">
+                                        <i class="bi bi-book fs-5"></i>
+                                    </div>
+                                    <h3 class="h5 fw-bold mb-0">Tingkat Dasar</h3>
+                                </div>
+
+                                <div class="feature-item mb-4">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-success mt-1" style="font-size: 0.75rem;"></i>
+                                        <a href="workbook_excel.html">Mengenal Workbook Excel</a> 
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Lakukan perhitungan aritmatika langsung di sel menggunakan operator seperti + (penjumlahan), - (pengurangan), * (perkalian), dan / (pembagian).</p>
+                                </div>
+
+                                <div class="feature-item mb-4">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-success mt-1" style="font-size: 0.75rem;"></i>
+                                        <a href="operasi_aritmatika.html">Operasi Matematika</a> 
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Lakukan perhitungan aritmatika langsung di sel menggunakan operator seperti + (penjumlahan), - (pengurangan), * (perkalian), dan / (pembagian).</p>
+                                </div>
+                                <div class="feature-item mb-4">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-success mt-1" style="font-size: 0.75rem;"></i>
+                                        <a href="rumus_statistik.html">Rumus Statistik Sederhana</a> 
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Gunakan =SUM() untuk total jumlah, =AVERAGE() untuk nilai rata-rata, =MIN() untuk nilai terkecil, dan =MAX() untuk nilai terbesar.</p>
+                                </div>
+                            </div>
+
+                            <!-- Menengah -->
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4">
+                                    <div class="p-2 bg-success-subtle text-success rounded">
+                                        <i class="bi bi-layers fs-5"></i>
+                                    </div>
+                                    <h3 class="h5 fw-bold mb-0">Tingkat Menengah</h3>
+                                </div>
+                                <div class="feature-item mb-4">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-success mt-1" style="font-size: 0.75rem;"></i>
+                                        <a href="fungsi_logika.html">Fungsi Logika (IF, AND, OR)</a> 
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Digunakan untuk mengambil keputusan otomatis berdasarkan kondisi tertentu. Contoh: =IF(A1>=60, "Lulus", "Gagal").</p>
+                                </div>
+                                <div class="feature-item mb-4">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-success mt-1" style="font-size: 0.75rem;"></i>
+                                        <a href="vlookup_hlookup.html">Referensi (VLOOKUP & HLOOKUP)</a> 
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Mencari dan menampilkan data dari referensi lain. Contoh: =VLOOKUP(B4, Sheet2!A:C, 2, FALSE) akan mencari data pada kolom pertama dan mengembalikan nilai dari kolom kedua.</p>
+                                </div>
+                                <div class="feature-item mb-4">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-success mt-1" style="font-size: 0.75rem;"></i>
+                                        <a href="excel_menengah_ljtn.html">Excel Menengah Lanjutan</a>
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Di tingkat menengah, Anda tidak sekadar menjumlahkan angka. Anda akan belajar memotong teks (ID Karyawan), menghitung umur otomatis, membuat aturan validasi data, hingga melakukan proyeksi skenario bisnis dengan What-If Analysis.</p>
+                                </div>
+                            </div>
+
+                            <!-- Mahir -->
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4">
+                                    <div class="p-2 bg-success-subtle text-success rounded">
+                                        <i class="bi bi-lightning-charge fs-5"></i>
+                                    </div>
+                                    <h3 class="h5 fw-bold mb-0">Tingkat Mahir</h3>
+                                </div>
+                                <div class="feature-item mb-4">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-success mt-1" style="font-size: 0.75rem;"></i>
+                                        Pivot Table
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Fitur untuk merangkum, menganalisis, dan mengeksplorasi ribuan baris data besar tanpa mengubah data asli secara interaktif (drag-and-drop).</p>
+                                </div>
+                                <div class="feature-item mb-4">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-success mt-1" style="font-size: 0.75rem;"></i>
+                                        <a href="excel_tingkat_lanjut.html">Microsoft Excel Lanjutan</a>
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Di tingkat ini, Anda bukan lagi seorang Data Entry, melainkan seorang Data Analyst. Anda akan belajar menembus batas 1 juta baris Excel dengan Data Model, membersihkan data yang sangat kotor secara otomatis dengan Power Query, dan membuat Dashboard interaktif yang mengesankan atasan Anda.</p>
+                                </div>
+
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===================== POWERPOINT PANE ===================== -->
+            <div class="tab-pane fade" id="ppt" role="tabpanel" aria-labelledby="ppt-tab">
+                <div class="card shadow rounded-4 border-0 border-top border-orange border-5">
+                    <div class="card-header bg-orange-subtle p-4 d-flex align-items-center gap-3 border-bottom-0 rounded-top-4">
+                        <div class="bg-white text-orange p-3 rounded-3 shadow-sm d-inline-flex">
+                            <i class="bi bi-file-earmark-slides fs-2 lh-1"></i>
+                        </div>
+                        <div>
+                            <h2 class="h3 fw-bold text-orange mb-1">Microsoft PowerPoint</h2>
+                            <p class="text-secondary mb-0">Medium distribusi ide melalui presentasi visual yang persuasif dan dinamis.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body p-4 p-md-5">
+                        <div class="row g-5">
+                            <!-- Dasar -->
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4">
+                                    <div class="p-2 bg-orange-subtle text-orange rounded">
+                                        <i class="bi bi-book fs-5"></i>
+                                    </div>
+                                    <h3 class="h5 fw-bold mb-0">Tingkat Dasar</h3>
+                                </div>
+                                <div class="feature-item mb-4">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-orange mt-1" style="font-size: 0.75rem;"></i>
+                                        Desain Slide
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Memilih Layout dan Themes (tema). Minimalisir teks (gunakan poin-poin utama) dan fokus pada visual seperti gambar, ikon, atau diagram untuk memudahkan audiens.</p>
+                                </div>
+                                <div class="feature-item mb-4">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-orange mt-1" style="font-size: 0.75rem;"></i>
+                                        Pemformatan & Penyisipan Objek
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Mengatur font agar terbaca dan menyisipkan tabel, grafik, hingga SmartArt untuk menggambarkan alur atau struktur organisasi secara dinamis.</p>
+                                </div>
+                            </div>
+
+                            <!-- Menengah -->
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4">
+                                    <div class="p-2 bg-orange-subtle text-orange rounded">
+                                        <i class="bi bi-layers fs-5"></i>
+                                    </div>
+                                    <h3 class="h5 fw-bold mb-0">Tingkat Menengah</h3>
+                                </div>
+                                <div class="feature-item mb-4">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-orange mt-1" style="font-size: 0.75rem;"></i>
+                                        Transisi (Transitions)
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Efek perpindahan halaman dari satu slide ke slide lainnya agar presentasi tidak monoton.</p>
+                                </div>
+                                <div class="feature-item mb-4">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-orange mt-1" style="font-size: 0.75rem;"></i>
+                                        Animasi (Animations)
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Efek pergerakan objek di dalam satu halaman slide. Dibagi menjadi Entrance (efek masuk), Emphasis (penekanan), dan Exit (keluar).</p>
+                                </div>
+                            </div>
+
+                            <!-- Mahir -->
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4">
+                                    <div class="p-2 bg-orange-subtle text-orange rounded">
+                                        <i class="bi bi-lightning-charge fs-5"></i>
+                                    </div>
+                                    <h3 class="h5 fw-bold mb-0">Tingkat Mahir</h3>
+                                </div>
+                                <div class="feature-item mb-4">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-orange mt-1" style="font-size: 0.75rem;"></i>
+                                        Transisi Morph
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Efek transisi canggih yang mengubah dan memindahkan objek antar slide secara sangat halus, seolah objek tersebut menyatu dan bertransformasi.</p>
+                                </div>
+                                <div class="feature-item mb-4">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-orange mt-1" style="font-size: 0.75rem;"></i>
+                                        Slide Master
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Fitur kontrol terpusat untuk membuat kerangka template desain (tata letak, font, background, posisi logo) secara konsisten pada semua slide.</p>
+                                </div>
+                                <div class="feature-item mb-4">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-orange mt-1" style="font-size: 0.75rem;"></i>
+                                        Navigasi & Presenter View
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Membuat hyperlink untuk presentasi non-linear, dan mengatur tampilan ganda (di proyektor untuk audiens, dan layar laptop untuk catatan pembicara).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.css"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

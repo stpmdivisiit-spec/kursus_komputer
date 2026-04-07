@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tipografi & Paragraf Microsoft Word</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        .header-bg {
+            background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+        }
+        .content-card {
+            border-top: 5px solid #0d6efd;
+        }
+        .icon-box {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background-color: #e7f1ff;
+            color: #0d6efd;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+        .setup-detail-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #e9ecef;
+        }
+        .setup-detail-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.08)!important;
+        }
+        .feature-list li {
+            margin-bottom: 0.75rem;
+            color: #495057;
+            line-height: 1.6;
+        }
+        .feature-list li strong {
+            color: #212529;
+        }
+        .pro-tip {
+            background-color: #e2e3e5;
+            border-left: 4px solid #6c757d;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            font-size: 0.9rem;
+            color: #41464b;
+        }
+        .demo-box {
+            background-color: #fff;
+            border: 1px dashed #adb5bd;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header-bg text-white py-5 mb-5 shadow-sm">
+        <div class="container">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <a href="Index.html" class="btn btn-light btn-sm rounded-pill px-3 fw-medium d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-arrow-left"></i> Kembali ke Microsoft Word
+                </a>
+                <span class="badge bg-white text-primary rounded-pill">Tingkat Dasar</span>
+            </div>
+            <h1 class="display-5 fw-bold mb-2">Tipografi & Paragraf</h1>
+            <p class="lead mb-0 opacity-75 d-flex align-items-center gap-2">
+                <i class="bi bi-file-earmark-word"></i> Microsoft Word
+            </p>
+        </div>
+    </header>
+
+    <div class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                
+                <!-- Main Content Card -->
+                <div class="card shadow-sm border-0 content-card rounded-4 mb-5">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h2 class="h3 fw-bold mb-3">Pusat Pengeditan Teks: Tab Home</h2>
+                            <p class="text-secondary mx-auto" style="max-width: 800px;">
+                                Setelah kertas disiapkan, langkah selanjutnya adalah mengetik. Untuk membuat tulisan Anda terlihat menarik, mudah dibaca, dan rapi, Anda akan sangat sering berinteraksi dengan grup <strong>Font (Tipografi)</strong> dan <strong>Paragraph (Paragraf)</strong> yang terletak di <strong>Tab Home</strong>.
+                            </p>
+                            <!-- Gambar Representasi Tab Home (Font & Paragraph) -->
+                            <img src="img/tab_home.png" class="img-fluid rounded-3 shadow-sm mt-4 mb-2 w-100 border" alt="Grup Font dan Paragraf Word">
+                            <small class="text-muted d-block mt-2">Gambar 1: Grup alat Font dan Paragraph yang menjadi senjata utama mengedit teks.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DAFTAR PENGATURAN SECARA DETAIL -->
+                <div class="d-flex flex-column gap-4">
+                    
+                    <!-- 1. Jenis & Ukuran Huruf -->
+                    <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                        <div class="row g-0">
+                            <div class="col-md-5 bg-light p-4 d-flex align-items-center justify-content-center border-end">
+                                <img src="img/font.png" class="img-fluid rounded shadow-sm border" alt="Font Dropdown Word">
+                            </div>
+                            <div class="col-md-7 p-4 p-lg-5">
+                                <div class="d-flex align-items-center gap-3 mb-4">
+                                    <div class="icon-box"><i class="bi bi-type"></i></div>
+                                    <div>
+                                        <h3 class="h4 fw-bold mb-0 text-primary">1. Jenis & Ukuran Huruf (Font Face & Size)</h3>
+                                        <span class="text-muted small">Menentukan karakter visual teks</span>
+                                    </div>
+                                </div>
+                                <p class="text-secondary mb-4">Pemilihan jenis huruf sangat memengaruhi kesan dokumen Anda (formal, santai, atau kreatif), sedangkan ukuran huruf memastikan teks dapat terbaca dengan baik.</p>
+                                <ul class="feature-list">
+                                    <li><strong>Font Face:</strong> Word menyediakan ratusan jenis huruf. Standar bawaan Word saat ini adalah <em>Aptos</em> atau <em>Calibri</em>. Untuk dokumen resmi (skripsi/surat dinas), biasanya diwajibkan menggunakan <strong>Times New Roman</strong> atau <strong>Arial</strong>.</li>
+                                    <li><strong>Font Size:</strong> Ukuran huruf diukur dalam satuan poin (pt). Ukuran standar teks paragraf adalah <strong>11 pt</strong> atau <strong>12 pt</strong>. Judul biasanya menggunakan ukuran 14 pt hingga 16 pt.</li>
+                                    <li><strong>Increase/Decrease Font:</strong> Anda bisa menggunakan tombol <i class="bi bi-type" style="font-size: 1.2em;"></i> bermuatan panah atas/bawah untuk membesarkan atau mengecilkan teks secara instan tanpa mengetik angka ukurannya.</li>
+                                </ul>
+                                <div class="demo-box">
+                                    <div style="font-family: 'Times New Roman', Times, serif; font-size: 18px;" class="mb-2">Contoh: Ini adalah teks dengan jenis huruf Times New Roman.</div>
+                                    <div style="font-family: Arial, sans-serif; font-size: 12px; color: #666;">Contoh: Ini adalah teks dengan jenis huruf Arial berukuran 12pt.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Gaya & Warna Teks -->
+                    <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                        <div class="row g-0">
+                            <div class="col-md-5 bg-light p-4 d-flex align-items-center justify-content-center border-end">
+                                <img src="img/font_styles.png" class="img-fluid rounded shadow-sm border" alt="Font Styles Word">
+                            </div>
+                            <div class="col-md-7 p-4 p-lg-5">
+                                <div class="d-flex align-items-center gap-3 mb-4">
+                                    <div class="icon-box"><i class="bi bi-type-bold"></i></div>
+                                    <div>
+                                        <h3 class="h4 fw-bold mb-0 text-primary">2. Gaya & Warna Teks (Font Styles & Color)</h3>
+                                        <span class="text-muted small">Memberikan penekanan pada kata penting</span>
+                                    </div>
+                                </div>
+                                <p class="text-secondary mb-4">Gunakan alat ini untuk menonjolkan bagian teks tertentu agar langsung menarik perhatian pembaca.</p>
+                                <ul class="feature-list">
+                                    <li><strong>Bold (B):</strong> Menebalkan teks. Biasanya untuk judul atau istilah kunci.</li>
+                                    <li><strong>Italic (I):</strong> Memiringkan teks. Digunakan untuk istilah bahasa asing atau penekanan frasa.</li>
+                                    <li><strong>Underline (U):</strong> Memberi garis bawah pada teks. Sering dipakai untuk tautan (link) atau kop surat.</li>
+                                    <li><strong>Font Color & Highlight:</strong> Mengubah warna huruf (simbol huruf A dengan garis warna di bawahnya) dan memberikan warna latar belakang teks seperti coretan stabilo (Highlight).</li>
+                                </ul>
+                                <div class="demo-box d-flex flex-wrap gap-3">
+                                    <span class="fw-bold">Teks Tebal (Bold)</span>
+                                    <span class="fst-italic">Teks Miring (Italic)</span>
+                                    <span class="text-decoration-underline">Teks Garis Bawah</span>
+                                    <span class="text-danger fw-bold">Teks Berwarna Merah</span>
+                                    <span style="background-color: yellow;">Teks di-Highlight</span>
+                                </div>
+                                <div class="pro-tip mt-3 d-flex gap-2">
+                                    <i class="bi bi-keyboard text-secondary mt-1"></i>
+                                    <div>
+                                        <strong>Shortcut Keyboard Cepat:</strong> Blok teks, lalu tekan <code>Ctrl + B</code> untuk Bold, <code>Ctrl + I</code> untuk Italic, atau <code>Ctrl + U</code> untuk Underline.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Perataan Paragraf -->
+                    <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                        <div class="row g-0">
+                            <div class="col-md-5 bg-light p-4 d-flex align-items-center justify-content-center border-end">
+                                <img src="img//justify_text.png" class="img-fluid rounded shadow-sm border" alt="Paragraph Alignment Word">
+                            </div>
+                            <div class="col-md-7 p-4 p-lg-5">
+                                <div class="d-flex align-items-center gap-3 mb-4">
+                                    <div class="icon-box"><i class="bi bi-text-left"></i></div>
+                                    <div>
+                                        <h3 class="h4 fw-bold mb-0 text-primary">3. Perataan Teks (Alignment)</h3>
+                                        <span class="text-muted small">Mengatur arah perataan blok tulisan</span>
+                                    </div>
+                                </div>
+                                <p class="text-secondary mb-4">Fitur ini memastikan susunan paragraf Anda terlihat rapi sesuai dengan jenis dokumen yang dibuat. Terdapat 4 jenis perataan:</p>
+                                <ul class="feature-list">
+                                    <li><strong>Align Left (Rata Kiri):</strong> Bawaan standar. Teks rapi di margin kiri, bergerigi di sebelah kanan.</li>
+                                    <li><strong>Center (Rata Tengah):</strong> Teks berada persis di tengah kertas. Wajib digunakan untuk penulisan <strong>Judul Dokumen</strong>.</li>
+                                    <li><strong>Align Right (Rata Kanan):</strong> Teks rapi di margin kanan. Biasanya digunakan untuk tempat tanggal pembuatan surat atau tanda tangan.</li>
+                                    <li><strong>Justify (Rata Kiri Kanan):</strong> Teks ditarik sehingga lurus rapi menempel di margin kiri dan kanan (mirip teks koran/buku). Sangat disarankan untuk dokumen formal seperti makalah dan skripsi.</li>
+                                </ul>
+                                <div class="demo-box">
+                                    <p class="text-center fw-bold mb-1">CONTOH RATA TENGAH (JUDUL)</p>
+                                    <p class="text-start text-muted small mb-0" style="text-align: justify !important;">
+                                        (Contoh Justify) Ini adalah sebuah paragraf teks yang dibuat rata kiri dan kanan. Jika Anda perhatikan, setiap baris akan secara otomatis menyesuaikan spasinya sehingga huruf pertama menempel lurus pada batas kiri margin, dan huruf terakhir menempel lurus tepat di batas kanan margin, menciptakan blok teks yang sangat rapi seperti bentuk balok.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Spasi Baris & Indentasi -->
+                    <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                        <div class="row g-0">
+                            <div class="col-md-5 bg-light p-4 d-flex align-items-center justify-content-center border-end">
+                                <img src="img/Indentasi.png" class="img-fluid rounded shadow-sm border" alt="Line Spacing Word">
+                            </div>
+                            <div class="col-md-7 p-4 p-lg-5">
+                                <div class="d-flex align-items-center gap-3 mb-4">
+                                    <div class="icon-box"><i class="bi bi-list-ul"></i></div>
+                                    <div>
+                                        <h3 class="h4 fw-bold mb-0 text-primary">4. Spasi, Indentasi & Daftar Isi</h3>
+                                        <span class="text-muted small">Mengatur jarak renggang dan poin demi poin</span>
+                                    </div>
+                                </div>
+                                <p class="text-secondary mb-4">Selain perataan, keterbacaan dokumen sangat bergantung pada seberapa padat jarak antar baris teks Anda.</p>
+                                <ul class="feature-list">
+                                    <li><strong>Line & Paragraph Spacing:</strong> Mengatur jarak rongga antar baris (atas dan bawah). Pilihan umumnya adalah <strong>1.0 (Single)</strong>, <strong>1.15</strong>, <strong>1.5 (standar tugas kuliah)</strong>, atau <strong>2.0 (Double)</strong>.</li>
+                                    <li><strong>Bullets & Numbering:</strong> Digunakan untuk membuat daftar (list). <em>Bullets</em> menggunakan simbol titik/kotak, sedangkan <em>Numbering</em> menggunakan urutan angka (1, 2, 3) atau huruf (a, b, c).</li>
+                                    <li><strong>Increase/Decrease Indent:</strong> Menggeser posisi seluruh paragraf lebih menjorok ke dalam menjauhi margin, atau sebaliknya menariknya kembali ke arah margin.</li>
+                                </ul>
+                                <div class="demo-box">
+                                    <strong>Contoh Bullets:</strong>
+                                    <ul class="mb-2">
+                                        <li>Buku Catatan</li>
+                                        <li>Pena Hitam</li>
+                                    </ul>
+                                    <strong>Contoh Numbering:</strong>
+                                    <ol class="mb-0">
+                                        <li>Buka Microsoft Word</li>
+                                        <li>Atur Margin Kertas</li>
+                                        <li>Mulai Mengetik</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.css"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

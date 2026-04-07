@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fungsi Logika Excel - Tingkat Menengah</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        /* Excel Green Theme */
+        .header-bg {
+            background: linear-gradient(135deg, #107c41 0%, #185c37 100%);
+        }
+        .content-card {
+            border-top: 5px solid #107c41;
+        }
+        .icon-box {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background-color: #e6f2eb;
+            color: #107c41;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+        .setup-detail-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #e9ecef;
+            margin-bottom: 2rem;
+        }
+        .setup-detail-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.08)!important;
+        }
+        .formula-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .formula-list > li {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px dashed #dee2e6;
+        }
+        .formula-list > li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .formula-badge {
+            background-color: #107c41;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 0.25rem;
+            font-family: monospace;
+            font-size: 1rem;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+        .operator-badge {
+            background-color: #e9ecef;
+            color: #212529;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.25rem;
+            font-family: monospace;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: 1px solid #ced4da;
+        }
+        .pro-tip {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            font-size: 0.9rem;
+            color: #664d03;
+        }
+        
+        /* Excel Spreadsheet Simulation */
+        .excel-sim {
+            background-color: #fff;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            overflow: hidden;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin-bottom: 1.5rem;
+        }
+        .excel-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        .excel-table th, .excel-table td {
+            border: 1px solid #d4d4d4;
+            padding: 8px 12px;
+        }
+        .excel-header {
+            background-color: #f3f2f1;
+            text-align: center;
+            font-weight: normal;
+            color: #323130;
+            border-bottom: 2px solid #c8c6c4 !important;
+        }
+        .excel-row-num {
+            background-color: #f3f2f1;
+            text-align: center;
+            color: #323130;
+            width: 40px;
+            border-right: 2px solid #c8c6c4 !important;
+        }
+        .formula-bar {
+            background-color: #fff;
+            border-bottom: 1px solid #ced4da;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 0.9rem;
+        }
+        .formula-fx {
+            color: #605e5c;
+            font-style: italic;
+            font-weight: bold;
+        }
+        .formula-input {
+            flex-grow: 1;
+            border: 1px solid #ced4da;
+            padding: 4px 10px;
+            border-radius: 2px;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header-bg text-white py-5 mb-5 shadow-sm">
+        <div class="container">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <a href="Index.html" class="btn btn-light btn-sm rounded-pill px-3 fw-medium d-inline-flex align-items-center gap-2 text-dark">
+                    <i class="bi bi-arrow-left"></i> Kembali Ke Halaman Utama
+                </a>
+                <span class="badge bg-white text-success rounded-pill shadow-sm"><i class="bi bi-layers-fill me-1"></i> Tingkat Menengah</span>
+            </div>
+            <h1 class="display-5 fw-bold mb-2">Fungsi Logika Excel</h1>
+            <p class="lead mb-0 opacity-75 d-flex align-items-center gap-2">
+                <i class="bi bi-diagram-2"></i> Panduan Lengkap IF, IFS, AND, OR, dan Penanganan Error
+            </p>
+        </div>
+    </header>
+
+    <div class="container-fluid mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                
+                <!-- Main Content Card -->
+                <div class="card shadow-sm border-0 content-card rounded-4 mb-4">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h2 class="h3 fw-bold mb-3" style="color: #107c41;">Membuat Excel Mengambil Keputusan</h2>
+                            <p class="text-secondary mx-auto" style="max-width: 800px;">
+                                Fungsi logika memungkinkan Excel mengevaluasi data dan membuat keputusan secara otomatis berdasarkan kondisi yang Anda tetapkan. Sebelum masuk ke rumusnya, Anda harus memahami <strong>Operator Pembanding</strong>, karena ini adalah jantung dari semua rumus logika.
+                            </p>
+                        </div>
+                        
+                        <div class="row g-4 justify-content-center mb-2">
+                            <div class="col-md-10">
+                                <div class="bg-light border rounded-3 p-4">
+                                    <h5 class="fw-bold text-success mb-3"><i class="bi bi-braces me-2"></i>Operator Pembanding Dasar</h5>
+                                    <div class="d-flex flex-wrap gap-3">
+                                        <div class="d-flex align-items-center gap-2"><span class="operator-badge">=</span> Sama dengan</div>
+                                        <div class="d-flex align-items-center gap-2"><span class="operator-badge">&gt;</span> Lebih dari</div>
+                                        <div class="d-flex align-items-center gap-2"><span class="operator-badge">&lt;</span> Kurang dari</div>
+                                        <div class="d-flex align-items-center gap-2"><span class="operator-badge">&gt;=</span> Lebih dari sama dengan</div>
+                                        <div class="d-flex align-items-center gap-2"><span class="operator-badge">&lt;=</span> Kurang dari sama dengan</div>
+                                        <div class="d-flex align-items-center gap-2"><span class="operator-badge">&lt;&gt;</span> Tidak sama dengan</div>
+                                    </div>
+                                    <p class="small text-muted mt-3 mb-0">Contoh: <code>A1 >= 75</code> (Apakah nilai di sel A1 lebih dari atau sama dengan 75? Excel akan menjawab TRUE atau FALSE).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1. KELUARGA IF -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-md-3 bg-light p-4 d-flex flex-column align-items-center justify-content-center border-end">
+                            <div class="icon-box mb-3" style="width: 80px; height: 80px; font-size: 2.5rem;"><i class="bi bi-sign-turn-right-fill"></i></div>
+                            <h3 class="h4 fw-bold text-success text-center">IF & IFS</h3>
+                            <p class="small text-muted text-center mt-2">Pencabangan Kondisi</p>
+                        </div>
+                        <div class="col-md-9 p-4 p-lg-5">
+                            <ul class="formula-list">
+                                <li>
+                                    <h4 class="h5 fw-bold mb-2">1. IF (Jika... Maka...)</h4>
+                                    <p class="text-muted small mb-2">Fungsi paling fundamental. Mengevaluasi <strong>satu kondisi</strong>, lalu memberikan hasil A jika Benar (TRUE), dan hasil B jika Salah (FALSE).</p>
+                                    <div class="formula-badge">=IF(kondisi_tes, "nilai_jika_benar", "nilai_jika_salah")</div>
+                                    <p class="small text-secondary mt-2 mb-0"><strong>Contoh:</strong> <code>=IF(B2>=75, "Lulus", "Remedial")</code> <br><em>(Jika nilai B2 lebih besar/sama dengan 75, tampilkan "Lulus", jika tidak, tampilkan "Remedial")</em>.</p>
+                                </li>
+                                <li>
+                                    <h4 class="h5 fw-bold mb-2">2. IFS (Banyak Kondisi)</h4>
+                                    <p class="text-muted small mb-2">Tersedia di Excel 2019/365. Menggantikan rumus IF bertingkat (IF di dalam IF) yang sangat panjang dan membingungkan. Rumus ini akan mengecek dari kiri ke kanan, dan berhenti pada kondisi pertama yang bernilai TRUE.</p>
+                                    <div class="formula-badge">=IFS(kondisi1, "hasil1", kondisi2, "hasil2", kondisi3, "hasil3", ...)</div>
+                                    <p class="small text-secondary mt-2 mb-0"><strong>Contoh:</strong> <code>=IFS(B2>=90, "Nilai A", B2>=80, "Nilai B", B2>=70, "Nilai C")</code> <br><em>(Lebih rapi daripada menggunakan IF bertingkat/nested IF)</em>.</p>
+                                    <div class="pro-tip mt-2 py-2 px-3">
+                                        <strong>Tips:</strong> Untuk memberikan nilai cadangan jika semua kondisi salah (seperti "Lainnya"), gunakan kata <strong>TRUE</strong> di akhir. <br>Contoh: <code>=IFS(B2>90, "A", B2>80, "B", TRUE, "C")</code>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. AND & OR -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-md-3 bg-light p-4 d-flex flex-column align-items-center justify-content-center border-end">
+                            <div class="icon-box mb-3" style="width: 80px; height: 80px; font-size: 2.5rem;"><i class="bi bi-intersect"></i></div>
+                            <h3 class="h4 fw-bold text-success text-center">AND & OR</h3>
+                            <p class="small text-muted text-center mt-2">Kombinasi Syarat</p>
+                        </div>
+                        <div class="col-md-9 p-4 p-lg-5">
+                            <p class="text-secondary mb-4">Rumus IF secara bawaan hanya bisa mengecek satu kondisi. Bagaimana jika Anda butuh lebih dari satu syarat untuk menyatakan Lulus? Di sinilah AND dan OR dimasukkan (disisipkan) ke dalam rumus IF.</p>
+                            <ul class="formula-list">
+                                <li>
+                                    <h4 class="h5 fw-bold mb-2">1. AND (Dan)</h4>
+                                    <p class="text-muted small mb-2"><strong>SEMUA syarat</strong> harus terpenuhi agar bernilai TRUE. Jika ada satu saja yang gagal, maka hasilnya FALSE.</p>
+                                    <div class="formula-badge">=IF(AND(syarat1, syarat2), "Benar", "Salah")</div>
+                                    <p class="small text-secondary mt-2 mb-0"><strong>Contoh:</strong> <code>=IF(AND(Nilai>=75, Kehadiran>=80), "Lulus", "Gagal")</code> <br><em>(Siswa HANYA lulus jika nilainya >=75 <strong>DAN</strong> kehadirannya >=80. Gagal salah satu saja = Gagal)</em>.</p>
+                                </li>
+                                <li>
+                                    <h4 class="h5 fw-bold mb-2">2. OR (Atau)</h4>
+                                    <p class="text-muted small mb-2"><strong>MINIMAL SATU syarat</strong> terpenuhi, maka bernilai TRUE. Hasilnya akan FALSE hanya jika semua syarat gagal.</p>
+                                    <div class="formula-badge">=IF(OR(syarat1, syarat2), "Benar", "Salah")</div>
+                                    <p class="small text-secondary mt-2 mb-0"><strong>Contoh:</strong> <code>=IF(OR(LamaKerja>5, Penjualan>100), "Dapat Bonus", "Tidak")</code> <br><em>(Pegawai dapat bonus jika sudah kerja >5 tahun <strong>ATAU</strong> jika penjualannya >100. Salah satu syarat tercapai = Dapat Bonus)</em>.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. PENANGANAN ERROR -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-md-3 bg-light p-4 d-flex flex-column align-items-center justify-content-center border-end">
+                            <div class="icon-box mb-3" style="width: 80px; height: 80px; font-size: 2.5rem;"><i class="bi bi-shield-check"></i></div>
+                            <h3 class="h4 fw-bold text-success text-center">IFERROR & IFNA</h3>
+                            <p class="small text-muted text-center mt-2">Menyembunyikan Pesan Error</p>
+                        </div>
+                        <div class="col-md-9 p-4 p-lg-5">
+                            <p class="text-secondary mb-4">Sangat sering tabel Excel Anda dipenuhi teks jelek seperti <code>#DIV/0!</code> (pembagian dengan nol) atau <code>#N/A</code> (data tidak ditemukan di VLOOKUP). Rumus ini berfungsi sebagai "pelindung" untuk mengubah error tersebut menjadi teks yang lebih ramah dibaca (atau dikosongkan).</p>
+                            <ul class="formula-list">
+                                <li>
+                                    <h4 class="h5 fw-bold mb-2">1. IFERROR</h4>
+                                    <p class="text-muted small mb-2">Menangkap <strong>SEMUA JENIS error</strong> (apapun bentuknya) dan menggantinya dengan nilai alternatif Anda.</p>
+                                    <div class="formula-badge">=IFERROR(rumus_utama, "nilai_jika_error")</div>
+                                    <p class="small text-secondary mt-2 mb-0"><strong>Contoh:</strong> <code>=IFERROR(A2/B2, 0)</code> <br><em>(Lakukan pembagian A2/B2. Tapi jika B2 bernilai 0 dan memicu error #DIV/0!, tampilkan saja angka 0)</em>.</p>
+                                </li>
+                                <li>
+                                    <h4 class="h5 fw-bold mb-2">2. IFNA</h4>
+                                    <p class="text-muted small mb-2">Menangkap <strong>KHUSUS error #N/A</strong> saja. Error lain (seperti #VALUE! akibat rumus salah) akan tetap dimunculkan. Ini sangat baik digunakan untuk membungkus rumus pencarian (VLOOKUP/XLOOKUP) agar Anda tahu jika ada error logika yang serius di dokumen Anda.</p>
+                                    <div class="formula-badge">=IFNA(rumus_vlookup, "Data Tidak Ditemukan")</div>
+                                    <p class="small text-secondary mt-2 mb-0"><strong>Contoh:</strong> <code>=IFNA(VLOOKUP(...), "Karyawan Tidak Ada")</code>.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STUDI KASUS & CONTOH HASIL -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="card-body p-4 p-lg-5">
+                        <h3 class="h4 fw-bold mb-3 text-center" style="color: #107c41;">Studi Kasus: Tabel Evaluasi Karyawan</h3>
+                        <p class="text-center text-muted small mb-5">Perhatikan bagaimana berbagai rumus logika dikombinasikan untuk menghasilkan otomatisasi status, predikat, bonus, dan persentase di tabel ini.</p>
+                        
+                        <!-- Excel UI Wrapper -->
+                        <div class="excel-sim mx-auto mb-5" style="max-width: 950px;">
+                            <div class="formula-bar">
+                                <div class="formula-fx">fx</div>
+                                <div class="formula-input text-secondary font-monospace">=IF(AND(B2>=C2, D2="A"), "Cair", "Tahan")</div>
+                            </div>
+                            <table class="excel-table">
+                                <thead>
+                                    <tr>
+                                        <th class="excel-header" style="width: 30px;"></th>
+                                        <th class="excel-header">A (Nama)</th>
+                                        <th class="excel-header">B (Penjualan)</th>
+                                        <th class="excel-header">C (Target)</th>
+                                        <th class="excel-header">D (Sikap)</th>
+                                        <th class="excel-header" style="background-color: #e6f2eb;">E (Status KPI)</th>
+                                        <th class="excel-header" style="background-color: #e6f2eb;">F (Bonus)</th>
+                                        <th class="excel-header" style="background-color: #e6f2eb;">G (% Capai)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="excel-row-num">1</td>
+                                        <td class="text-muted fw-bold bg-light">Nama</td>
+                                        <td class="text-muted fw-bold bg-light">Penjualan</td>
+                                        <td class="text-muted fw-bold bg-light">Target</td>
+                                        <td class="text-muted fw-bold bg-light">Sikap</td>
+                                        <td class="text-success fw-bold bg-light">Status KPI</td>
+                                        <td class="text-success fw-bold bg-light">Bonus</td>
+                                        <td class="text-success fw-bold bg-light">% Capai</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="excel-row-num">2</td>
+                                        <td>Andi</td>
+                                        <td>80</td>
+                                        <td>70</td>
+                                        <td>A</td>
+                                        <td class="fw-bold">Tercapai</td>
+                                        <td class="fw-bold">Cair</td>
+                                        <td>114%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="excel-row-num">3</td>
+                                        <td>Budi</td>
+                                        <td>95</td>
+                                        <td>90</td>
+                                        <td>C</td>
+                                        <td class="fw-bold">Tercapai</td>
+                                        <td class="fw-bold text-danger">Tahan</td>
+                                        <td>105%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="excel-row-num">4</td>
+                                        <td>Citra</td>
+                                        <td>50</td>
+                                        <td>60</td>
+                                        <td>A</td>
+                                        <td class="fw-bold text-danger">Gagal</td>
+                                        <td class="fw-bold text-danger">Tahan</td>
+                                        <td>83%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="excel-row-num">5</td>
+                                        <td>Dani</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>A</td>
+                                        <td class="fw-bold">Tercapai</td>
+                                        <td class="fw-bold text-danger">Tahan</td>
+                                        <td class="text-secondary fst-italic">Belum Mulai</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Bedah Rumus -->
+                        <div class="row g-4 mx-auto" style="max-width: 950px;">
+                            <div class="col-12">
+                                <div class="bg-light border rounded-3 p-4">
+                                    <h5 class="fw-bold mb-3 text-success"><i class="bi bi-search me-2"></i>Bedah Rumus (Menggunakan Baris 2)</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-borderless align-middle mb-0">
+                                            <tr>
+                                                <td style="width: 20%;" class="fw-bold">Kolom E (Status KPI)</td>
+                                                <td style="width: 40%; font-family: monospace;">=IF(B2>=C2, "Tercapai", "Gagal")</td>
+                                                <td class="text-muted small"><strong>IF Dasar:</strong> Cek apakah Penjualan (80) lebih besar atau sama dengan Target (70). Hasilnya <strong>Tercapai</strong>.</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">Kolom F (Bonus)</td>
+                                                <td style="font-family: monospace;">=IF(AND(E2="Tercapai", D2="A"), "Cair", "Tahan")</td>
+                                                <td class="text-muted small"><strong>IF + AND:</strong> Bonus hanya Cair JIKA KPI Tercapai <strong>DAN</strong> Sikapnya bernilai "A". (Perhatikan baris Budi: KPI tercapai tapi sikap C, maka ditahan).</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">Kolom G (% Capai)</td>
+                                                <td style="font-family: monospace;">=IFERROR(B2/C2, "Belum Mulai")</td>
+                                                <td class="text-muted small"><strong>IFERROR:</strong> Persentase adalah Penjualan dibagi Target. Pada baris Dani (0/0), seharusnya muncul error matematis <code>#DIV/0!</code>. Tapi IFERROR menggantinya jadi teks "Belum Mulai".</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Contoh Kasus IFS & OR Ekstra -->
+                            <div class="col-12">
+                                <div class="bg-light border rounded-3 p-4">
+                                    <h5 class="fw-bold mb-3 text-success"><i class="bi bi-lightbulb-fill me-2"></i>Contoh Ekstra: Kapan memakai IFS dan OR?</h5>
+                                    <ul class="mb-0 small text-muted">
+                                        <li class="mb-2">
+                                            <strong>Kasus IFS (Menentukan Rating):</strong> Jika Anda diminta memberi rating A, B, C berdasarkan Penjualan:<br>
+                                            <code class="text-dark bg-white border px-1">=IFS(B2>=90, "Rating A", B2>=70, "Rating B", TRUE, "Rating C")</code>
+                                        </li>
+                                        <li>
+                                            <strong>Kasus OR (Program Remedial):</strong> Jika karyawan wajib ikut remedial bila Penjualan di bawah 60 <strong>ATAU</strong> Sikapnya "C":<br>
+                                            <code class="text-dark bg-white border px-1">=IF(OR(B2<60, D2="C"), "Wajib Remedial", "Aman")</code>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.css"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

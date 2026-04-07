@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulasi Antariksa 3D - Antargalaksi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body { 
+            margin: 0; 
+            overflow: hidden; 
+            background-color: #000; 
+            color: white; 
+            font-family: 'Courier New', Courier, monospace;
+            user-select: none;
+        }
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        #ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none;
+        }
+        #crosshair {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(0, 255, 255, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 20;
+        }
+        #crosshair::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 4px;
+            height: 4px;
+            background-color: cyan;
+            border-radius: 50%;
+        }
+        .hud-panel {
+            background: linear-gradient(135deg, rgba(0,20,40,0.8) 0%, rgba(0,0,0,0.9) 100%);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+        }
+        #start-screen {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Layar Mulai / Kunci Pointer -->
+    <div id="start-screen">
+        <h1 class="text-5xl font-black mb-2 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 tracking-widest text-center">
+            SIMULASI ALAM SEMESTA
+        </h1>
+        <h2 class="text-2xl font-bold mb-6 text-blue-300 tracking-widest text-center">PENJELAJAHAN ANTARGALAKSI</h2>
+        <p class="text-gray-300 mb-8 max-w-2xl text-center leading-relaxed">
+            Terbang bebas melintasi bintang, kunjungi pusat galaksi (Lubang Hitam Supermasif), dan lakukan perjalanan antar galaksi menggunakan teknologi Hyperdrive.
+        </p>
+        <div class="bg-gray-900/50 p-6 rounded-lg border border-gray-700 mb-8 text-sm text-cyan-100 flex gap-8">
+            <div>
+                <h3 class="text-cyan-400 font-bold border-b border-cyan-800 pb-1 mb-2">KONTROL PENERBANGAN</h3>
+                <ul class="space-y-1">
+                    <li><b class="text-white">W / S</b> : Maju / Mundur</li>
+                    <li><b class="text-white">A / D</b> : Geser Kiri / Kanan</li>
+                    <li><b class="text-white">Spasi / C</b> : Naik / Turun</li>
+                    <li><b class="text-white">Shift</b> : Mode Turbo (Cepat)</li>
+                    <li><b class="text-yellow-400">H</b> : Lompatan Antargalaksi (Hyperdrive)</li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-cyan-400 font-bold border-b border-cyan-800 pb-1 mb-2">SISTEM KOKPIT</h3>
+                <ul class="space-y-1">
+                    <li><b class="text-white">Mouse</b> : Arahkan Navigasi (Lihat Sekitar)</li>
+                    <li><b class="text-white">Klik Kiri</b> : Mulai / Kunci Visor</li>
+                    <li><b class="text-white">ESC</b> : Jeda / Lepas Kunci</li>
+                </ul>
+            </div>
+        </div>
+        <button id="btn-start" class="px-8 py-4 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded shadow-[0_0_20px_rgba(0,255,255,0.4)] transition duration-300 uppercase tracking-widest">
+            Nyalakan Mesin & Mulai
+        </button>
+    </div>
+
+    <div id="canvas-container"></div>
+    <div id="crosshair" style="display: none;"></div>
+
+    <!-- HUD Overlay -->
+    <div id="ui-layer" class="p-6 flex flex-col justify-between" style="display: none;">
+        
+        <!-- Status Navigasi Atas -->
+        <div class="flex justify-between">
+            <div class="hud-panel p-4 rounded-lg border-l-4 border-l-cyan-500">
+                <div class="text-xs text-cyan-400 font-bold tracking-widest mb-1 flex justify-between">
+                    <span>TARGET PEMINDAIAN: <span id="planet-type" class="text-yellow-300">--</span></span>
+                    <span id="galaxy-location" class="text-gray-400">--</span>
+                </div>
+                <div id="planet-name" class="text-3xl font-black text-white uppercase tracking-wider">MENUNGGU...</div>
+                <div class="text-sm text-gray-400 mt-1">Jarak Relatif: <span id="planet-dist" class="text-cyan-300 font-mono">0.00</span></div>
+            </div>
+            
+            <div class="hud-panel p-4 rounded-lg flex flex-col items-end">
+                <div class="text-xs text-cyan-400 font-bold tracking-widest mb-1">STATUS MESIN</div>
+                <div id="speed-status" class="text-xl font-bold text-green-400">IMPULS STANDAR</div>
+            </div>
+        </div>
+
+        <!-- Panel Data Benda Langit Bawah -->
+        <div class="hud-panel p-5 rounded-lg max-w-xl border-t-4 border-t-cyan-500">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Gravitasi Ekstremitas</div>
+                    <div class="text-lg font-bold text-yellow-300 flex items-baseline gap-1">
+                        <span id="planet-gravity" class="text-2xl">--</span> m/s²
+                    </div>
+                </div>
+                <div>
+                    <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Estimasi Suhu</div>
+                    <div class="text-lg font-bold flex items-baseline gap-1" id="temp-container">
+                        <span id="planet-temp" class="text-2xl text-white">--</span> °C
+                    </div>
+                </div>
+                <div class="col-span-2 border-t border-gray-700 pt-3 mt-1">
+                    <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Karakteristik Atmosfer / Materi</div>
+                    <div id="planet-atm" class="text-sm font-bold text-blue-200">--</div>
+                </div>
+                <div class="col-span-2">
+                    <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Kondisi Lingkungan (Cuaca/Anomali)</div>
+                    <div id="planet-weather" class="text-sm font-bold text-red-300">--</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- KONFIGURASI ALAM SEMESTA (Galaksi > Sistem > Planet > Satelit) ---
+        const UNIVERSE_DATA = [
+            {
+                name: "Galaksi Bima Sakti",
+                position: { x: 0, y: 0, z: 0 },
+                color: "#4400ff",
+                center: { name: "Sagittarius A* (Lubang Hitam)", radius: 100, type: "blackhole", gravity: "Miliaran (Singularitas)", temp: "10 Triliun (Cakram)", atm: "Plasma & Radiasi Sinar-X Ekstrem", weather: "Distorsi Ruang & Waktu. Horizon Peristiwa." },
+                systems: [
+                    {
+                        name: "Sistem Tata Surya",
+                        position: { x: 1500, y: -200, z: 1200 }, // Jarak bintang dari pusat galaksi
+                        center: { name: "Matahari", radius: 18, type: "sun", color1: "#ffcc00", color2: "#ff3300", gravity: "274.0", temp: 5500, atm: "Hidrogen & Helium (Plasma)", weather: "Badai Matahari Hebat & Lontaran Massa Korona" },
+                        planets: [
+                            { name: "Merkurius", radius: 1.2, distance: 35, speed: 0.04, color1: "#a8a8a8", color2: "#6b6b6b", type: "rock", gravity: "3.7", temp: 167, atm: "Sangat Tipis", weather: "Perbedaan suhu ekstrem.", satellites: [] },
+                            { name: "Venus", radius: 2.5, distance: 50, speed: 0.03, color1: "#e3bb76", color2: "#c67b33", type: "gas", hasAtmosphere: true, gravity: "8.87", temp: 462, atm: "Karbon Dioksida, Nitrogen", weather: "Hujan Asam Sulfat, Angin Badai.", satellites: [] },
+                            { name: "Bumi", radius: 2.6, distance: 75, speed: 0.025, color1: "#2b82c9", color2: "#42a856", type: "earth", hasAtmosphere: true, gravity: "9.8", temp: 15, atm: "Nitrogen (78%), Oksigen (21%)", weather: "Siklus Air, Berawan.", satellites: [
+                                { name: "Bulan", radius: 0.7, distance: 6, speed: 0.08, color1: "#cccccc", color2: "#888888", type: "rock", gravity: "1.62", temp: -20, atm: "Vakum", weather: "Tidak ada cuaca (Vakum)." }
+                            ]},
+                            { name: "Mars", radius: 1.4, distance: 95, speed: 0.02, color1: "#c1440e", color2: "#e77d11", type: "rock", hasAtmosphere: true, gravity: "3.71", temp: -60, atm: "Karbon Dioksida Tipis", weather: "Badai Debu Global.", satellites: [] },
+                            { name: "Jupiter", radius: 8.5, distance: 150, speed: 0.01, color1: "#d39c7e", color2: "#c88b3a", type: "gas_stripes", hasAtmosphere: true, gravity: "24.79", temp: -108, atm: "Hidrogen, Helium", weather: "Bintik Merah Raksasa.", satellites: [
+                                { name: "Europa", radius: 1.0, distance: 14, speed: 0.07, color1: "#ffffff", color2: "#8fa5b3", type: "earth", gravity: "1.31", temp: -160, atm: "Oksigen Tipis", weather: "Permukaan Es Retak, Geyser Air." }
+                            ]},
+                            { name: "Saturnus", radius: 7, distance: 210, speed: 0.008, color1: "#eaddb9", color2: "#c5ab6e", type: "gas_stripes", hasRings: true, hasAtmosphere: true, gravity: "10.44", temp: -139, atm: "Hidrogen, Helium", weather: "Angin Super Cepat.", satellites: [] }
+                        ]
+                    },
+                    {
+                        name: "Sistem Alpha Centauri",
+                        position: { x: 3800, y: 800, z: -2500 },
+                        center: { name: "Alpha Centauri A", radius: 20, type: "sun", color1: "#ffffee", color2: "#ffbb00", gravity: "285.0", temp: 5790, atm: "Plasma Bintang", weather: "Aktivitas Korona Tinggi" },
+                        planets: [
+                            { name: "Proxima b", radius: 3.2, distance: 55, speed: 0.035, color1: "#8c4b2b", color2: "#4a2411", type: "rock", hasAtmosphere: true, gravity: "11.2", temp: -39, atm: "Atmosfer Tebal (Diduga)", weather: "Radiasi UV Ekstrem, Badai Kosmik.", satellites: [] }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "Galaksi Andromeda",
+                position: { x: 80000, y: 15000, z: -60000 }, // Jarak Antargalaksi sangat jauh
+                color: "#00ffff",
+                center: { name: "Andromeda Core (Pusat Galaksi)", radius: 150, type: "blackhole", gravity: "Tak Terhingga", temp: "Absolut (Inti), Panas Ekstrem (Cakram)", atm: "Singularitas, Emisi Cahaya", weather: "Lubang Hitam Masif" },
+                systems: [
+                    {
+                        name: "Sistem Kepler-186 (Andromeda)",
+                        position: { x: 82000, y: 15200, z: -58000 },
+                        center: { name: "Bintang Katai Merah (K-186)", radius: 10, type: "sun", color1: "#ff4400", color2: "#880000", gravity: "150.0", temp: 3788, atm: "Plasma Suhu Rendah", weather: "Tenang, Redup" },
+                        planets: [
+                            { name: "Kepler-186f", radius: 2.8, distance: 40, speed: 0.05, color1: "#3b5e4f", color2: "#193325", type: "earth", hasAtmosphere: true, gravity: "10.5", temp: -85, atm: "Kaya Karbondioksida", weather: "Musim Dingin Global, Lautan Beku.", satellites: [] }
+                        ]
+                    },
+                    {
+                        name: "Sistem Trappist-1 (Andromeda)",
+                        position: { x: 78500, y: 14000, z: -61500 },
+                        center: { name: "TRAPPIST-1", radius: 8, type: "sun", color1: "#ff3333", color2: "#550000", gravity: "95.0", temp: 2550, atm: "Katai Ultradingin", weather: "Radiasi Inframerah Kuat" },
+                        planets: [
+                            { name: "Trappist-1e", radius: 2.4, distance: 25, speed: 0.08, color1: "#2b4c6e", color2: "#599370", type: "earth", hasAtmosphere: true, gravity: "9.1", temp: -15, atm: "Mirip Bumi", weather: "Lautan Dalam Bebas Es, Layak Huni.", satellites: [] },
+                            { name: "Trappist-1f", radius: 2.5, distance: 35, speed: 0.06, color1: "#829ba3", color2: "#415057", type: "rock", hasAtmosphere: true, gravity: "9.3", temp: -60, atm: "Atmosfer Tipis", weather: "Gurun Beku.", satellites: [] }
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        // --- VARIABEL GLOBAL ---
+        let scene, camera, renderer;
+        let animatedBodies = []; 
+        let scanTargets = [];    
+        let starsClouds = [];    
+        let backgroundGalaxies = []; // Sprite visual pendukung
+        
+        // Kontrol Penerbangan
+        let moveForward = false;
+        let moveBackward = false;
+        let moveLeft = false;
+        let moveRight = false;
+        let moveUp = false;   
+        let moveDown = false; 
+        let isTurbo = false;
+        let isHyperdrive = false; // Lompatan Antargalaksi
+        
+        let velocity = new THREE.Vector3();
+        let direction = new THREE.Vector3();
+        let pitchObject = new THREE.Object3D(); 
+        let yawObject = new THREE.Object3D();   
+        let isLocked = false;
+
+        const startScreen = document.getElementById('start-screen');
+        const uiLayer = document.getElementById('ui-layer');
+        const crosshair = document.getElementById('crosshair');
+
+        let prevTime = 0; 
+
+        init();
+        animate();
+
+        function init() {
+            scene = new THREE.Scene();
+            // Jarak kabut sangat jauh karena ini skala antargalaksi
+            scene.fog = new THREE.FogExp2(0x000000, 0.00001); 
+
+            // Render Distance ditingkatkan ke 300,000 agar bisa melihat galaksi lain dari jauh
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 300000);
+            
+            // Spawn di dekat Bumi (Sistem Tata Surya)
+            yawObject.position.set(1500, -180, 1265); 
+            scene.add(yawObject);
+            yawObject.add(pitchObject);
+            pitchObject.add(camera);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true }); // Mencegah Z-fighting jarak jauh
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+            const ambientLight = new THREE.AmbientLight(0x222222);
+            scene.add(ambientLight);
+
+            // Membangun Alam Semesta
+            createStars();
+            createBackgroundGalaxies(); 
+            buildUniverse();
+
+            window.addEventListener('resize', onWindowResize);
+            
+            document.getElementById('btn-start').addEventListener('click', () => {
+                document.body.requestPointerLock();
+            });
+
+            document.addEventListener('pointerlockchange', () => {
+                if (document.pointerLockElement === document.body) {
+                    isLocked = true;
+                    startScreen.style.display = 'none';
+                    uiLayer.style.display = 'flex';
+                    crosshair.style.display = 'block';
+                } else {
+                    isLocked = false;
+                    startScreen.style.display = 'flex';
+                    uiLayer.style.display = 'none';
+                    crosshair.style.display = 'none';
+                    moveForward = moveBackward = moveLeft = moveRight = moveUp = moveDown = isTurbo = isHyperdrive = false;
+                }
+            });
+
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('keydown', onKeyDown);
+            document.addEventListener('keyup', onKeyUp);
+        }
+
+        // --- TEKSTUR PROSEDURAL (Canvas) ---
+        function generatePlanetTexture(pData) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 256;
+            const ctx = canvas.getContext('2d');
+
+            if (pData.type === 'blackhole') {
+                ctx.fillStyle = "#000000"; // Lubang hitam benar-benar hitam
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                return new THREE.CanvasTexture(canvas);
+            }
+
+            ctx.fillStyle = pData.color1;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            if (pData.type === 'gas_stripes' || pData.type === 'gas') {
+                for (let i = 0; i < 30; i++) {
+                    ctx.fillStyle = (Math.random() > 0.5) ? pData.color2 : pData.color1;
+                    ctx.globalAlpha = Math.random() * 0.5 + 0.2;
+                    let y = Math.random() * canvas.height;
+                    let h = Math.random() * 20 + 5;
+                    ctx.fillRect(0, y, canvas.width, h);
+                }
+                if (pData.name === "Jupiter") {
+                    ctx.fillStyle = "#9c3211";
+                    ctx.globalAlpha = 0.8;
+                    ctx.beginPath();
+                    ctx.ellipse(250, 160, 40, 20, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            } else if (pData.type === 'earth') {
+                ctx.fillStyle = pData.color2; 
+                for (let i = 0; i < 40; i++) {
+                    ctx.globalAlpha = Math.random() * 0.8 + 0.2;
+                    ctx.beginPath();
+                    let x = Math.random() * canvas.width;
+                    let y = Math.random() * canvas.height;
+                    let r = Math.random() * 30 + 10;
+                    ctx.arc(x, y, r, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.fillStyle = "#ffffff";
+                ctx.globalAlpha = 0.9;
+                ctx.fillRect(0, 0, canvas.width, 20); 
+                ctx.fillRect(0, canvas.height - 20, canvas.width, 20); 
+            } else if (pData.type === 'rock') {
+                ctx.fillStyle = pData.color2;
+                for (let i = 0; i < 150; i++) {
+                    ctx.globalAlpha = Math.random() * 0.5;
+                    ctx.beginPath();
+                    let x = Math.random() * canvas.width;
+                    let y = Math.random() * canvas.height;
+                    let r = Math.random() * 4 + 1;
+                    ctx.arc(x, y, r, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            } else if (pData.type === 'sun') {
+                for (let i = 0; i < 200; i++) {
+                    ctx.fillStyle = (Math.random() > 0.5) ? pData.color2 : "#ffffff";
+                    ctx.globalAlpha = Math.random() * 0.3;
+                    ctx.beginPath();
+                    let x = Math.random() * canvas.width;
+                    let y = Math.random() * canvas.height;
+                    let r = Math.random() * 15 + 5;
+                    ctx.arc(x, y, r, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            return new THREE.CanvasTexture(canvas);
+        }
+
+        function createNebulaTexture() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 256;
+            canvas.height = 256;
+            const ctx = canvas.getContext('2d');
+            const gradient = ctx.createRadialGradient(128, 128, 0, 128, 128, 128);
+            gradient.addColorStop(0, 'rgba(255,255,255,1)');
+            gradient.addColorStop(0.2, 'rgba(255,255,255,0.8)');
+            gradient.addColorStop(0.5, 'rgba(255,255,255,0.2)');
+            gradient.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 256, 256);
+            return new THREE.CanvasTexture(canvas);
+        }
+
+        // --- ORNAMEN ALAM SEMESTA LOKAL ---
+        function createBackgroundGalaxies() {
+            const tex = createNebulaTexture();
+            const colors = [0xff00ff, 0x00ffff, 0xff8800, 0x4400ff, 0x00ff88, 0xff0044];
+            
+            // Hiasan galaksi sangat jauh
+            for(let i = 0; i < 40; i++) {
+                const mat = new THREE.SpriteMaterial({
+                    map: tex, color: colors[Math.floor(Math.random() * colors.length)],
+                    transparent: true, opacity: Math.random() * 0.4 + 0.1, blending: THREE.AdditiveBlending
+                });
+                const sprite = new THREE.Sprite(mat);
+                const r = 100000 + Math.random() * 50000; // Ribuan jaraknya
+                const theta = Math.random() * 2 * Math.PI;
+                const phi = Math.acos(Math.random() * 2 - 1);
+                
+                sprite.position.x = r * Math.sin(phi) * Math.cos(theta);
+                sprite.position.y = r * Math.sin(phi) * Math.sin(theta);
+                sprite.position.z = r * Math.cos(phi);
+                
+                const s = 10000 + Math.random() * 20000; 
+                sprite.scale.set(s, s, 1);
+                scene.add(sprite);
+            }
+        }
+
+        function createStars() {
+            const sizes = [1.0, 2.0, 3.5]; 
+            
+            sizes.forEach((size, index) => {
+                const starsGeo = new THREE.BufferGeometry();
+                const starsCount = 4000; // Lebih banyak bintang karena areanya sangat luas
+                const posArray = new Float32Array(starsCount * 3);
+                const colorArray = new Float32Array(starsCount * 3);
+
+                for(let i = 0; i < starsCount * 3; i+=3) {
+                    const r = 2000 + Math.random() * 120000; // Tersebar jauh hingga jarak galaksi lain
+                    const theta = Math.random() * 2 * Math.PI;
+                    const phi = Math.acos(Math.random() * 2 - 1);
+                    
+                    posArray[i] = r * Math.sin(phi) * Math.cos(theta);
+                    posArray[i+1] = r * Math.sin(phi) * Math.sin(theta);
+                    posArray[i+2] = r * Math.cos(phi);
+
+                    const cBase = Math.random();
+                    colorArray[i] = cBase + 0.2;     
+                    colorArray[i+1] = cBase + 0.2;   
+                    colorArray[i+2] = cBase + (Math.random() > 0.5 ? 0.4 : 0.0); 
+                }
+
+                starsGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+                starsGeo.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+
+                const starsMat = new THREE.PointsMaterial({
+                    size: size, vertexColors: true, transparent: true, opacity: 0.8 + (Math.random() * 0.2)
+                });
+
+                const starCloud = new THREE.Points(starsGeo, starsMat);
+                scene.add(starCloud);
+                starsClouds.push(starCloud);
+            });
+        }
+
+        // --- MEMBANGUN STRUKTUR ALAM SEMESTA TERHUBUNG ---
+        function buildUniverse() {
+            const sphereGeo = new THREE.SphereGeometry(1, 64, 64);
+
+            UNIVERSE_DATA.forEach(galaxy => {
+                // Buat Galaksi (Grup Utama)
+                const galaxyGroup = new THREE.Group();
+                galaxyGroup.position.set(galaxy.position.x, galaxy.position.y, galaxy.position.z);
+                scene.add(galaxyGroup);
+
+                // --- PUSAT GALAKSI (BLACK HOLE) ---
+                if (galaxy.center) {
+                    // Cangkang Event Horizon (Hitam Total)
+                    const bhTex = generatePlanetTexture(galaxy.center);
+                    const bhMat = new THREE.MeshBasicMaterial({ map: bhTex }); 
+                    const bhMesh = new THREE.Mesh(sphereGeo, bhMat);
+                    bhMesh.scale.set(galaxy.center.radius, galaxy.center.radius, galaxy.center.radius);
+                    galaxyGroup.add(bhMesh);
+
+                    // Cakram Akresi (Cincin Plasma Cahaya)
+                    const accretionGeo = new THREE.TorusGeometry(galaxy.center.radius * 1.5, galaxy.center.radius * 0.4, 16, 100);
+                    const accretionMat = new THREE.MeshBasicMaterial({ 
+                        color: galaxy.color, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending, side: THREE.DoubleSide
+                    });
+                    const accretionDisk = new THREE.Mesh(accretionGeo, accretionMat);
+                    accretionDisk.rotation.x = Math.PI / 2.2;
+                    galaxyGroup.add(accretionDisk);
+
+                    // Cahaya Inti Galaksi (Supaya area galaksi terang)
+                    const bhLight = new THREE.PointLight(galaxy.color, 5, 10000);
+                    galaxyGroup.add(bhLight);
+
+                    scanTargets.push({ data: galaxy.center, mesh: bhMesh, parentName: galaxy.name, category: "Pusat Galaksi" });
+                    animatedBodies.push({ type: 'blackhole', mesh: accretionDisk, speed: -0.5, angle: 0 }); // Memutar cakram
+                }
+
+                // --- SISTEM BINTANG ---
+                galaxy.systems.forEach(system => {
+                    const systemGroup = new THREE.Group();
+                    systemGroup.position.set(system.position.x, system.position.y, system.position.z);
+                    galaxyGroup.add(systemGroup);
+
+                    // Bintang (Matahari) dari Sistem
+                    const sunTex = generatePlanetTexture(system.center);
+                    const sunMat = new THREE.MeshBasicMaterial({ map: sunTex });
+                    const sunMesh = new THREE.Mesh(sphereGeo, sunMat);
+                    sunMesh.scale.set(system.center.radius, system.center.radius, system.center.radius);
+                    systemGroup.add(sunMesh);
+
+                    // Cahaya lokal Bintang
+                    const localLight = new THREE.PointLight(system.center.color1, 2.5, 2000);
+                    systemGroup.add(localLight);
+
+                    // Efek Kilau Bintang
+                    const sunGlowMat = new THREE.MeshBasicMaterial({ color: system.center.color2, transparent: true, opacity: 0.3, blending: THREE.AdditiveBlending });
+                    const sunGlow = new THREE.Mesh(sphereGeo, sunGlowMat);
+                    sunGlow.scale.set(system.center.radius * 1.5, system.center.radius * 1.5, system.center.radius * 1.5);
+                    systemGroup.add(sunGlow);
+
+                    scanTargets.push({ data: system.center, mesh: sunMesh, parentName: system.name + " (" + galaxy.name + ")", category: "Bintang Induk" });
+                    animatedBodies.push({ type: 'star', mesh: sunMesh, speed: 0.05, angle: 0 });
+
+                    // --- PLANET ---
+                    system.planets.forEach(planetData => {
+                        const orbitPivot = new THREE.Group();
+                        systemGroup.add(orbitPivot);
+
+                        const planetTex = generatePlanetTexture(planetData);
+                        const planetMat = new THREE.MeshPhongMaterial({ map: planetTex, shininess: planetData.type === 'gas' ? 50 : 15 });
+                        const planetMesh = new THREE.Mesh(sphereGeo, planetMat);
+                        planetMesh.scale.set(planetData.radius, planetData.radius, planetData.radius);
+                        planetMesh.position.x = planetData.distance;
+                        orbitPivot.add(planetMesh);
+
+                        // Garis Orbit Planet
+                        const orbitLineGeo = new THREE.RingGeometry(planetData.distance - 0.2, planetData.distance + 0.2, 128);
+                        const orbitLineMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.05, side: THREE.DoubleSide });
+                        const orbitLine = new THREE.Mesh(orbitLineGeo, orbitLineMat);
+                        orbitLine.rotation.x = Math.PI / 2;
+                        systemGroup.add(orbitLine);
+
+                        scanTargets.push({ data: planetData, mesh: planetMesh, parentName: system.name, category: "Planet" });
+                        animatedBodies.push({ type: 'planet', mesh: planetMesh, orbitGroup: orbitPivot, speed: planetData.speed, angle: Math.random() * Math.PI * 2 });
+
+                        // --- SATELIT / BULAN ---
+                        if (planetData.satellites) {
+                            planetData.satellites.forEach(satData => {
+                                const satPivot = new THREE.Group();
+                                satPivot.position.x = planetData.distance; // Menempel pada poros planet
+                                orbitPivot.add(satPivot);
+
+                                const satTex = generatePlanetTexture(satData);
+                                const satMat = new THREE.MeshPhongMaterial({ map: satTex, shininess: 5 });
+                                const satMesh = new THREE.Mesh(sphereGeo, satMat);
+                                satMesh.scale.set(satData.radius, satData.radius, satData.radius);
+                                satMesh.position.x = satData.distance;
+                                satPivot.add(satMesh);
+
+                                // Garis Orbit Satelit
+                                const satLineGeo = new THREE.RingGeometry(satData.distance - 0.05, satData.distance + 0.05, 64);
+                                const satLineMat = new THREE.MeshBasicMaterial({ color: 0x00ffff, transparent: true, opacity: 0.1, side: THREE.DoubleSide });
+                                const satOrbitLine = new THREE.Mesh(satLineGeo, satLineMat);
+                                satOrbitLine.rotation.x = Math.PI / 2;
+                                satOrbitLine.position.x = planetData.distance;
+                                orbitPivot.add(satOrbitLine);
+
+                                scanTargets.push({ data: satData, mesh: satMesh, parentName: planetData.name + " (" + system.name + ")", category: "Satelit Alam" });
+                                animatedBodies.push({ type: 'satellite', mesh: satMesh, orbitGroup: satPivot, speed: satData.speed, angle: Math.random() * Math.PI * 2 });
+                            });
+                        }
+                    });
+                });
+            });
+        }
+
+        // --- KONTROL PENERBANGAN ---
+        function onMouseMove(event) {
+            if (!isLocked) return;
+
+            const movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+            const movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+
+            const sensitivity = 0.002;
+            yawObject.rotation.y -= movementX * sensitivity;
+            pitchObject.rotation.x -= movementY * sensitivity;
+
+            pitchObject.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, pitchObject.rotation.x));
+        }
+
+        function onKeyDown(event) {
+            switch (event.code) {
+                case 'KeyW': moveForward = true; break;
+                case 'KeyA': moveLeft = true; break;
+                case 'KeyS': moveBackward = true; break;
+                case 'KeyD': moveRight = true; break;
+                case 'Space': moveUp = true; break; 
+                case 'KeyC': moveDown = true; break; 
+                case 'ShiftLeft':
+                case 'ShiftRight': isTurbo = true; break;
+                case 'KeyH': isHyperdrive = true; break; // Tombol Hyperdrive
+            }
+        }
+
+        function onKeyUp(event) {
+            switch (event.code) {
+                case 'KeyW': moveForward = false; break;
+                case 'KeyA': moveLeft = false; break;
+                case 'KeyS': moveBackward = false; break;
+                case 'KeyD': moveRight = false; break;
+                case 'Space': moveUp = false; break;
+                case 'KeyC': moveDown = false; break;
+                case 'ShiftLeft':
+                case 'ShiftRight': isTurbo = false; break;
+                case 'KeyH': isHyperdrive = false; break;
+            }
+        }
+
+        function updateMovement(delta) {
+            if (!isLocked) return;
+
+            direction.z = Number(moveForward) - Number(moveBackward);
+            direction.x = Number(moveRight) - Number(moveLeft);
+            direction.y = Number(moveUp) - Number(moveDown);
+            direction.normalize(); 
+
+            // Pengaturan Kecepatan (Normal -> Turbo -> Hyperdrive)
+            const baseSpeed = 40.0;
+            let actualSpeed = baseSpeed;
+            
+            const speedUI = document.getElementById('speed-status');
+            
+            if (isHyperdrive && (moveForward || moveBackward || moveLeft || moveRight || moveUp || moveDown)) {
+                actualSpeed = baseSpeed * 1000; // Hyperdrive kecepatan fantastis untuk antar galaksi
+                speedUI.innerText = "HYPERDRIVE AKTIF (x1000)";
+                speedUI.className = "text-xl font-bold text-fuchsia-400 animate-pulse";
+                scene.fog.density = 0; // Matikan kabut saat kecepatan cahaya agar pemandangan tidak terpotong
+            } else if (isTurbo && (moveForward || moveBackward || moveLeft || moveRight || moveUp || moveDown)) {
+                actualSpeed = baseSpeed * 10; 
+                speedUI.innerText = "WARP DRIVE (x10)";
+                speedUI.className = "text-xl font-bold text-red-400";
+                scene.fog.density = 0.001;
+            } else if (moveForward || moveBackward || moveLeft || moveRight || moveUp || moveDown) {
+                speedUI.innerText = "IMPULS STANDAR";
+                speedUI.className = "text-xl font-bold text-yellow-400";
+                scene.fog.density = 0.001;
+            } else {
+                speedUI.innerText = "MESIN DIAM";
+                speedUI.className = "text-xl font-bold text-green-400";
+                scene.fog.density = 0.001;
+            }
+
+            if (moveForward || moveBackward) velocity.z -= direction.z * actualSpeed * delta;
+            if (moveLeft || moveRight) velocity.x -= direction.x * actualSpeed * delta;
+            if (moveUp || moveDown) velocity.y -= direction.y * actualSpeed * delta;
+
+            // Rem / Hambatan
+            const damping = isHyperdrive ? 1.0 : 3.0; // Saat hyperdrive agak licin
+            velocity.x -= velocity.x * damping * delta;
+            velocity.y -= velocity.y * damping * delta;
+            velocity.z -= velocity.z * damping * delta;
+
+            const camDirection = new THREE.Vector3();
+            camera.getWorldDirection(camDirection);
+            
+            if (moveForward) yawObject.position.addScaledVector(camDirection, Math.abs(velocity.z) * delta);
+            if (moveBackward) yawObject.position.addScaledVector(camDirection, -Math.abs(velocity.z) * delta);
+            
+            yawObject.translateX(-velocity.x * delta);
+            yawObject.translateY(-velocity.y * delta);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        // --- LOGIKA HUD PEMINDAI ---
+        function formatDistance(dist) {
+            if (dist > 10000) return (dist / 10000).toFixed(1) + " Juta Tahun Cahaya";
+            if (dist > 1000) return (dist / 100).toFixed(1) + " Ribu Tahun Cahaya";
+            return dist.toFixed(1) + " Satuan Jarak";
+        }
+
+        function updateHUD() {
+            let closestBody = null;
+            let minDistance = Infinity;
+            
+            const camPos = new THREE.Vector3();
+            yawObject.getWorldPosition(camPos);
+
+            scanTargets.forEach(target => {
+                const targetWorldPos = new THREE.Vector3();
+                target.mesh.getWorldPosition(targetWorldPos);
+                
+                const distToSurface = camPos.distanceTo(targetWorldPos) - target.data.radius;
+
+                if (distToSurface < minDistance) {
+                    minDistance = distToSurface;
+                    closestBody = target;
+                }
+            });
+
+            // Tampilkan Data jika cukup dekat (Jangkauan sensor diperbesar hingga 500 karena alam semesta membesar)
+            if (closestBody && minDistance < 600) {
+                document.getElementById('planet-name').innerText = closestBody.data.name;
+                document.getElementById('planet-type').innerText = closestBody.category;
+                document.getElementById('galaxy-location').innerText = "Lokasi: " + closestBody.parentName;
+                document.getElementById('planet-dist').innerText = formatDistance(minDistance);
+                
+                document.getElementById('planet-gravity').innerText = closestBody.data.gravity;
+                
+                const tempEl = document.getElementById('planet-temp');
+                tempEl.innerText = closestBody.data.temp;
+                if (typeof closestBody.data.temp === 'string') tempEl.className = "text-2xl text-purple-400"; // Lubang hitam
+                else if (closestBody.data.temp > 100) tempEl.className = "text-2xl text-red-500";
+                else if (closestBody.data.temp < 0) tempEl.className = "text-2xl text-blue-400";
+                else tempEl.className = "text-2xl text-green-400";
+
+                document.getElementById('planet-atm').innerText = closestBody.data.atm;
+                document.getElementById('planet-weather').innerText = closestBody.data.weather;
+            } else {
+                document.getElementById('planet-name').innerText = "RUANG KOSONG";
+                document.getElementById('planet-type').innerText = "--";
+                document.getElementById('galaxy-location').innerText = "--";
+                document.getElementById('planet-dist').innerText = formatDistance(minDistance);
+                document.getElementById('planet-gravity').innerText = "--";
+                document.getElementById('planet-temp').innerText = "--";
+                document.getElementById('planet-temp').className = "text-2xl text-white";
+                document.getElementById('planet-atm').innerText = "Vakum (Tidak ada atmosfer)";
+                document.getElementById('planet-weather').innerText = "Tenang / Vakum Interstellar";
+            }
+        }
+
+        // --- GELUNG ANIMASI (LOOP) ---
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const time = performance.now();
+            if (prevTime === 0) prevTime = time; 
+            const delta = (time - prevTime) / 1000; 
+            prevTime = time;
+
+            // 1. Animasi Benda Langit
+            animatedBodies.forEach(body => {
+                if (body.type === 'blackhole') {
+                    body.mesh.rotation.z += body.speed * delta; // Rotasi cakram
+                } else {
+                    body.mesh.rotation.y += 0.005; // Rotasi poros benda
+                }
+
+                // Revolusi
+                if (body.orbitGroup && body.speed > 0) {
+                    body.angle += body.speed * delta;
+                    body.orbitGroup.rotation.y = body.angle; 
+                }
+            });
+
+            starsClouds.forEach((starCloud, index) => {
+                starCloud.rotation.y -= (0.0003 + (index * 0.0001)) * delta;
+            });
+
+            // 2. Pembaruan Gerakan Pemain
+            updateMovement(delta);
+
+            // 3. Pembaruan Visor HUD
+            if (isLocked) {
+                updateHUD();
+            }
+
+            renderer.render(scene, camera);
+        }
+    </script>
+</body>
+</html>

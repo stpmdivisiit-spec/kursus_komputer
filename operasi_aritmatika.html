@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operasi Matematika - Microsoft Excel</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        /* Excel Green Theme */
+        .header-bg {
+            background: linear-gradient(135deg, #107c41 0%, #185c37 100%);
+        }
+        .content-card {
+            border-top: 5px solid #107c41;
+        }
+        .icon-box {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background-color: #e6f2eb;
+            color: #107c41;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+        .setup-detail-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #e9ecef;
+        }
+        .setup-detail-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.08)!important;
+        }
+        .feature-list li {
+            margin-bottom: 0.75rem;
+            color: #495057;
+            line-height: 1.6;
+        }
+        .feature-list li strong {
+            color: #212529;
+        }
+        .pro-tip {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            font-size: 0.9rem;
+            color: #664d03;
+        }
+        
+        /* Excel Spreadsheet Simulation */
+        .excel-sim {
+            background-color: #fff;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            overflow: hidden;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        .excel-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        .excel-table th, .excel-table td {
+            border: 1px solid #d4d4d4;
+            padding: 6px 10px;
+        }
+        .excel-header {
+            background-color: #f3f2f1;
+            text-align: center;
+            font-weight: normal;
+            color: #323130;
+            border-bottom: 2px solid #c8c6c4 !important;
+        }
+        .excel-row-num {
+            background-color: #f3f2f1;
+            text-align: center;
+            color: #323130;
+            width: 40px;
+            border-right: 2px solid #c8c6c4 !important;
+        }
+        .excel-cell:focus {
+            outline: 2px solid #107c41;
+            outline-offset: -2px;
+        }
+        .formula-bar {
+            background-color: #fff;
+            border-bottom: 1px solid #ced4da;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 0.9rem;
+        }
+        .formula-fx {
+            color: #605e5c;
+            font-style: italic;
+            font-weight: bold;
+        }
+        .formula-input {
+            flex-grow: 1;
+            border: 1px solid #ced4da;
+            padding: 2px 8px;
+            border-radius: 2px;
+        }
+        .badge-operator {
+            font-size: 1.2rem;
+            padding: 0.2em 0.5em;
+            background-color: #107c41;
+            color: white;
+            border-radius: 0.25rem;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header-bg text-white py-5 mb-5 shadow-sm">
+        <div class="container">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <a href="Index.html" class="btn btn-light btn-sm rounded-pill px-3 fw-medium d-inline-flex align-items-center gap-2 text-dark">
+                    <i class="bi bi-arrow-left"></i> Kembali Ke Halaman Utama
+                </a>
+                <span class="badge bg-white text-success rounded-pill shadow-sm"><i class="bi bi-book me-1"></i> Tingkat Dasar</span>
+            </div>
+            <h1 class="display-5 fw-bold mb-2">Operasi Matematika</h1>
+            <p class="lead mb-0 opacity-75 d-flex align-items-center gap-2">
+                <i class="bi bi-file-earmark-spreadsheet"></i> Microsoft Excel
+            </p>
+        </div>
+    </header>
+
+    <div class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                
+                <!-- Main Content Card -->
+                <div class="card shadow-sm border-0 content-card rounded-4 mb-5">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h2 class="h3 fw-bold mb-3" style="color: #107c41;">Kalkulator Super Canggih</h2>
+                            <p class="text-secondary mx-auto" style="max-width: 800px;">
+                                Pada dasarnya, Microsoft Excel adalah sebuah kalkulator raksasa. Anda dapat melakukan perhitungan aritmatika dasar (tambah, kurang, kali, bagi) langsung di dalam kotak (sel) lembar kerja. Kunci utama yang <strong>wajib</strong> diingat adalah: <strong>Semua rumus perhitungan di Excel harus diawali dengan tanda sama dengan ( = )</strong>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DAFTAR OPERATOR DETAIL -->
+                <div class="d-flex flex-column gap-4">
+                    
+                    <!-- Aturan Dasar -->
+                    <div class="pro-tip mb-4 border-start-0 border-top-0 border-bottom-0 shadow-sm bg-white border-end border-5" style="border-color: #107c41 !important;">
+                        <h5 class="fw-bold mb-2"><i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>Aturan Emas Excel: Referensi Sel vs Angka Langsung</h5>
+                        <p class="mb-2">Di Excel, Anda bisa mengetik langsung angkanya: <code>=10+5</code> (Hasilnya 15).</p>
+                        <p class="mb-0">Namun, cara terbaik dan profesional adalah menunjuk <strong>nama sel-nya (Referensi Sel)</strong>, contoh: <code>=A1+B1</code>. Mengapa? Karena jika sewaktu-waktu angka di sel A1 Anda ubah dari 10 menjadi 50, hasil penjumlahan akan <strong>otomatis berubah</strong> (ter-update) tanpa perlu membongkar ulang rumus Anda.</p>
+                    </div>
+
+                    <!-- 1. Penjumlahan & Pengurangan -->
+                    <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card mb-4">
+                        <div class="row g-0">
+                            <div class="col-md-5 bg-light p-4 d-flex flex-column justify-content-center border-end">
+                                <div class="d-flex justify-content-center gap-4 mb-3">
+                                    <span class="badge-operator">+</span>
+                                    <span class="badge-operator">-</span>
+                                </div>
+                                <img src="https://placehold.co/600x300/e9ecef/495057?text=[Image+of+Penjumlahan+dan+Pengurangan+Excel]" class="img-fluid rounded shadow-sm border" alt="Penjumlahan Pengurangan Excel">
+                            </div>
+                            <div class="col-md-7 p-4 p-lg-5">
+                                <div class="d-flex align-items-center gap-3 mb-4">
+                                    <div class="icon-box"><i class="bi bi-plus-slash-minus"></i></div>
+                                    <div>
+                                        <h3 class="h4 fw-bold mb-0">1. Tambah (+) dan Kurang (-)</h3>
+                                        <span class="text-muted small">Operasi paling dasar</span>
+                                    </div>
+                                </div>
+                                <p class="text-secondary mb-4">Sama seperti pelajaran matematika dasar, Excel menggunakan tanda <strong>Plus (+)</strong> untuk penjumlahan dan <strong>Minus (-)</strong> untuk pengurangan.</p>
+                                <ul class="feature-list">
+                                    <li><strong>Penjumlahan:</strong> Digunakan untuk menjumlahkan dua sel atau lebih. <br>
+                                        <em>Contoh Rumus:</em> <code>=A2+B2</code> atau <code>=A2+B2+C2</code>
+                                    </li>
+                                    <li><strong>Pengurangan:</strong> Digunakan untuk mencari selisih angka antar sel. <br>
+                                        <em>Contoh Rumus:</em> <code>=C2-B2</code> (Contoh nyata: Total Pendapatan - Total Pengeluaran)
+                                    </li>
+                                    <li><strong>Kombinasi:</strong> Anda bisa menggabungkannya langsung. <br>
+                                        <em>Contoh Rumus:</em> <code>=A2+B2-C2</code>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Perkalian & Pembagian -->
+                    <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card mb-4">
+                        <div class="row g-0">
+                            <div class="col-md-5 bg-light p-4 d-flex flex-column justify-content-center border-end">
+                                <div class="d-flex justify-content-center gap-4 mb-3">
+                                    <span class="badge-operator">*</span>
+                                    <span class="badge-operator">/</span>
+                                </div>
+                                <img src="https://placehold.co/600x300/e9ecef/495057?text=[Image+of+Perkalian+dan+Pembagian+Excel]" class="img-fluid rounded shadow-sm border" alt="Perkalian Pembagian Excel">
+                            </div>
+                            <div class="col-md-7 p-4 p-lg-5">
+                                <div class="d-flex align-items-center gap-3 mb-4">
+                                    <div class="icon-box"><i class="bi bi-x-lg"></i></div>
+                                    <div>
+                                        <h3 class="h4 fw-bold mb-0">2. Kali (*) dan Bagi (/)</h3>
+                                        <span class="text-muted small">Perhatikan simbolnya, bukan 'x' atau ':'</span>
+                                    </div>
+                                </div>
+                                <p class="text-secondary mb-4">Ini adalah letak kesalahan paling umum bagi pemula. Excel <strong>tidak mengenali</strong> huruf "x" sebagai perkalian atau titik dua ":" sebagai pembagian.</p>
+                                <ul class="feature-list">
+                                    <li><strong>Perkalian (Asterisk / Bintang):</strong> Gunakan tombol <kbd>Shift</kbd> + <kbd>8</kbd> di keyboard Anda. <br>
+                                        <em>Contoh Rumus:</em> <code>=A2*B2</code> (Harga Barang * Jumlah Beli)
+                                    </li>
+                                    <li><strong>Pembagian (Slash / Garis Miring):</strong> Gunakan tanda garis miring. <br>
+                                        <em>Contoh Rumus:</em> <code>=A2/B2</code> (Total Harga / Jumlah Orang)
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SIMULASI VISUAL EXCEL SPREADSHEET -->
+                    <div class="mt-2 card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                        <div class="card-body p-4 p-lg-5">
+                            <h3 class="h4 fw-bold mb-4 text-center" style="color: #107c41;">Simulasi Visual Lembar Kerja Excel</h3>
+                            <p class="text-center text-muted small mb-4">Perhatikan bagaimana kolom (A, B, C) dan baris (1, 2, 3) membentuk nama sel (contoh: B2, C3).<br>Kotak hijau meniru posisi sel yang sedang aktif/dipilih.</p>
+                            
+                            <!-- Excel UI Wrapper -->
+                            <div class="excel-sim mb-4 mx-auto" style="max-width: 800px;">
+                                <!-- Formula Bar -->
+                                <div class="formula-bar">
+                                    <div class="formula-fx">fx</div>
+                                    <div class="formula-input text-success fw-bold">=B2*C2</div>
+                                </div>
+                                <!-- Table -->
+                                <table class="excel-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="excel-header" style="width: 40px;"></th>
+                                            <th class="excel-header">A (Barang)</th>
+                                            <th class="excel-header">B (Harga)</th>
+                                            <th class="excel-header">C (Jumlah)</th>
+                                            <th class="excel-header">D (Total / Rumus)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="excel-row-num">1</td>
+                                            <td class="text-muted fst-italic bg-light">Buku Tulis</td>
+                                            <td class="text-muted fst-italic bg-light">5000</td>
+                                            <td class="text-muted fst-italic bg-light">2</td>
+                                            <td class="text-muted fst-italic bg-light">10000 <em>(=B1*C1)</em></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="excel-row-num">2</td>
+                                            <td>Pulpen Hitam</td>
+                                            <td>3000</td>
+                                            <td>5</td>
+                                            <td class="excel-cell fw-bold" style="outline: 2px solid #107c41; outline-offset: -2px; background-color: #e6f2eb;">
+                                                15000
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="excel-row-num">3</td>
+                                            <td>Penggaris</td>
+                                            <td>2000</td>
+                                            <td>1</td>
+                                            <td>2000 <em>(=B3*C3)</em></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <div class="bg-light p-3 rounded-3 border">
+                                        <h6 class="fw-bold">Kasus: Urutan Operasi (KaBaTaKu)</h6>
+                                        <p class="small text-muted mb-0">Excel mengikuti aturan matematika internasional (PEMDAS). Perkalian/Pembagian dihitung lebih dulu dari Tambah/Kurang. <br>
+                                        Rumus: <code>=5+2*3</code> hasilnya adalah <strong>11</strong> (karena 2*3 dihitung duluan).<br>
+                                        Gunakan <strong>Tanda Kurung ()</strong> jika ingin penjumlahan dihitung awal: <code>=(5+2)*3</code> hasilnya <strong>21</strong>.</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mt-3 mt-md-0">
+                                    <div class="bg-light p-3 rounded-3 border">
+                                        <h6 class="fw-bold">Kasus: Error Umum ( #VALUE! )</h6>
+                                        <p class="small text-muted mb-0">Jika Anda mendapat pesan error <code>#VALUE!</code>, artinya Anda mencoba mengalikan angka dengan huruf/teks. <br>Contoh salah: <code>A2</code> berisi teks "Rp 5000" dan <code>B2</code> berisi teks "2 Buah". Pastikan sel Anda hanya berisi angka murni (5000 dan 2).</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.css"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

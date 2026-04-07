@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mail Merge (Surat Massal) - Microsoft Word</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        .header-bg {
+            background: linear-gradient(135deg, #6610f2 0%, #520dc2 100%); /* Warna ungu untuk tingkat mahir */
+        }
+        .content-card {
+            border-top: 5px solid #6610f2;
+        }
+        .icon-box {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background-color: #f0e6ff;
+            color: #6610f2;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+        .setup-detail-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #e9ecef;
+        }
+        .setup-detail-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.08)!important;
+        }
+        .feature-list li {
+            margin-bottom: 0.75rem;
+            color: #495057;
+            line-height: 1.6;
+        }
+        .feature-list li strong {
+            color: #212529;
+        }
+        .pro-tip {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            font-size: 0.9rem;
+            color: #664d03;
+        }
+        .demo-box {
+            background-color: #fff;
+            border: 1px dashed #adb5bd;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+        }
+        
+        /* Custom CSS for Letter Simulation */
+        .merge-field {
+            background-color: #e9ecef;
+            border: 1px solid #ced4da;
+            padding: 0 4px;
+            border-radius: 3px;
+            font-family: monospace;
+            color: #d63384;
+            font-weight: bold;
+        }
+        .merge-result {
+            background-color: #d1e7dd;
+            border: 1px solid #badbcc;
+            padding: 0 4px;
+            border-radius: 3px;
+            font-weight: bold;
+            color: #0f5132;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header-bg text-white py-5 mb-5 shadow-sm">
+        <div class="container">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <a href="Index.html" class="btn btn-light btn-sm rounded-pill px-3 fw-medium d-inline-flex align-items-center gap-2 text-dark">
+                    <i class="bi bi-arrow-left"></i> Kembali Ke Halaman Utama
+                </a>
+                <span class="badge bg-white text-dark rounded-pill shadow-sm"><i class="bi bi-lightning-charge-fill text-warning"></i> Tingkat Mahir</span>
+            </div>
+            <h1 class="display-5 fw-bold mb-2">Mail Merge (Surat Massal)</h1>
+            <p class="lead mb-0 opacity-75 d-flex align-items-center gap-2">
+                <i class="bi bi-file-earmark-word"></i> Microsoft Word + <i class="bi bi-file-earmark-spreadsheet ms-1"></i> Microsoft Excel
+            </p>
+        </div>
+    </header>
+
+    <div class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                
+                <!-- Main Content Card -->
+                <div class="card shadow-sm border-0 content-card rounded-4 mb-5">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h2 class="h3 fw-bold mb-3">Mencetak Ribuan Dokumen dalam Sekali Klik</h2>
+                            <p class="text-secondary mx-auto" style="max-width: 800px;">
+                                <strong>Mail Merge</strong> adalah fitur otomatisasi yang menghubungkan kerangka dokumen di Microsoft Word dengan basis data penerima (biasanya di Microsoft Excel). Bayangkan Anda harus membuat sertifikat untuk 500 peserta seminar. Daripada mengetik nama satu per satu yang memakan waktu berhari-hari, Mail Merge dapat menyelesaikannya dalam hitungan menit.
+                            </p>
+                            <!-- Gambar Representasi Konsep Mail Merge -->
+                            <img src="https://placehold.co/1200x250/e9ecef/495057?text=[Image+of+Konsep+Word+ditambah+Excel+menjadi+Banyak+Surat]" class="img-fluid rounded-3 shadow-sm mt-4 mb-2 w-100 border" alt="Konsep Mail Merge">
+                            <small class="text-muted d-block mt-2">Gambar 1: Konsep Mail Merge. Satu Template Word + Tabel Excel = Ratusan Dokumen Berbeda.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DAFTAR LANGKAH SECARA DETAIL -->
+                <div class="d-flex flex-column gap-4">
+                    
+                    <!-- 1. Persiapan Data (Excel) -->
+                    <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                        <div class="row g-0">
+                            <div class="col-md-5 bg-light p-4 d-flex align-items-center justify-content-center border-end">
+                                <img src="https://placehold.co/600x450/e9ecef/495057?text=[Image+of+Tabel+Data+Excel+untuk+Mail+Merge]" class="img-fluid rounded shadow-sm border" alt="Data Source Excel">
+                            </div>
+                            <div class="col-md-7 p-4 p-lg-5">
+                                <div class="d-flex align-items-center gap-3 mb-4">
+                                    <div class="icon-box"><i class="bi bi-file-earmark-spreadsheet"></i></div>
+                                    <div>
+                                        <h3 class="h4 fw-bold mb-0" style="color: #6610f2;">Langkah 1: Siapkan Data di Excel</h3>
+                                        <span class="text-muted small">Membuat Daftar Penerima (Data Source)</span>
+                                    </div>
+                                </div>
+                                <p class="text-secondary mb-4">Sebelum membuka Word, Anda wajib memiliki daftar data yang akan dimasukkan ke dalam surat. Buatlah tabel sederhana di Microsoft Excel dan simpan filenya.</p>
+                                <ul class="feature-list">
+                                    <li><strong>Baris Pertama Wajib Judul Kolom:</strong> Baris paling atas (A1, B1, C1) harus berisi nama kategori data, misalnya: <em>Nama_Peserta</em>, <em>Alamat</em>, <em>Jabatan</em>. Judul kolom ini nantinya akan menjadi kode variabel di Word.</li>
+                                    <li><strong>Isi Data Tanpa Baris Kosong:</strong> Mulai baris kedua dan seterusnya, isi dengan data penerima yang sebenarnya. Jangan ada baris yang dikosongi di tengah-tengah data.</li>
+                                    <li>Simpan file Excel tersebut di folder yang mudah ditemukan (misal dengan nama <code>Data_Undangan.xlsx</code>). Tutup aplikasi Excel jika sudah selesai.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Menghubungkan Data -->
+                    <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                        <div class="row g-0">
+                            <div class="col-md-5 bg-light p-4 d-flex align-items-center justify-content-center border-end">
+                                <img src="https://placehold.co/600x450/e9ecef/495057?text=[Image+of+Menu+Select+Recipients+di+Tab+Mailings]" class="img-fluid rounded shadow-sm border" alt="Select Recipients Word">
+                            </div>
+                            <div class="col-md-7 p-4 p-lg-5">
+                                <div class="d-flex align-items-center gap-3 mb-4">
+                                    <div class="icon-box"><i class="bi bi-link-45deg"></i></div>
+                                    <div>
+                                        <h3 class="h4 fw-bold mb-0" style="color: #6610f2;">Langkah 2: Hubungkan Word dengan Excel</h3>
+                                        <span class="text-muted small">Membangun Jembatan Data</span>
+                                    </div>
+                                </div>
+                                <p class="text-secondary mb-4">Buka Microsoft Word, ketikkan kerangka surat undangan Anda secara normal. Biarkan bagian nama tujuan dan alamat kosong. Kemudian hubungkan dengan file Excel tadi.</p>
+                                <ul class="feature-list">
+                                    <li>Pergi ke <strong>Tab Mailings</strong> di Ribbon.</li>
+                                    <li>Klik tombol <strong>Select Recipients</strong> (Pilih Penerima).</li>
+                                    <li>Pilih opsi <strong>Use an Existing List...</strong> (Gunakan daftar yang sudah ada).</li>
+                                    <li>Jendela pencarian file akan muncul. Cari dan pilih file <code>Data_Undangan.xlsx</code> yang sudah Anda buat di langkah pertama, lalu klik Open.</li>
+                                    <li>Jika muncul kotak dialog konfirmasi <em>Select Table</em>, pastikan sheet yang berisi data Anda terpilih (biasanya <em>Sheet1$</em>), lalu klik OK.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Menyisipkan Variabel -->
+                    <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                        <div class="row g-0">
+                            <div class="col-md-5 bg-light p-4 d-flex align-items-center justify-content-center border-end">
+                                <img src="https://placehold.co/600x450/e9ecef/495057?text=[Image+of+Tombol+Insert+Merge+Field]" class="img-fluid rounded shadow-sm border" alt="Insert Merge Field">
+                            </div>
+                            <div class="col-md-7 p-4 p-lg-5">
+                                <div class="d-flex align-items-center gap-3 mb-4">
+                                    <div class="icon-box"><i class="bi bi-input-cursor-text"></i></div>
+                                    <div>
+                                        <h3 class="h4 fw-bold mb-0" style="color: #6610f2;">Langkah 3: Insert Merge Field</h3>
+                                        <span class="text-muted small">Memasukkan Kode Variabel Pengganti</span>
+                                    </div>
+                                </div>
+                                <p class="text-secondary mb-4">Sekarang saatnya meletakkan data dari Excel ke posisi yang tepat di dalam dokumen Word Anda.</p>
+                                <ul class="feature-list">
+                                    <li>Tempatkan kursor berkedip Anda tepat di tempat nama akan muncul (misalnya setelah kata "Kepada Yth. ").</li>
+                                    <li>Pada <strong>Tab Mailings</strong>, klik tombol <strong>Insert Merge Field</strong>.</li>
+                                    <li>Akan muncul daftar judul kolom dari Excel Anda (seperti <em>Nama_Peserta</em>, <em>Alamat</em>). Klik <em>Nama_Peserta</em>.</li>
+                                    <li>Sebuah kode kurung siku ganda akan muncul di lembar kerja Anda: <span class="merge-field">&laquo;Nama_Peserta&raquo;</span>. Ini adalah penanda bahwa teks tersebut akan berubah secara dinamis.</li>
+                                    <li>Ulangi langkah ini untuk data lainnya, seperti meletakkan <span class="merge-field">&laquo;Alamat&raquo;</span> di baris bawahnya.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Preview & Finish -->
+                    <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                        <div class="row g-0">
+                            <div class="col-md-5 bg-light p-4 d-flex align-items-center justify-content-center border-end">
+                                <img src="https://placehold.co/600x450/e9ecef/495057?text=[Image+of+Tombol+Preview+Results+dan+Finish+Merge]" class="img-fluid rounded shadow-sm border" alt="Preview Results and Finish">
+                            </div>
+                            <div class="col-md-7 p-4 p-lg-5">
+                                <div class="d-flex align-items-center gap-3 mb-4">
+                                    <div class="icon-box"><i class="bi bi-printer"></i></div>
+                                    <div>
+                                        <h3 class="h4 fw-bold mb-0" style="color: #6610f2;">Langkah 4: Preview & Finish</h3>
+                                        <span class="text-muted small">Pratinjau Hasil dan Eksekusi Akhir</span>
+                                    </div>
+                                </div>
+                                <p class="text-secondary mb-4">Sebelum mencetak ratusan kertas, sangat penting untuk memeriksa apakah datanya masuk dengan benar.</p>
+                                <ul class="feature-list">
+                                    <li><strong>Preview Results (Pratinjau):</strong> Klik tombol <em>Preview Results</em> di tab Mailings. Kode <span class="merge-field">&laquo;Nama_Peserta&raquo;</span> akan seketika berubah menjadi nama asli (misal: Budi Santoso). Gunakan tombol panah (kanan/kiri) di sebelahnya untuk melihat data orang kedua, ketiga, dan seterusnya.</li>
+                                    <li><strong>Finish & Merge:</strong> Jika semua sudah benar, klik tombol ini untuk eksekusi.
+                                        <ul>
+                                            <li>Pilih <em>Print Documents...</em> jika komputer sudah terhubung ke printer untuk langsung mencetak semuanya.</li>
+                                            <li>Pilih <em>Edit Individual Documents...</em> jika Anda ingin Word membuat file baru berisi ratusan halaman (setiap halaman berisi nama berbeda) agar Anda bisa mengecek ulang atau menyimpannya sebagai file gabungan (PDF).</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contoh Simulasi Visual -->
+                    <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                        <div class="card-body p-4 p-lg-5">
+                            <h3 class="h4 fw-bold mb-4 text-center">Simulasi Visual Perubahan Dokumen</h3>
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="demo-box h-100 m-0">
+                                        <p class="text-muted small fw-bold mb-3 border-bottom pb-2">1. Mode Desain (Saat memasukkan Merge Field)</p>
+                                        <div class="p-3 bg-white border shadow-sm">
+                                            <p>Jakarta, 15 Agustus 2024</p>
+                                            <p>Kepada Yth. <br>
+                                            Bapak/Ibu <span class="merge-field">&laquo;Nama_Penerima&raquo;</span><br>
+                                            di <span class="merge-field">&laquo;Kota_Tujuan&raquo;</span></p>
+                                            <p>Dengan hormat,<br>
+                                            Kami mengundang Bapak/Ibu <span class="merge-field">&laquo;Nama_Penerima&raquo;</span> untuk hadir dalam acara seminar tahunan kami...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="demo-box h-100 m-0" style="background-color: #f8f9fa;">
+                                        <p class="text-success small fw-bold mb-3 border-bottom pb-2">2. Mode Pratinjau (Setelah klik Preview Results)</p>
+                                        <div class="p-3 bg-white border shadow-sm">
+                                            <p>Jakarta, 15 Agustus 2024</p>
+                                            <p>Kepada Yth. <br>
+                                            Bapak/Ibu <span class="merge-result">Ahmad Hidayat</span><br>
+                                            di <span class="merge-result">Bandung</span></p>
+                                            <p>Dengan hormat,<br>
+                                            Kami mengundang Bapak/Ibu <span class="merge-result">Ahmad Hidayat</span> untuk hadir dalam acara seminar tahunan kami...</p>
+                                        </div>
+                                        <p class="text-center text-muted small mt-2 mb-0"><em>*Word otomatis mengganti kode dengan data di baris pertama Excel.</em></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pro-tip mt-4 text-center">
+                                <strong>Penting:</strong> Jika Anda menemukan ada huruf yang *typo* (salah ketik) pada nama penerima saat preview, Anda <strong>harus memperbaiki salah ketiknya di dalam file Excel</strong>, simpan Excel-nya, lalu kembali ke Word untuk melihat perubahannya.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.css"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

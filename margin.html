@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengaturan Kertas & Margin Microsoft Word</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        .header-bg {
+            background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+        }
+        .content-card {
+            border-top: 5px solid #0d6efd;
+        }
+        .icon-box {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background-color: #e7f1ff;
+            color: #0d6efd;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+        .setup-detail-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #e9ecef;
+        }
+        .setup-detail-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.08)!important;
+        }
+        .feature-list li {
+            margin-bottom: 0.75rem;
+            color: #495057;
+            line-height: 1.6;
+        }
+        .feature-list li strong {
+            color: #212529;
+        }
+        .pro-tip {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            font-size: 0.9rem;
+            color: #664d03;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header-bg text-white py-5 mb-5 shadow-sm">
+        <div class="container">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <a href="word.html" class="btn btn-light btn-sm rounded-pill px-3 fw-medium d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-arrow-left"></i> Kembali ke Microsoft Word
+                </a>
+                <span class="badge bg-white text-primary rounded-pill">Tingkat Dasar</span>
+            </div>
+            <h1 class="display-5 fw-bold mb-2">Pengaturan Kertas & Margin</h1>
+            <p class="lead mb-0 opacity-75 d-flex align-items-center gap-2">
+                <i class="bi bi-file-earmark-word"></i> Microsoft Word
+            </p>
+        </div>
+    </header>
+
+    <div class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                
+                <!-- Main Content Card -->
+                <div class="card shadow-sm border-0 content-card rounded-4 mb-5">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h2 class="h3 fw-bold mb-3">Mengapa Pengaturan Kertas Penting?</h2>
+                            <p class="text-secondary mx-auto" style="max-width: 800px;">
+                                Sebelum Anda mulai mengetik dokumen yang panjang, langkah pertama yang wajib dilakukan adalah mengatur ukuran kertas dan batas tepinya. Jika Anda mengatur kertas di akhir pengetikan, susunan teks, tabel, dan gambar Anda bisa berantakan. Semua pengaturan ini dapat ditemukan di dalam tab <strong>Layout</strong>.
+                            </p>
+                            <!-- Gambar Representasi Tab Layout -->
+                            <img src="img/layout_page_setup.png" class="img-fluid rounded-3 shadow-sm mt-4 mb-2 w-100 border" alt="Tab Layout Word">
+                            <small class="text-muted d-block mt-2">Gambar 1: Grup perintah Page Setup pada Tab Layout</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DAFTAR PENGATURAN SECARA DETAIL -->
+                <div class="d-flex flex-column gap-4">
+                    
+                    <!-- 1. Margins -->
+                    <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                        <div class="row g-0">
+                            <div class="col-md-5 bg-light p-4 d-flex align-items-center justify-content-center border-end">
+                                <img src="img/margin.png" class="img-fluid rounded shadow-sm border" alt="Menu Margins Word">
+                            </div>
+                            <div class="col-md-7 p-4 p-lg-5">
+                                <div class="d-flex align-items-center gap-3 mb-4">
+                                    <div class="icon-box"><i class="bi bi-textarea"></i></div>
+                                    <div>
+                                        <h3 class="h4 fw-bold mb-0 text-primary">1. Margins (Batas Tepi Kertas)</h3>
+                                        <span class="text-muted small">Mengatur Jarak Kosong Penulisan</span>
+                                    </div>
+                                </div>
+                                <p class="text-secondary mb-4">Margin adalah jarak kosong antara tepi kertas fisik dengan tempat teks mulai diketik. Word menyediakan batas atas (Top), bawah (Bottom), kiri (Left), dan kanan (Right).</p>
+                                <h5 class="h6 fw-bold mb-3">Pilihan Margin yang Sering Digunakan:</h5>
+                                <ul class="feature-list">
+                                    <li><strong>Normal:</strong> Batas standar Word (biasanya 2.54 cm atau 1 inci di setiap sisi). Cocok untuk surat dan dokumen umum.</li>
+                                    <li><strong>Narrow (Sempit):</strong> Margin yang sangat kecil (sekitar 1.27 cm). Digunakan jika Anda ingin memuat lebih banyak teks dalam satu halaman agar hemat kertas.</li>
+                                    <li><strong>Custom Margins:</strong> Digunakan untuk makalah atau skripsi. Biasanya aturannya adalah <strong>Top: 4cm, Left: 4cm, Bottom: 3cm, Right: 3cm</strong>. Margin kiri (Left) dibuat lebih besar (4cm) agar teks tidak tertutup saat dokumen dijilid.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Orientation -->
+                    <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                        <div class="row g-0">
+                            <div class="col-md-5 bg-light p-4 d-flex align-items-center justify-content-center border-end">
+                                <img src="img/orientation.png" class="img-fluid rounded shadow-sm border" alt="Orientasi Kertas Word">
+                            </div>
+                            <div class="col-md-7 p-4 p-lg-5">
+                                <div class="d-flex align-items-center gap-3 mb-4">
+                                    <div class="icon-box"><i class="bi bi-phone-flip"></i></div>
+                                    <div>
+                                        <h3 class="h4 fw-bold mb-0 text-primary">2. Orientation (Arah Kertas)</h3>
+                                        <span class="text-muted small">Menentukan Posisi Berdiri atau Memanjang</span>
+                                    </div>
+                                </div>
+                                <p class="text-secondary mb-4">Secara bawaan, Word menggunakan arah vertikal. Namun, untuk jenis dokumen tertentu, Anda perlu memutar arah kertas menjadi horizontal.</p>
+                                <ul class="feature-list">
+                                    <li><strong>Portrait (Berdiri):</strong> Kertas memanjang ke bawah. Ini adalah standar untuk hampir semua dokumen teks seperti surat, artikel, makalah, dan buku.</li>
+                                    <li><strong>Landscape (Memanjang/Tidur):</strong> Kertas memanjang ke samping. Sangat berguna jika Anda perlu menyisipkan <strong>Tabel dengan banyak kolom</strong>, grafik yang lebar, brosur lipat, atau sertifikat penghargaan.</li>
+                                </ul>
+                                <div class="pro-tip mt-4">
+                                    <strong>Tips Pro:</strong> Anda bisa membuat satu dokumen berisi campuran Portrait dan Landscape. Caranya, blok teks/tabel yang ingin dibuat Landscape > masuk ke Page Setup > Pilih Landscape > pada bagian <em>Apply to</em> pilih <em>Selected text</em>.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Size -->
+                    <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                        <div class="row g-0">
+                            <div class="col-md-5 bg-light p-4 d-flex align-items-center justify-content-center border-end">
+                                <img src="img/size.png" class="img-fluid rounded shadow-sm border" alt="Ukuran Kertas Word">
+                            </div>
+                            <div class="col-md-7 p-4 p-lg-5">
+                                <div class="d-flex align-items-center gap-3 mb-4">
+                                    <div class="icon-box"><i class="bi bi-aspect-ratio"></i></div>
+                                    <div>
+                                        <h3 class="h4 fw-bold mb-0 text-primary">3. Size (Ukuran Kertas)</h3>
+                                        <span class="text-muted small">Menyesuaikan Kertas Digital dengan Kertas Printer</span>
+                                    </div>
+                                </div>
+                                <p class="text-secondary mb-4">Ukuran kertas di layar harus sama persis dengan ukuran kertas asli yang dimasukkan ke dalam mesin Printer. Jika berbeda, hasil cetakan bisa terpotong di bagian bawah atau bergeser.</p>
+                                <ul class="feature-list">
+                                    <li><strong>A4 (21 cm x 29.7 cm):</strong> Ukuran standar internasional. Paling banyak digunakan untuk keperluan kantor, surat resmi, dan tugas sekolah/kuliah di Indonesia.</li>
+                                    <li><strong>Letter (8.5" x 11"):</strong> Sering menjadi standar *default* jika Word Anda versi Amerika. Ukurannya sedikit lebih pendek dan lebih lebar dari A4.</li>
+                                    <li><strong>Legal / F4 (Kertas Folio):</strong> Banyak digunakan untuk dokumen hukum dan laporan di Indonesia. Jika opsi F4 tidak ada di menu, Anda harus memilih <em>More Paper Sizes...</em> dan memasukkan angka manual: <strong>Width: 21.5 cm, Height: 33 cm</strong>.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Kotak Dialog Page Setup Lengkap -->
+                    <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                        <div class="row g-0">
+                            <div class="col-md-5 bg-light p-4 d-flex align-items-center justify-content-center border-end">
+                                <img src="img/page_setup.png" class="img-fluid rounded shadow-sm border" alt="Page Setup Dialog">
+                            </div>
+                            <div class="col-md-7 p-4 p-lg-5">
+                                <div class="d-flex align-items-center gap-3 mb-4">
+                                    <div class="icon-box"><i class="bi bi-sliders"></i></div>
+                                    <div>
+                                        <h3 class="h4 fw-bold mb-0 text-primary">4. Kotak Dialog Page Setup</h3>
+                                        <span class="text-muted small">Pusat Kendali Pengaturan Tingkat Lanjut</span>
+                                    </div>
+                                </div>
+                                <p class="text-secondary mb-4">Untuk membuka pengaturan lanjutan, klik ikon panah kecil di sudut kanan bawah grup <em>Page Setup</em> pada tab Layout. Jendela baru akan terbuka dengan kontrol yang sangat detail.</p>
+                                <h5 class="h6 fw-bold mb-3">Fitur Penting di Kotak Dialog Ini:</h5>
+                                <ul class="feature-list">
+                                    <li><strong>Gutter:</strong> Penambahan ekstra ruang pada margin khusus untuk penjilidan, jepitan, atau lem ring agar teks tidak termakan oleh jilidan buku. Anda bisa memilih posisi gutter di Kiri (Left) atau Atas (Top).</li>
+                                    <li><strong>Multiple Pages:</strong> Anda bisa memilih <em>Mirror Margins</em> jika ingin mencetak bolak-balik seperti buku novel (margin kiri halaman genap akan sama dengan margin kanan halaman ganjil).</li>
+                                    <li><strong>Apply To:</strong> Menentukan apakah pengaturan margin ini diaplikasikan untuk seluruh dokumen (<em>Whole document</em>) atau hanya dari halaman ini ke bawah (<em>This point forward</em>).</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.css"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

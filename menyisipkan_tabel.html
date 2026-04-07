@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menyisipkan Tabel - Microsoft Word</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        .header-bg {
+            background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+        }
+        .content-card {
+            border-top: 5px solid #0d6efd;
+        }
+        .icon-box {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background-color: #e7f1ff;
+            color: #0d6efd;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+        .setup-detail-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #e9ecef;
+        }
+        .setup-detail-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.08)!important;
+        }
+        .feature-list li {
+            margin-bottom: 0.75rem;
+            color: #495057;
+            line-height: 1.6;
+        }
+        .feature-list li strong {
+            color: #212529;
+        }
+        .pro-tip {
+            background-color: #e2e3e5;
+            border-left: 4px solid #6c757d;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            font-size: 0.9rem;
+            color: #41464b;
+        }
+        .demo-box {
+            background-color: #fff;
+            border: 1px dashed #adb5bd;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+            overflow-x: auto;
+        }
+        /* Custom Table for Demo */
+        .demo-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 0;
+        }
+        .demo-table th, .demo-table td {
+            border: 1px solid #dee2e6;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        .demo-table thead {
+            background-color: #0d6efd;
+            color: white;
+        }
+        .demo-table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header-bg text-white py-5 mb-5 shadow-sm">
+        <div class="container">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <a href="Index.html" class="btn btn-light btn-sm rounded-pill px-3 fw-medium d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-arrow-left"></i> Kembali ke Halaman Utama
+                </a>
+                <span class="badge bg-white text-primary rounded-pill">Tingkat Menengah</span>
+            </div>
+            <h1 class="display-5 fw-bold mb-2">Menyisipkan Tabel</h1>
+            <p class="lead mb-0 opacity-75 d-flex align-items-center gap-2">
+                <i class="bi bi-file-earmark-word"></i> Microsoft Word
+            </p>
+        </div>
+    </header>
+
+    <div class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                
+                <!-- Main Content Card -->
+                <div class="card shadow-sm border-0 content-card rounded-4 mb-5">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h2 class="h3 fw-bold mb-3">Mengatur Data dengan Tabel</h2>
+                            <p class="text-secondary mx-auto" style="max-width: 800px;">
+                                Tabel sangat berguna untuk menyajikan data, angka, atau informasi teks agar terlihat lebih terstruktur dan rapi dibandingkan menggunakan spasi biasa. Di Microsoft Word, pembuatan dan pengaturan tabel terbagi menjadi tiga tahap utama: <strong>Insert (Menyisipkan)</strong>, <strong>Table Design (Desain)</strong>, dan <strong>Table Layout (Tata Letak)</strong>.
+                            </p>
+                            <!-- Gambar Representasi Menu Insert Table -->
+                            <img src="https://placehold.co/1200x250/e9ecef/495057?text=[Image+of+Menu+Insert+Table+Word]" class="img-fluid rounded-3 shadow-sm mt-4 mb-2 w-100 border" alt="Menu Insert Table">
+                            <small class="text-muted d-block mt-2">Gambar 1: Menu Table di bawah tab Insert.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DAFTAR PENGATURAN SECARA DETAIL -->
+                <div class="d-flex flex-column gap-4">
+                    
+                    <!-- 1. Cara Membuat Tabel -->
+                    <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                        <div class="row g-0">
+                            <div class="col-md-6 bg-light p-4 d-flex align-items-center justify-content-center border-end">
+                                <img src="img/membuat_tabel.gif" class="img-fluid rounded shadow-sm border" alt="Grid Insert Table">
+                            </div>
+                            <div class="col-md-6 p-4 p-lg-5">
+                                <div class="d-flex align-items-center gap-3 mb-4">
+                                    <div class="icon-box"><i class="bi bi-grid-3x3"></i></div>
+                                    <div>
+                                        <h3 class="h4 fw-bold mb-0 text-primary">1. Cara Menyisipkan Tabel</h3>
+                                        <span class="text-muted small">Langkah pertama membuat kerangka</span>
+                                    </div>
+                                </div>
+                                <p class="text-secondary mb-4">Untuk membuat tabel, arahkan kursor Anda ke <strong>Tab Insert</strong>, lalu klik ikon <strong>Table</strong>. Anda akan disajikan beberapa cara:</p>
+                                <ul class="feature-list">
+                                    <li><strong>Menggunakan Grid (Kotak-kotak):</strong> Cara tercepat. Cukup arahkan kursor mouse (hover) di atas kotak-kotak kecil untuk menentukan jumlah Kolom (ke samping) dan Baris (ke bawah). Maksimal grid ini adalah 10x8.</li>
+                                    <li><strong>Insert Table (Masukkan Angka Manual):</strong> Jika Anda butuh tabel besar (misal 5 kolom dan 50 baris), klik opsi <em>Insert Table...</em> di bawah grid. Masukkan angka pada kotak <em>Number of columns</em> dan <em>Number of rows</em>.</li>
+                                    <li><strong>Draw Table:</strong> Alat berupa pensil untuk menggambar tabel secara manual, sangat cocok untuk membuat tabel dengan ukuran sel yang tidak beraturan.</li>
+                                </ul>
+                                <div class="pro-tip mt-3 d-flex gap-2">
+                                    <i class="bi bi-info-circle text-secondary mt-1"></i>
+                                    <div>
+                                        <strong>Terminologi:</strong> <em>Kolom (Column)</em> adalah deretan kotak vertikal (ke bawah). <em>Baris (Row)</em> adalah deretan kotak horizontal (ke samping). <em>Sel (Cell)</em> adalah satu kotak individual di dalam tabel.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Table Design (Desain Tabel) -->
+                    <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                        <div class="row g-0">
+                            <div class="col-md-6 bg-light p-4 d-flex align-items-center justify-content-center border-end">
+                                <img src="img/desain_tabel.gif" class="img-fluid rounded shadow-sm border" alt="Table Design Styles">
+                            </div>
+                            <div class="col-md-6 p-4 p-lg-5">
+                                <div class="d-flex align-items-center gap-3 mb-4">
+                                    <div class="icon-box"><i class="bi bi-palette"></i></div>
+                                    <div>
+                                        <h3 class="h4 fw-bold mb-0 text-primary">2. Mempercantik Tabel (Table Design)</h3>
+                                        <span class="text-muted small">Warna latar dan garis batas</span>
+                                    </div>
+                                </div>
+                                <p class="text-secondary mb-4">Saat kursor Anda berada di dalam tabel, akan muncul tab baru bernama <strong>Table Design</strong> di bagian atas. Di sini Anda bisa mewarnai tabel.</p>
+                                <ul class="feature-list">
+                                    <li><strong>Table Styles:</strong> Fitur instan. Word menyediakan puluhan desain warna tabel profesional. Cukup klik salah satu, tabel Anda akan langsung berwarna dan memiliki garis yang rapi.</li>
+                                    <li><strong>Shading (Warna Latar Sel):</strong> Digunakan untuk memberi warna khusus pada sel tertentu (misalnya memberi warna abu-abu hanya pada baris Judul tabel).</li>
+                                    <li><strong>Borders (Garis Tepi):</strong> Mengatur ketebalan dan warna garis tabel. Anda bisa menyembunyikan garis (<em>No Border</em>) atau menebalkan garis luar saja (<em>Outside Borders</em>).</li>
+                                </ul>
+                                <div class="demo-box">
+                                    <p class="mb-2 fw-bold text-muted small">Contoh Hasil Table Styles & Shading:</p>
+                                    <table class="demo-table">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Nama Barang</th>
+                                                <th>Jumlah</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Kertas A4</td>
+                                                <td>5 Rim</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>Tinta Printer</td>
+                                                <td>2 Botol</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" class="text-end fw-bold" style="background-color: #e9ecef;">Total Barang</td>
+                                                <td class="fw-bold" style="background-color: #e9ecef;">7 Item</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Table Layout & Merge -->
+                    <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                        <div class="row g-0">
+                            <div class="col-md-6 bg-light p-4 d-flex align-items-center justify-content-center border-end">
+                                <img src="img/table_layout.gif" class="img-fluid rounded shadow-sm border" alt="Merge Cells Word">
+                            </div>
+                            <div class="col-md-6 p-4 p-lg-5">
+                                <div class="d-flex align-items-center gap-3 mb-4">
+                                    <div class="icon-box"><i class="bi bi-layout-split"></i></div>
+                                    <div>
+                                        <h3 class="h4 fw-bold mb-0 text-primary">3. Mengelola Tata Letak (Table Layout)</h3>
+                                        <span class="text-muted small">Menggabungkan sel & menambah baris</span>
+                                    </div>
+                                </div>
+                                <p class="text-secondary mb-4">Tab <strong>Layout</strong> (yang muncul bersamaan dengan tab Design) digunakan untuk mengubah struktur fisik tabel Anda.</p>
+                                <ul class="feature-list">
+                                    <li><strong>Insert Above / Below:</strong> Menambahkan baris kosong baru di atas atau di bawah posisi kursor Anda.</li>
+                                    <li><strong>Insert Left / Right:</strong> Menambahkan kolom kosong baru di sebelah kiri atau kanan.</li>
+                                    <li><strong>Merge Cells (Menggabungkan Sel):</strong> Memblok dua atau lebih sel yang bersebelahan, lalu menjadikannya satu kotak besar. Sangat sering digunakan untuk membuat Judul Tabel yang panjang.</li>
+                                    <li><strong>Split Cells (Membelah Sel):</strong> Memecah satu sel kembali menjadi beberapa kolom/baris kecil.</li>
+                                    <li><strong>AutoFit:</strong> Secara otomatis menyesuaikan lebar kolom mengikuti panjang teks di dalamnya (<em>AutoFit Contents</em>) atau mengikuti lebar kertas (<em>AutoFit Window</em>).</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Perataan Teks dalam Tabel -->
+                    <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                        <div class="row g-0">
+                            <div class="col-md-6 bg-light p-4 d-flex align-items-center justify-content-center border-end">
+                                <img src="img/text_alignment.gif" class="img-fluid rounded shadow-sm border" alt="Table Alignment">
+                            </div>
+                            <div class="col-md-6 p-4 p-lg-5">
+                                <div class="d-flex align-items-center gap-3 mb-4">
+                                    <div class="icon-box"><i class="bi bi-align-center"></i></div>
+                                    <div>
+                                        <h3 class="h4 fw-bold mb-0 text-primary">4. Perataan Teks Spesifik Tabel</h3>
+                                        <span class="text-muted small">Penyelarasan 9 Arah (Alignment)</span>
+                                    </div>
+                                </div>
+                                <p class="text-secondary mb-4">Di dalam sel tabel, perataan teks lebih kompleks daripada paragraf biasa. Anda tidak hanya mengatur rata kiri/kanan, tapi juga posisi atas, tengah, dan bawah sel.</p>
+                                <ul class="feature-list">
+                                    <li><strong>9 Opsi Alignment:</strong> Di tab <strong>Layout</strong>, Anda akan menemukan grup <em>Alignment</em> yang berisi 9 kotak kecil. Opsi yang paling sering digunakan untuk judul kolom adalah <strong>Align Center</strong> (tepat di tengah-tengah secara vertikal maupun horizontal).</li>
+                                    <li><strong>Text Direction:</strong> Memutar arah teks menjadi vertikal (membaca dari atas ke bawah atau sebaliknya). Sangat berguna jika judul kolom sangat panjang namun data di bawahnya hanya angka kecil, sehingga bisa menghemat ruang horizontal.</li>
+                                </ul>
+                                <div class="demo-box text-center p-4" style="background-color: #f8f9fa;">
+                                    <p class="mb-3 text-muted small">Ilustrasi Opsi Perataan Tabel (Alignment)</p>
+                                    <div class="d-inline-grid gap-1" style="grid-template-columns: repeat(3, 1fr); border: 2px solid #adb5bd; padding: 5px;">
+                                        <div class="bg-white border p-2 d-flex align-items-start justify-content-start" style="width: 60px; height: 60px;">Teks</div>
+                                        <div class="bg-white border p-2 d-flex align-items-start justify-content-center" style="width: 60px; height: 60px;">Teks</div>
+                                        <div class="bg-white border p-2 d-flex align-items-start justify-content-end" style="width: 60px; height: 60px;">Teks</div>
+                                        
+                                        <div class="bg-white border p-2 d-flex align-items-center justify-content-start" style="width: 60px; height: 60px;">Teks</div>
+                                        <div class="bg-primary text-white border p-2 d-flex align-items-center justify-content-center fw-bold shadow-sm" style="width: 60px; height: 60px;">Teks</div>
+                                        <div class="bg-white border p-2 d-flex align-items-center justify-content-end" style="width: 60px; height: 60px;">Teks</div>
+                                        
+                                        <div class="bg-white border p-2 d-flex align-items-end justify-content-start" style="width: 60px; height: 60px;">Teks</div>
+                                        <div class="bg-white border p-2 d-flex align-items-end justify-content-center" style="width: 60px; height: 60px;">Teks</div>
+                                        <div class="bg-white border p-2 d-flex align-items-end justify-content-end" style="width: 60px; height: 60px;">Teks</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.css"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

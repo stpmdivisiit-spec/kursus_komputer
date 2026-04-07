@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Isi & Indeks Otomatis - Microsoft Word</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        .header-bg {
+            background: linear-gradient(135deg, #6610f2 0%, #520dc2 100%);
+        }
+        .content-card {
+            border-top: 5px solid #6610f2;
+        }
+        .icon-box {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background-color: #f0e6ff;
+            color: #6610f2;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+        .setup-detail-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #e9ecef;
+        }
+        .setup-detail-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.08)!important;
+        }
+        .feature-list li {
+            margin-bottom: 0.75rem;
+            color: #495057;
+            line-height: 1.6;
+        }
+        .feature-list li strong {
+            color: #212529;
+        }
+        .pro-tip {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            font-size: 0.9rem;
+            color: #664d03;
+        }
+        .demo-box {
+            background-color: #fff;
+            border: 1px dashed #adb5bd;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+        }
+        
+        /* Custom CSS for TOC Simulation */
+        .toc-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 8px;
+            color: #495057;
+        }
+        .toc-level-1 { font-weight: bold; margin-top: 15px; color: #212529; }
+        .toc-level-2 { padding-left: 20px; font-size: 0.95em; }
+        .toc-level-3 { padding-left: 40px; font-size: 0.9em; font-style: italic; }
+        
+        .toc-title { background: #fff; padding-right: 5px; z-index: 1; }
+        .toc-dots { 
+            flex-grow: 1; 
+            border-bottom: 2px dotted #ced4da; 
+            margin: 0 5px; 
+            position: relative; 
+            top: -5px; 
+        }
+        .toc-page { background: #fff; padding-left: 5px; z-index: 1; font-weight: bold; }
+
+        /* Index Simulation */
+        .index-column {
+            column-count: 2;
+            column-gap: 30px;
+            font-size: 0.9rem;
+        }
+        .index-letter {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #6610f2;
+            border-bottom: 1px solid #dee2e6;
+            margin-bottom: 5px;
+            margin-top: 10px;
+        }
+        .index-entry {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header-bg text-white py-5 mb-5 shadow-sm">
+        <div class="container">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <a href="Index.html" class="btn btn-light btn-sm rounded-pill px-3 fw-medium d-inline-flex align-items-center gap-2 text-dark">
+                    <i class="bi bi-arrow-left"></i> Kembali Ke Halaman Utama
+                </a>
+                <span class="badge bg-white text-dark rounded-pill shadow-sm"><i class="bi bi-lightning-charge-fill text-warning"></i> Tingkat Mahir</span>
+            </div>
+            <h1 class="display-5 fw-bold mb-2">Daftar Isi & Indeks Otomatis</h1>
+            <p class="lead mb-0 opacity-75 d-flex align-items-center gap-2">
+                <i class="bi bi-file-earmark-word"></i> Microsoft Word
+            </p>
+        </div>
+    </header>
+
+    <div class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                
+                <!-- Main Content Card -->
+                <div class="card shadow-sm border-0 content-card rounded-4 mb-5">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h2 class="h3 fw-bold mb-3">Navigasi Profesional untuk Dokumen Panjang</h2>
+                            <p class="text-secondary mx-auto" style="max-width: 800px;">
+                                Saat membuat buku, modul, skripsi, atau laporan tebal, membuat daftar isi secara manual (mengetik titik-titik panjang lalu melihat nomor halaman satu per satu) adalah <strong>kesalahan besar</strong>. Jika ada paragraf yang bertambah dan halamannya bergeser, Anda harus mengulang ketikan dari awal. Word menyediakan fitur otomatis yang akan mendeteksi judul bab dan nomor halamannya secara *real-time*.
+                            </p>
+                            <!-- Gambar Representasi Menu References -->
+                            <img src="https://placehold.co/1200x200/e9ecef/495057?text=[Image+of+Tab+References+Word+Daftar+Isi+dan+Indeks]" class="img-fluid rounded-3 shadow-sm mt-4 mb-2 w-100 border" alt="Menu References">
+                            <small class="text-muted d-block mt-2">Gambar 1: Tab References, tempat di mana fitur Daftar Isi (Table of Contents) dan Indeks berada.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column gap-5">
+
+                    <!-- BAGIAN 1: DAFTAR ISI OTOMATIS -->
+                    <div>
+                        <h3 class="fw-bold mb-4 border-bottom pb-2" style="color: #6610f2;">Bagian 1: Pembuatan Daftar Isi (Table of Contents)</h3>
+                        
+                        <!-- 1. Kunci Utama: Styles -->
+                        <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card mb-4">
+                            <div class="row g-0">
+                                <div class="col-md-5 bg-light p-4 d-flex align-items-center justify-content-center border-end">
+                                    <img src="https://placehold.co/600x450/e9ecef/495057?text=[Image+of+Grup+Styles+di+Tab+Home]" class="img-fluid rounded shadow-sm border" alt="Styles Word">
+                                </div>
+                                <div class="col-md-7 p-4 p-lg-5">
+                                    <div class="d-flex align-items-center gap-3 mb-4">
+                                        <div class="icon-box"><i class="bi bi-type-h1"></i></div>
+                                        <div>
+                                            <h3 class="h4 fw-bold mb-0">Langkah 1: Wajib Gunakan 'Heading Styles'</h3>
+                                            <span class="text-muted small">Word butuh penanda mana yang teks biasa, mana yang judul.</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-secondary mb-4">Daftar isi otomatis <strong>tidak akan bekerja</strong> jika Anda membesarkan ukuran judul hanya dengan menebalkan (Bold) dan membesarkan Font biasa. Anda wajib memberitahu Word bahwa teks tersebut adalah sebuah "Judul Bab" atau "Sub-bab".</p>
+                                    <ul class="feature-list">
+                                        <li>Blok teks judul Bab Anda (misal: "BAB 1 PENDAHULUAN").</li>
+                                        <li>Pergi ke <strong>Tab Home</strong>, pada grup <strong>Styles</strong>, klik <strong>Heading 1</strong>. (Teks ini akan otomatis masuk ke daftar isi level 1).</li>
+                                        <li>Untuk sub-bab (misal: "A. Latar Belakang"), blok teksnya lalu klik <strong>Heading 2</strong>.</li>
+                                        <li>Untuk sub-dari-sub-bab (misal: "1. Tujuan Khusus"), blok dan klik <strong>Heading 3</strong>. Lakukan ini pada seluruh judul di dokumen Anda.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Menampilkan Daftar Isi -->
+                        <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card mb-4">
+                            <div class="row g-0">
+                                <div class="col-md-5 bg-light p-4 d-flex align-items-center justify-content-center border-end">
+                                    <img src="https://placehold.co/600x450/e9ecef/495057?text=[Image+of+Menu+Table+of+Contents]" class="img-fluid rounded shadow-sm border" alt="Table of Contents Menu">
+                                </div>
+                                <div class="col-md-7 p-4 p-lg-5">
+                                    <div class="d-flex align-items-center gap-3 mb-4">
+                                        <div class="icon-box"><i class="bi bi-list-nested"></i></div>
+                                        <div>
+                                            <h3 class="h4 fw-bold mb-0">Langkah 2: Munculkan Daftar Isi</h3>
+                                            <span class="text-muted small">Generate otomatis dalam satu detik</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-secondary mb-4">Setelah semua judul bab/sub-bab ditandai dengan Heading 1, 2, atau 3, sekarang waktunya menampilkan daftarnya.</p>
+                                    <ul class="feature-list">
+                                        <li>Buat satu halaman kosong di bagian awal dokumen (khusus untuk tempat daftar isi).</li>
+                                        <li>Letakkan kursor di halaman kosong tersebut.</li>
+                                        <li>Pergi ke tab <strong>References</strong>.</li>
+                                        <li>Klik tombol <strong>Table of Contents</strong> di sudut kiri.</li>
+                                        <li>Pilih gaya <em>Automatic Table 1</em> atau <em>Automatic Table 2</em>.</li>
+                                        <li>Selesai! Judul, garis putus-putus, dan nomor halaman akan muncul secara otomatis tersusun rapi.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3. Update Table -->
+                        <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                            <div class="row g-0">
+                                <div class="col-md-5 bg-light p-4 d-flex align-items-center justify-content-center border-end">
+                                    <img src="https://placehold.co/600x450/e9ecef/495057?text=[Image+of+Dialog+Update+Table]" class="img-fluid rounded shadow-sm border" alt="Update Table">
+                                </div>
+                                <div class="col-md-7 p-4 p-lg-5">
+                                    <div class="d-flex align-items-center gap-3 mb-4">
+                                        <div class="icon-box"><i class="bi bi-arrow-clockwise"></i></div>
+                                        <div>
+                                            <h3 class="h4 fw-bold mb-0">Langkah 3: Memperbarui (Update Table)</h3>
+                                            <span class="text-muted small">Otomatis mengubah halaman jika bergeser</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-secondary mb-4">Jika Anda merevisi dokumen (menambah tulisan atau memindahkan Bab 2 ke halaman baru), daftar isi yang sudah Anda buat tadi nomor halamannya akan salah (ketinggalan). Jangan khawatir, Anda cukup memperbaruinya.</p>
+                                    <ul class="feature-list">
+                                        <li>Klik di area tulisan Daftar Isi yang sudah jadi tadi.</li>
+                                        <li>Akan muncul tombol <strong>Update Table</strong> di bagian atas kotak daftar isi tersebut. Klik tombol itu.</li>
+                                        <li>Pilih <strong>Update page numbers only</strong> (jika Anda hanya bergeser halaman tapi teks judulnya tidak diubah), ATAU</li>
+                                        <li>Pilih <strong>Update entire table</strong> (jika Anda ada menambahkan/mengganti teks nama Bab/Sub-bab baru). Tekan OK.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- BAGIAN 2: INDEKS OTOMATIS -->
+                    <div class="mt-4">
+                        <h3 class="fw-bold mb-4 border-bottom pb-2" style="color: #6610f2;">Bagian 2: Indeks Otomatis (Concordance / AutoMark)</h3>
+                        
+                        <div class="pro-tip mb-4 border-start-0 border-top-0 border-bottom-0 shadow-sm bg-white border-end border-5 border-warning">
+                            <strong>Apa itu Indeks?</strong> Indeks adalah daftar kata-kata penting (istilah asing, nama tokoh, singkatan) yang disusun berdasarkan abjad dan diletakkan di halaman paling akhir buku. Fungsinya agar pembaca mudah mencari di halaman berapa kata tersebut muncul di dalam buku.
+                        </div>
+
+                        <!-- 1. Membuat File AutoMark -->
+                        <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card mb-4">
+                            <div class="row g-0">
+                                <div class="col-md-5 bg-light p-4 d-flex align-items-center justify-content-center border-end">
+                                    <img src="https://placehold.co/600x450/e9ecef/495057?text=[Image+of+Tabel+2+Kolom+sebagai+AutoMark]" class="img-fluid rounded shadow-sm border" alt="AutoMark Table Word">
+                                </div>
+                                <div class="col-md-7 p-4 p-lg-5">
+                                    <div class="d-flex align-items-center gap-3 mb-4">
+                                        <div class="icon-box"><i class="bi bi-file-earmark-plus"></i></div>
+                                        <div>
+                                            <h3 class="h4 fw-bold mb-0">Langkah 1: Membuat File AutoMark</h3>
+                                            <span class="text-muted small">Membuat daftar kata (kamus indeks) secara terpisah</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-secondary mb-4">Daripada menyeleksi kata penting satu per satu di dokumen berisi 500 halaman (yang sangat melelahkan), gunakan metode <strong>Concordance (AutoMark)</strong>.</p>
+                                    <ul class="feature-list">
+                                        <li>Buka <strong>Dokumen Word BARU yang kosong</strong> (JANGAN di dokumen buku Anda).</li>
+                                        <li>Buat Tabel sederhana dengan <strong>2 Kolom</strong>.</li>
+                                        <li><strong>Kolom Kiri:</strong> Ketik kata persis seperti yang muncul di dokumen teks Anda (misal: <em>fotosintesis</em>). Ini bersifat case-sensitive (huruf besar/kecil berpengaruh).</li>
+                                        <li><strong>Kolom Kanan:</strong> Ketik bagaimana kata itu ingin ditampilkan rapi di halaman Indeks (misal: <em>Fotosintesis</em>).</li>
+                                        <li>Isi tabel ke bawah dengan ratusan istilah penting yang Anda mau. Simpan file ini dengan nama <code>File_AutoMark.docx</code>.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Eksekusi AutoMark -->
+                        <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                            <div class="row g-0">
+                                <div class="col-md-5 bg-light p-4 d-flex align-items-center justify-content-center border-end">
+                                    <img src="https://placehold.co/600x450/e9ecef/495057?text=[Image+of+Tombol+AutoMark+dan+Insert+Index]" class="img-fluid rounded shadow-sm border" alt="Insert Index">
+                                </div>
+                                <div class="col-md-7 p-4 p-lg-5">
+                                    <div class="d-flex align-items-center gap-3 mb-4">
+                                        <div class="icon-box"><i class="bi bi-book"></i></div>
+                                        <div>
+                                            <h3 class="h4 fw-bold mb-0">Langkah 2: Menandai & Insert Indeks</h3>
+                                            <span class="text-muted small">Word mencari otomatis ke seluruh dokumen</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-secondary mb-4">Kembali ke dokumen utama (dokumen buku/skripsi Anda). Sekarang kita biarkan Word bekerja secara otomatis mencari kata-kata tadi.</p>
+                                    <ul class="feature-list">
+                                        <li>Pergi ke tab <strong>References</strong>. Pada grup <em>Index</em>, klik tombol <strong>Insert Index</strong>.</li>
+                                        <li>Di jendela yang muncul, klik tombol <strong>AutoMark...</strong> di bagian bawah.</li>
+                                        <li>Akan muncul kotak pencarian file. Cari dan pilih file <code>File_AutoMark.docx</code> yang baru Anda buat, lalu klik <strong>Open</strong>.</li>
+                                        <li><em>(Word akan memproses dan menandai (Mark) semua kata tersebut di dokumen Anda. Anda mungkin melihat simbol-simbol aneh muncul, abaikan saja, itu tanda format).</em></li>
+                                        <li>Terakhir, pergi ke halaman paling akhir/kosong di dokumen Anda. Kembali ke <strong>References > Insert Index</strong>, atur tampilan (seperti 2 kolom bergaya klasik), dan klik <strong>OK</strong>. Selesai!</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SIMULASI VISUAL -->
+                    <div class="mt-4 card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                        <div class="card-body p-4 p-lg-5">
+                            <h3 class="h4 fw-bold mb-4 text-center">Simulasi Visual Hasil Akhir</h3>
+                            <div class="row g-4">
+                                <!-- Simulasi Daftar Isi -->
+                                <div class="col-md-6">
+                                    <div class="demo-box h-100 m-0">
+                                        <p class="text-muted small fw-bold mb-3 border-bottom pb-2 text-center">Contoh Table of Contents (Daftar Isi)</p>
+                                        <div class="px-3 py-2">
+                                            <div class="toc-item toc-level-1">
+                                                <span class="toc-title">BAB 1 PENDAHULUAN</span><span class="toc-dots"></span><span class="toc-page">1</span>
+                                            </div>
+                                            <div class="toc-item toc-level-2">
+                                                <span class="toc-title">A. Latar Belakang Masalah</span><span class="toc-dots"></span><span class="toc-page">1</span>
+                                            </div>
+                                            <div class="toc-item toc-level-3">
+                                                <span class="toc-title">1. Sejarah Singkat</span><span class="toc-dots"></span><span class="toc-page">2</span>
+                                            </div>
+                                            <div class="toc-item toc-level-2">
+                                                <span class="toc-title">B. Rumusan Masalah</span><span class="toc-dots"></span><span class="toc-page">4</span>
+                                            </div>
+                                            
+                                            <div class="toc-item toc-level-1 mt-4">
+                                                <span class="toc-title">BAB 2 PEMBAHASAN</span><span class="toc-dots"></span><span class="toc-page">6</span>
+                                            </div>
+                                            <div class="toc-item toc-level-2">
+                                                <span class="toc-title">A. Landasan Teori</span><span class="toc-dots"></span><span class="toc-page">6</span>
+                                            </div>
+                                        </div>
+                                        <p class="text-center text-muted mt-3 mb-0" style="font-size: 0.75rem;"><em>Di-generate dari fitur Styles: Heading 1, 2, dan 3</em></p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Simulasi Indeks -->
+                                <div class="col-md-6">
+                                    <div class="demo-box h-100 m-0" style="background-color: #f8f9fa;">
+                                        <p class="text-muted small fw-bold mb-3 border-bottom pb-2 text-center">Contoh Indeks (Index)</p>
+                                        <div class="px-3 py-2 index-column">
+                                            <div class="index-letter">A</div>
+                                            <div class="index-entry"><span>Algoritma</span> <span>15, 23, 44</span></div>
+                                            <div class="index-entry"><span>Analisis Data</span> <span>18, 56</span></div>
+                                            
+                                            <div class="index-letter">D</div>
+                                            <div class="index-entry"><span>Database</span> <span>34, 38</span></div>
+                                            <div class="index-entry"><span>Data Mining</span> <span>42</span></div>
+
+                                            <div class="index-letter">M</div>
+                                            <div class="index-entry"><span>Machine Learning</span> <span>78, 80</span></div>
+                                            <div class="index-entry"><span>Microsoft Word</span> <span>5, 12, 88</span></div>
+                                            
+                                            <div class="index-letter">S</div>
+                                            <div class="index-entry"><span>Statistik</span> <span>21, 29</span></div>
+                                        </div>
+                                        <p class="text-center text-muted mt-4 mb-0" style="font-size: 0.75rem;"><em>Kata dan nomor halaman di-generate otomatis via AutoMark</em></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.css"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulasi Fisika Black Hole 3D</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Load OrbitControls -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+        }
+
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        #ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            padding: 1.5rem;
+            box-sizing: border-box;
+        }
+
+        .panel {
+            background: rgba(10, 10, 25, 0.7);
+            border: 1px solid rgba(100, 100, 255, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            backdrop-filter: blur(10px);
+            pointer-events: auto;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .panel-left { width: 320px; }
+        .panel-right { width: 250px; display: flex; flex-direction: column; gap: 10px; }
+
+        h1, h2 { margin-top: 0; color: #80deea; text-shadow: 0 0 10px rgba(128, 222, 234, 0.5); }
+
+        .formula-box {
+            background: rgba(0, 0, 0, 0.6);
+            border-left: 3px solid #00bcd4;
+            padding: 8px;
+            margin-bottom: 12px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            color: #b2ebf2;
+        }
+
+        .formula-desc { font-size: 0.8rem; color: #ccc; margin-bottom: 10px; }
+
+        button {
+            background: linear-gradient(135deg, #1e3a8a, #312e81);
+            color: white;
+            border: 1px solid #4f46e5;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #2563eb, #4338ca);
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(79, 70, 229, 0.5);
+        }
+        button:active { transform: scale(0.98); }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 4px 0;
+        }
+
+        #flash-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: white; opacity: 0; pointer-events: none; z-index: 20;
+            transition: opacity 0.3s ease-out;
+        }
+
+        #controls-hint {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.5);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #ccc;
+            pointer-events: none;
+            z-index: 10;
+            border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(5px);
+        }
+        
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+        ::-webkit-scrollbar-thumb { background: rgba(100,100,255,0.5); border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+    <div id="canvas-container"></div>
+    <div id="flash-overlay"></div>
+    <div id="controls-hint">🖱️ Klik & Drag untuk memutar kamera | 📜 Scroll untuk Zoom</div>
+
+    <div id="ui-layer">
+        <!-- Info Panel Kiri -->
+        <div class="panel panel-left">
+            <h1 class="text-xl font-bold mb-2 uppercase tracking-wide text-cyan-400">Black Hole 3D</h1>
+            <p class="text-xs text-gray-300 mb-4">Simulasi Relativitas Umum (Kerr Metric) dalam ruang 3D.</p>
+
+            <div class="formula-box">r_s = 2GM / c²</div>
+            <p class="formula-desc"><strong>Event Horizon:</strong> Bola hitam pekat di tengah. Area tanpa jalan kembali.</p>
+
+            <div class="formula-box">t₀ = t_f √(1 - r_s/r)</div>
+            <p class="formula-desc"><strong>Time Dilation:</strong> Perhatikan objek melambat dan meredup (redshift) saat mendekati horizon.</p>
+
+            <div class="formula-box">Frame Dragging (Kerr)</div>
+            <p class="formula-desc"><strong>Rotasi Ruang-Waktu:</strong> Piringan akresi dan objek ditarik berputar mengelilingi ekuator black hole.</p>
+
+            <h2 class="text-sm font-bold mt-4 mb-2 text-indigo-300">Statistik Sistem</h2>
+            <div class="stat-row"><span>Massa (M):</span> <span id="stat-mass">15.000</span></div>
+            <div class="stat-row"><span>Event Horizon (rs):</span> <span id="stat-rs">50 Unit</span></div>
+            <div class="stat-row"><span>Radius ISCO:</span> <span id="stat-isco">150 Unit</span></div>
+            <div class="stat-row"><span>Objek Terhisap:</span> <span id="stat-consumed" class="text-red-400 font-bold">0</span></div>
+            <div class="stat-row"><span>Energi Akresi:</span> <span id="stat-energy" class="text-yellow-400 font-bold">0 J</span></div>
+        </div>
+
+        <!-- Kontrol Kanan -->
+        <div class="panel panel-right">
+            <h2 class="text-lg font-bold mb-2">Tambahkan Benda</h2>
+            
+            <button onclick="addPlanet('Komet')">
+                <span>☄️ Komet</span><span class="text-xs text-gray-300">Orbit Elips 3D</span>
+            </button>
+            <button onclick="addPlanet('Bumi')">
+                <span>🌍 Planet Bumi</span><span class="text-xs text-gray-300">Orbit Stabil</span>
+            </button>
+            <button onclick="addPlanet('Miller')">
+                <span>🌊 Planet Miller</span><span class="text-xs text-gray-300">Dekat ISCO</span>
+            </button>
+            <button onclick="addPlanet('Jupiter')">
+                <span>🪐 Gas Raksasa</span><span class="text-xs text-gray-300">Massa Besar</span>
+            </button>
+            <button onclick="addPlanet('Bintang')">
+                <span>☀️ Bintang Katai</span><span class="text-xs text-gray-300">Jatuh Spiral</span>
+            </button>
+
+            <div class="mt-4 pt-4 border-t border-gray-700">
+                <button onclick="clearPlanets()" style="background: linear-gradient(135deg, #7f1d1d, #991b1b); border-color: #ef4444; width: 100%;">
+                    🧹 Bersihkan Sistem
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. SETUP THREE.JS ---
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x020205); // Deep space background
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 10000);
+        camera.position.set(0, 300, 600); // Initial camera position
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.maxDistance = 3000;
+        controls.minDistance = 100;
+
+        // --- 2. PARAMETER FISIKA (Sama dengan versi 2D, diadaptasi ke 3D) ---
+        const G = 1;
+        const M = 15000; 
+        const rs = 50;   
+        const c2 = (2 * G * M) / rs; 
+        const c = Math.sqrt(c2);
+        const a_spin = 0.95; 
+        const isco = 3 * rs; 
+
+        let planets = [];
+        let consumedCount = 0;
+        let accretionEnergy = 0;
+
+        // --- 3. PEMBUATAN OBJEK BLACK HOLE (3D) ---
+        const blackHoleGroup = new THREE.Group();
+        scene.add(blackHoleGroup);
+
+        // A. Event Horizon (Bola Hitam Pekat)
+        const geometryEH = new THREE.SphereGeometry(rs, 64, 64);
+        const materialEH = new THREE.MeshBasicMaterial({ color: 0x000000 });
+        const eventHorizon = new THREE.Mesh(geometryEH, materialEH);
+        blackHoleGroup.add(eventHorizon);
+
+        // B. Photon Sphere (Glow Ring di sekitar black hole)
+        const geometryPhoton = new THREE.SphereGeometry(rs * 1.5, 64, 64);
+        const materialPhoton = new THREE.MeshBasicMaterial({ 
+            color: 0xffaa55, 
+            transparent: true, 
+            opacity: 0.1,
+            blending: THREE.AdditiveBlending,
+            side: THREE.BackSide
+        });
+        const photonSphere = new THREE.Mesh(geometryPhoton, materialPhoton);
+        blackHoleGroup.add(photonSphere);
+
+        // C. Generasi Tekstur Accretion Disk secara Prosedural (karena tidak pakai gambar eksternal)
+        function createDiskTexture() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 512; canvas.height = 512;
+            const context = canvas.getContext('2d');
+            const center = 256;
+
+            const gradient = context.createRadialGradient(center, center, 100, center, center, 256);
+            gradient.addColorStop(0, 'rgba(255, 255, 255, 0)');
+            gradient.addColorStop(0.2, 'rgba(255, 200, 100, 1)'); // Hot inner edge
+            gradient.addColorStop(0.5, 'rgba(200, 100, 50, 0.8)');
+            gradient.addColorStop(0.8, 'rgba(100, 50, 150, 0.3)'); // Cooler outer edge
+            gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+            context.fillStyle = gradient;
+            context.fillRect(0, 0, 512, 512);
+
+            // Tambahkan noise/garis melingkar untuk realisme
+            for(let i=0; i<100; i++) {
+                context.beginPath();
+                let r = 100 + Math.random() * 150;
+                context.arc(center, center, r, 0, Math.PI * 2);
+                context.lineWidth = Math.random() * 3;
+                context.strokeStyle = `rgba(255,255,255, ${Math.random() * 0.2})`;
+                context.stroke();
+            }
+
+            const texture = new THREE.CanvasTexture(canvas);
+            return texture;
+        }
+
+        // D. Accretion Disk (Menggunakan Plane pipih dengan tekstur)
+        const diskGeometry = new THREE.PlaneGeometry(isco * 4, isco * 4);
+        const diskMaterial = new THREE.MeshBasicMaterial({
+            map: createDiskTexture(),
+            transparent: true,
+            opacity: 0.9,
+            side: THREE.DoubleSide,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false // Mencegah artefak z-fighting dengan partikel
+        });
+        const accretionDisk = new THREE.Mesh(diskGeometry, diskMaterial);
+        accretionDisk.rotation.x = Math.PI / 2; // Rebahkan disk secara horizontal (XZ plane)
+        blackHoleGroup.add(accretionDisk);
+
+        // --- 4. BINTANG LATAR BELAKANG (Banyak partikel) ---
+        function createStarfield() {
+            const starsGeometry = new THREE.BufferGeometry();
+            const starsCount = 5000;
+            const posArray = new Float32Array(starsCount * 3);
+            const colorArray = new Float32Array(starsCount * 3);
+
+            for(let i = 0; i < starsCount * 3; i+=3) {
+                // Sphere distribution
+                let r = 2000 + Math.random() * 2000;
+                let theta = 2 * Math.PI * Math.random();
+                let phi = Math.acos(2 * Math.random() - 1);
+                
+                posArray[i] = r * Math.sin(phi) * Math.cos(theta);
+                posArray[i+1] = r * Math.sin(phi) * Math.sin(theta);
+                posArray[i+2] = r * Math.cos(phi);
+
+                // Warna bintang kebiruan/putih
+                let col = 0.5 + Math.random() * 0.5;
+                colorArray[i] = col;
+                colorArray[i+1] = col * 0.9;
+                colorArray[i+2] = 1.0;
+            }
+
+            starsGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            starsGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+
+            const starsMaterial = new THREE.PointsMaterial({
+                size: 3,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.8
+            });
+
+            const starMesh = new THREE.Points(starsGeometry, starsMaterial);
+            scene.add(starMesh);
+        }
+        createStarfield();
+
+        // --- 5. KELAS PLANET (3D FISIKA) ---
+        class Planet3D {
+            constructor(type) {
+                this.type = type;
+                this.consumed = false;
+                this.history = []; // Untuk trail
+                
+                // Set parameter fisik dasar
+                switch(type) {
+                    case 'Komet':
+                        this.dist = 800; this.mass = 0.1; this.radius = 3; 
+                        this.color = 0xccffff; this.vT_mult = 0.6; this.vR_mult = -1.5;
+                        this.inclination = Math.random() * Math.PI; // Bisa orbit vertikal
+                        break;
+                    case 'Bumi':
+                        this.dist = 500; this.mass = 1; this.radius = 6; 
+                        this.color = 0x4488ff; this.vT_mult = 0.98; this.vR_mult = 0;
+                        this.inclination = (Math.random() - 0.5) * 0.2; // Hampir ekuator
+                        break;
+                    case 'Miller':
+                        this.dist = isco + 15; this.mass = 1.5; this.radius = 7; 
+                        this.color = 0x33cca6; this.vT_mult = 1.05; this.vR_mult = 0;
+                        this.inclination = 0; // Tepat di ekuator disk
+                        break;
+                    case 'Jupiter':
+                        this.dist = 750; this.mass = 300; this.radius = 12; 
+                        this.color = 0xffb86c; this.vT_mult = 0.95; this.vR_mult = 0;
+                        this.inclination = (Math.random() - 0.5) * 0.1;
+                        break;
+                    case 'Bintang':
+                        this.dist = 1000; this.mass = 5000; this.radius = 25; 
+                        this.color = 0xfff088; this.vT_mult = 0.7; this.vR_mult = -0.5;
+                        this.inclination = Math.random() * 0.5;
+                        break;
+                }
+
+                // Mesh Objek
+                const geo = new THREE.SphereGeometry(this.radius, 32, 32);
+                this.baseMaterial = new THREE.MeshBasicMaterial({ color: this.color });
+                this.mesh = new THREE.Mesh(geo, this.baseMaterial);
+                scene.add(this.mesh);
+
+                // Posisi Awal (Translasi Spherical ke Cartesian 3D)
+                let theta = Math.random() * Math.PI * 2; // Sudut horizontal
+                this.x = this.dist * Math.cos(theta);
+                this.y = this.dist * Math.sin(this.inclination);
+                this.z = this.dist * Math.sin(theta) * Math.cos(this.inclination);
+                
+                this.mesh.position.set(this.x, this.y, this.z);
+
+                // Kecepatan Awal
+                let vOrbital = Math.sqrt(G * M / this.dist);
+                let vT = vOrbital * this.vT_mult;
+                let vR = this.vR_mult;
+
+                // Hitung vektor kecepatan tangensial (tegak lurus radius)
+                // Sangat disederhanakan untuk simulasi
+                this.vx = vR * Math.cos(theta) - vT * Math.sin(theta);
+                this.vy = vR * Math.sin(this.inclination);
+                this.vz = vR * Math.sin(theta) + vT * Math.cos(theta);
+
+                // Trail Line (Jejak Orbit)
+                this.trailGeo = new THREE.BufferGeometry();
+                this.trailMax = 100;
+                this.trailPositions = new Float32Array(this.trailMax * 3);
+                this.trailGeo.setAttribute('position', new THREE.BufferAttribute(this.trailPositions, 3));
+                this.trailGeo.setDrawRange(0, 0);
+                this.trailMat = new THREE.LineBasicMaterial({ 
+                    color: this.color, transparent: true, opacity: 0.5 
+                });
+                this.trail = new THREE.Line(this.trailGeo, this.trailMat);
+                scene.add(this.trail);
+                this.trailCount = 0;
+            }
+
+            update() {
+                if(this.consumed) return;
+
+                let r2 = this.x*this.x + this.y*this.y + this.z*this.z;
+                let r = Math.sqrt(r2);
+
+                // 1. Cek Event Horizon
+                if (r <= rs + 2) {
+                    this.consume();
+                    return;
+                }
+
+                // 2. Time Dilation & Redshift (Perspektif visual kita)
+                let timeDilation = Math.sqrt(Math.max(0.0001, 1 - (rs / r)));
+                
+                // Ubah warna memerah saat dekat horizon (Redshift)
+                let rColor = new THREE.Color(this.color);
+                let redshift = Math.pow(timeDilation, 0.5);
+                rColor.r = rColor.r; // Merah tetap
+                rColor.g = rColor.g * redshift; // Hijau turun
+                rColor.b = rColor.b * redshift; // Biru turun
+                this.mesh.material.color = rColor;
+
+                // 3. Tarikan Gravitasi (Newtonian)
+                let a_grav = (G * M) / r2;
+
+                // Frame Dragging (Ruang berputar pada bidang XZ)
+                // Objek ditarik melingkari sumbu Y
+                let frameDraggingSpeed = (2 * G * M * a_spin) / r2 * 0.3; 
+                let dragVx = (-this.z / r) * frameDraggingSpeed;
+                let dragVz = (this.x / r) * frameDraggingSpeed;
+
+                // Degradasi orbit ekstra jika masuk batas ISCO
+                let gr_drag = (r < isco) ? 0.08 * (isco/r) : 0;
+
+                // Percepatan
+                let ax = -a_grav * (this.x / r);
+                let ay = -a_grav * (this.y / r);
+                let az = -a_grav * (this.z / r);
+
+                this.vx += ax;
+                this.vy += ay;
+                this.vz += az;
+                
+                this.vx -= this.vx * gr_drag;
+                this.vy -= this.vy * gr_drag;
+                this.vz -= this.vz * gr_drag;
+
+                // Terapkan dilatasi waktu ke pergerakan fisik (objek melambat di dekat horizon)
+                let finalVx = (this.vx + dragVx) * timeDilation;
+                let finalVy = this.vy * timeDilation; // Asumsi dragging dominan horizontal
+                let finalVz = (this.vz + dragVz) * timeDilation;
+
+                this.x += finalVx;
+                this.y += finalVy;
+                this.z += finalVz;
+
+                this.mesh.position.set(this.x, this.y, this.z);
+
+                // Update Trail
+                this.updateTrail();
+            }
+
+            updateTrail() {
+                // Simpan posisi ke history
+                this.history.push(new THREE.Vector3(this.x, this.y, this.z));
+                if (this.history.length > this.trailMax) {
+                    this.history.shift();
+                }
+
+                // Update buffer geometri line
+                const positions = this.trail.geometry.attributes.position.array;
+                for (let i = 0; i < this.history.length; i++) {
+                    positions[i * 3] = this.history[i].x;
+                    positions[i * 3 + 1] = this.history[i].y;
+                    positions[i * 3 + 2] = this.history[i].z;
+                }
+                this.trail.geometry.attributes.position.needsUpdate = true;
+                this.trail.geometry.setDrawRange(0, this.history.length);
+            }
+
+            consume() {
+                this.consumed = true;
+                consumedCount++;
+                
+                // Kalkulasi Energi
+                let energyGained = this.mass * Math.pow(c, 2) * 0.1; 
+                accretionEnergy += energyGained;
+
+                updateStats();
+                triggerFlash(this.mass);
+
+                // Hapus mesh dari scene
+                scene.remove(this.mesh);
+                scene.remove(this.trail);
+                this.mesh.geometry.dispose();
+                this.mesh.material.dispose();
+                this.trailGeo.dispose();
+                this.trailMat.dispose();
+            }
+        }
+
+        // --- 6. FUNGSI UI & KONTROL ---
+        const flashOverlay = document.getElementById('flash-overlay');
+
+        function triggerFlash(mass) {
+            let intensity = Math.min(1, mass / 500); 
+            flashOverlay.style.opacity = intensity * 0.8;
+            setTimeout(() => {
+                flashOverlay.style.opacity = 0;
+            }, 50);
+        }
+
+        window.addPlanet = function(type) {
+            planets.push(new Planet3D(type));
+        }
+
+        window.clearPlanets = function() {
+            for(let p of planets) {
+                scene.remove(p.mesh);
+                scene.remove(p.trail);
+            }
+            planets = [];
+        }
+
+        function updateStats() {
+            document.getElementById('stat-consumed').innerText = consumedCount;
+            let eStr = (accretionEnergy > 1000000) ? 
+                (accretionEnergy/1000000).toFixed(2) + " TeraJoule" : 
+                Math.floor(accretionEnergy) + " GigaJoule";
+            document.getElementById('stat-energy').innerText = eStr;
+        }
+
+        // --- 7. RESIZE LISTENER ---
+        window.addEventListener('resize', onWindowResize, false);
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        // --- 8. ANIMATION LOOP ---
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Putar accretion disk perlahan (sebagai efek visual tambahan)
+            accretionDisk.rotation.z -= 0.005;
+
+            // Update planet
+            for (let i = planets.length - 1; i >= 0; i--) {
+                planets[i].update();
+                if (planets[i].consumed) {
+                    planets.splice(i, 1);
+                }
+            }
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        // Mulai simulasi
+        animate();
+
+    </script>
+</body>
+</html>

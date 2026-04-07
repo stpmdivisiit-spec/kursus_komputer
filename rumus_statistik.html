@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rumus Statistik Komprehensif - Microsoft Excel</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        /* Excel Green Theme */
+        .header-bg {
+            background: linear-gradient(135deg, #107c41 0%, #185c37 100%);
+        }
+        .content-card {
+            border-top: 5px solid #107c41;
+        }
+        .icon-box {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background-color: #e6f2eb;
+            color: #107c41;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+        .setup-detail-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #e9ecef;
+            margin-bottom: 2rem;
+        }
+        .setup-detail-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.08)!important;
+        }
+        .formula-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .formula-list > li {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px dashed #dee2e6;
+        }
+        .formula-list > li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .formula-badge {
+            background-color: #107c41;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 0.25rem;
+            font-family: monospace;
+            font-size: 1rem;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+        .formula-badge-alt {
+            background-color: #6c757d;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 0.25rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+        .pro-tip {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            font-size: 0.9rem;
+            color: #664d03;
+        }
+        
+        /* Excel Spreadsheet Simulation */
+        .excel-sim {
+            background-color: #fff;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            overflow: hidden;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin-bottom: 1.5rem;
+        }
+        .excel-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        .excel-table th, .excel-table td {
+            border: 1px solid #d4d4d4;
+            padding: 8px 12px;
+        }
+        .excel-header {
+            background-color: #f3f2f1;
+            text-align: center;
+            font-weight: normal;
+            color: #323130;
+            border-bottom: 2px solid #c8c6c4 !important;
+        }
+        .excel-row-num {
+            background-color: #f3f2f1;
+            text-align: center;
+            color: #323130;
+            width: 40px;
+            border-right: 2px solid #c8c6c4 !important;
+        }
+        .formula-bar {
+            background-color: #fff;
+            border-bottom: 1px solid #ced4da;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 0.9rem;
+        }
+        .formula-fx {
+            color: #605e5c;
+            font-style: italic;
+            font-weight: bold;
+        }
+        .formula-input {
+            flex-grow: 1;
+            border: 1px solid #ced4da;
+            padding: 4px 10px;
+            border-radius: 2px;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header-bg text-white py-5 mb-5 shadow-sm">
+        <div class="container">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <a href="Index.html" class="btn btn-light btn-sm rounded-pill px-3 fw-medium d-inline-flex align-items-center gap-2 text-dark">
+                    <i class="bi bi-arrow-left"></i> Kembali Ke Halaman Utama
+                </a>
+                <span class="badge bg-white text-success rounded-pill shadow-sm"><i class="bi bi-bar-chart-fill me-1"></i> Dasar - Menengah</span>
+            </div>
+            <h1 class="display-5 fw-bold mb-2">Mastering Rumus Statistik Excel</h1>
+            <p class="lead mb-0 opacity-75 d-flex align-items-center gap-2">
+                <i class="bi bi-file-earmark-spreadsheet"></i> Panduan Lengkap Keluarga SUM, AVERAGE, MAX, dan MIN
+            </p>
+        </div>
+    </header>
+
+    <div class="container-fluid mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                
+                <!-- Main Content Card -->
+                <div class="card shadow-sm border-0 content-card rounded-4 mb-4">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h2 class="h3 fw-bold mb-3" style="color: #107c41;">Menghitung dengan Kriteria (Syarat)</h2>
+                            <p class="text-secondary mx-auto" style="max-width: 800px;">
+                                Rumus dasar menghitung <strong>semua data</strong> tanpa terkecuali. Namun, analisis data seringkali membutuhkan perhitungan bersyarat. Oleh karena itu, Excel menyediakan ekstensi <strong>IF</strong> (untuk 1 syarat) dan <strong>IFS</strong> (untuk lebih dari 1 syarat).
+                            </p>
+                        </div>
+                        
+                        <div class="pro-tip mx-auto" style="max-width: 800px;">
+                            <strong><i class="bi bi-gear-fill me-2"></i>Pemisah Argumen: Koma ( , ) vs Titik Koma ( ; )</strong><br>
+                            Dalam tutorial ini, pemisah antar argumen menggunakan <strong>Koma ( , )</strong> yang merupakan standar format Bahasa Inggris/US. Jika Excel Anda menggunakan format wilayah Indonesia, silakan ganti koma tersebut menjadi <strong>Titik Koma ( ; )</strong>.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1. KELUARGA SUM -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-md-3 bg-light p-4 d-flex flex-column align-items-center justify-content-center border-end">
+                            <div class="icon-box mb-3" style="width: 80px; height: 80px; font-size: 2.5rem;"><i class="bi bi-plus-circle-fill"></i></div>
+                            <h3 class="h4 fw-bold text-success text-center">Keluarga<br>SUM</h3>
+                            <p class="small text-muted text-center mt-2">Fungsi Penjumlahan Data</p>
+                        </div>
+                        <div class="col-md-9 p-4 p-lg-5">
+                            <ul class="formula-list">
+                                <li>
+                                    <h4 class="h5 fw-bold mb-2">1. SUM</h4>
+                                    <p class="text-muted small mb-2">Menjumlahkan seluruh angka di dalam rentang sel yang dipilih.</p>
+                                    <div class="formula-badge">=SUM(range_angka)</div>
+                                </li>
+                                <li>
+                                    <h4 class="h5 fw-bold mb-2">2. SUMIF</h4>
+                                    <p class="text-muted small mb-2">Menjumlahkan angka HANYA jika memenuhi <strong>SATU kriteria/syarat</strong> tertentu.</p>
+                                    <div class="formula-badge">=SUMIF(range_kriteria, "kriteria", [range_yg_dijumlah])</div>
+                                    <p class="small text-secondary mt-2 mb-0"><strong>Contoh:</strong> <code>=SUMIF(C2:C10, "Jakarta", D2:D10)</code> <br><em>(Jumlahkan nilai di kolom D, jika sel di kolom C berisi teks "Jakarta")</em>.</p>
+                                </li>
+                                <li>
+                                    <h4 class="h5 fw-bold mb-2">3. SUMIFS</h4>
+                                    <p class="text-muted small mb-2">Menjumlahkan angka yang memenuhi <strong>DUA atau LEBIH kriteria</strong>. Perhatikan bahwa pada SUMIFS, <em>range_yg_dijumlah</em> berpindah ke urutan paling depan!</p>
+                                    <div class="formula-badge">=SUMIFS(range_yg_dijumlah, range_kriteria1, "kriteria1", range_kriteria2, "kriteria2")</div>
+                                    <p class="small text-secondary mt-2 mb-0"><strong>Contoh:</strong> <code>=SUMIFS(D2:D10, C2:C10, "Jakarta", B2:B10, "Andi")</code> <br><em>(Jumlahkan nilai D, JIKA kolom C = Jakarta DAN kolom B = Andi)</em>.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. KELUARGA AVERAGE -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-md-3 bg-light p-4 d-flex flex-column align-items-center justify-content-center border-end">
+                            <div class="icon-box mb-3" style="width: 80px; height: 80px; font-size: 2.5rem;"><i class="bi bi-bar-chart-steps"></i></div>
+                            <h3 class="h4 fw-bold text-success text-center">Keluarga<br>AVERAGE</h3>
+                            <p class="small text-muted text-center mt-2">Fungsi Nilai Rata-rata</p>
+                        </div>
+                        <div class="col-md-9 p-4 p-lg-5">
+                            <ul class="formula-list">
+                                <li>
+                                    <h4 class="h5 fw-bold mb-2">1. AVERAGE</h4>
+                                    <p class="text-muted small mb-2">Menghitung rata-rata dari kumpulan angka. Sel kosong atau sel berisi teks akan <strong>diabaikan</strong>.</p>
+                                    <div class="formula-badge">=AVERAGE(range_angka)</div>
+                                </li>
+                                <li>
+                                    <h4 class="h5 fw-bold mb-2">2. AVERAGEA</h4>
+                                    <p class="text-muted small mb-2">Menghitung rata-rata SEMUA sel. Berbeda dengan AVERAGE biasa, sel yang berisi teks (huruf) akan dihitung bernilai <strong>0 (Nol)</strong> dan ikut membagi rata-rata. Sel boolean TRUE bernilai 1.</p>
+                                    <div class="formula-badge">=AVERAGEA(range_sel)</div>
+                                </li>
+                                <li>
+                                    <h4 class="h5 fw-bold mb-2">3. AVERAGEIF</h4>
+                                    <p class="text-muted small mb-2">Mencari nilai rata-rata berdasarkan <strong>SATU kriteria</strong>.</p>
+                                    <div class="formula-badge">=AVERAGEIF(range_kriteria, "kriteria", [range_yg_diratarata])</div>
+                                </li>
+                                <li>
+                                    <h4 class="h5 fw-bold mb-2">4. AVERAGEIFS</h4>
+                                    <p class="text-muted small mb-2">Mencari nilai rata-rata berdasarkan <strong>BANYAK kriteria</strong>.</p>
+                                    <div class="formula-badge">=AVERAGEIFS(range_yg_diratarata, range_kriteria1, "kriteria1", ...)</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. KELUARGA MAX & MIN -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-md-3 bg-light p-4 d-flex flex-column align-items-center justify-content-center border-end">
+                            <div class="icon-box mb-3" style="width: 80px; height: 80px; font-size: 2.5rem;"><i class="bi bi-graph-up-arrow"></i></div>
+                            <h3 class="h4 fw-bold text-success text-center">Keluarga<br>MAX & MIN</h3>
+                            <p class="small text-muted text-center mt-2">Fungsi Tertinggi & Terendah</p>
+                        </div>
+                        <div class="col-md-9 p-4 p-lg-5">
+                            <div class="alert alert-secondary border-0 small mb-4">
+                                <strong><i class="bi bi-info-circle-fill me-1"></i> Info Penting mengenai MAXIF & MINIF:</strong><br>
+                                Secara *native* (bawaan), Excel <strong>TIDAK MEMILIKI</strong> rumus bernama tunggal <code>MAXIF</code> atau <code>MINIF</code>. <br>
+                                Dulu, pengguna harus menggunakan rumus <em>Array</em> yang rumit: <code>{=MAX(IF(kriteria, range_angka))}</code>. Namun, sejak versi <strong>Excel 2019 / Office 365</strong>, Microsoft merilis rumus <code>MAXIFS</code> dan <code>MINIFS</code> untuk memecahkan masalah ini. Rumus IFS ini bisa digunakan baik untuk 1 syarat maupun banyak syarat.
+                            </div>
+                            <ul class="formula-list">
+                                <li>
+                                    <h4 class="h5 fw-bold mb-2">1. MAX dan MIN</h4>
+                                    <p class="text-muted small mb-2">Mencari nilai paling besar (MAX) atau paling kecil (MIN) dari seluruh rentang angka.</p>
+                                    <div class="formula-badge">=MAX(range_angka)</div> &nbsp; <div class="formula-badge">=MIN(range_angka)</div>
+                                </li>
+                                <li>
+                                    <h4 class="h5 fw-bold mb-2">2. MAXIF / MINIF (Cara Klasik / Rumus Array)</h4>
+                                    <p class="text-muted small mb-2">Untuk Excel 2016 ke bawah. Wajib diakhiri dengan menekan tombol <strong>CTRL + SHIFT + ENTER</strong> secara bersamaan (bukan sekadar Enter).</p>
+                                    <div class="formula-badge-alt">{=MAX(IF(range_kriteria="kriteria", range_angka))}</div>
+                                    <br>
+                                    <div class="formula-badge-alt">{=MIN(IF(range_kriteria="kriteria", range_angka))}</div>
+                                </li>
+                                <li>
+                                    <h4 class="h5 fw-bold mb-2">3. MAXIFS dan MINIFS (Cara Modern)</h4>
+                                    <p class="text-muted small mb-2">Tersedia di Excel 2019 ke atas. Jauh lebih mudah dan bisa memproses 1 hingga 126 kriteria sekaligus.</p>
+                                    <div class="formula-badge">=MAXIFS(range_yg_dicari_max, range_kriteria1, "kriteria1", ...)</div>
+                                    <br>
+                                    <div class="formula-badge">=MINIFS(range_yg_dicari_min, range_kriteria1, "kriteria1", ...)</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STUDI KASUS & CONTOH HASIL -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="card-body p-4 p-lg-5">
+                        <h3 class="h4 fw-bold mb-3 text-center" style="color: #107c41;">Studi Kasus: Laporan Penjualan Cabang</h3>
+                        <p class="text-center text-muted small mb-5">Perhatikan tabel data mentah berikut, dan lihat bagaimana rumus-rumus di bawahnya mengambil data berdasarkan kriteria tertentu.</p>
+                        
+                        <!-- Excel UI Wrapper -->
+                        <div class="excel-sim mx-auto mb-5" style="max-width: 800px;">
+                            <div class="formula-bar">
+                                <div class="formula-fx">fx</div>
+                                <div class="formula-input text-secondary font-monospace">Data Mentah Laporan Penjualan (A1:D7)</div>
+                            </div>
+                            <table class="excel-table">
+                                <thead>
+                                    <tr>
+                                        <th class="excel-header" style="width: 40px;"></th>
+                                        <th class="excel-header">A (Tanggal)</th>
+                                        <th class="excel-header">B (Sales)</th>
+                                        <th class="excel-header">C (Cabang)</th>
+                                        <th class="excel-header">D (Penjualan)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="excel-row-num">1</td>
+                                        <td class="text-muted fw-bold bg-light">Tanggal</td>
+                                        <td class="text-muted fw-bold bg-light">Nama Sales</td>
+                                        <td class="text-muted fw-bold bg-light">Cabang</td>
+                                        <td class="text-muted fw-bold bg-light">Total Penjualan</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="excel-row-num">2</td>
+                                        <td>01-Mar</td>
+                                        <td>Andi</td>
+                                        <td>Jakarta</td>
+                                        <td>5000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="excel-row-num">3</td>
+                                        <td>02-Mar</td>
+                                        <td>Budi</td>
+                                        <td>Bandung</td>
+                                        <td>3000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="excel-row-num">4</td>
+                                        <td>03-Mar</td>
+                                        <td>Citra</td>
+                                        <td>Jakarta</td>
+                                        <td>7000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="excel-row-num">5</td>
+                                        <td>04-Mar</td>
+                                        <td>Andi</td>
+                                        <td>Bandung</td>
+                                        <td>4000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="excel-row-num">6</td>
+                                        <td>05-Mar</td>
+                                        <td>Citra</td>
+                                        <td>Bandung</td>
+                                        <td>9000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="excel-row-num">7</td>
+                                        <td>06-Mar</td>
+                                        <td>Dodi</td>
+                                        <td>Jakarta</td>
+                                        <td class="text-danger fw-bold fst-italic">Absen</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Contoh Hasil Rumus -->
+                        <div class="row g-4 mx-auto" style="max-width: 900px;">
+                            
+                            <!-- Contoh SUM -->
+                            <div class="col-12">
+                                <div class="bg-light border rounded-3 p-4">
+                                    <h5 class="fw-bold mb-3 text-success"><i class="bi bi-plus-circle me-2"></i>Contoh Hasil Keluarga SUM</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-borderless align-middle mb-0">
+                                            <tr>
+                                                <td style="width: 45%; font-family: monospace;">=SUM(D2:D7)</td>
+                                                <td style="width: 10%;" class="fw-bold fs-5">28000</td>
+                                                <td class="text-muted small">Total penjualan seluruh cabang. (Teks "Absen" diabaikan).</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-family: monospace;">=SUMIF(C2:C7, "Bandung", D2:D7)</td>
+                                                <td class="fw-bold fs-5">16000</td>
+                                                <td class="text-muted small">Total penjualan <strong>hanya</strong> di cabang Bandung (3000+4000+9000).</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-family: monospace;">=SUMIFS(D2:D7, B2:B7, "Andi", C2:C7, "Bandung")</td>
+                                                <td class="fw-bold fs-5">4000</td>
+                                                <td class="text-muted small">Total penjualan Andi <strong>YANG BERADA</strong> di cabang Bandung saja.</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Contoh AVERAGE -->
+                            <div class="col-12">
+                                <div class="bg-light border rounded-3 p-4">
+                                    <h5 class="fw-bold mb-3 text-success"><i class="bi bi-bar-chart-steps me-2"></i>Contoh Hasil Keluarga AVERAGE</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-borderless align-middle mb-0">
+                                            <tr>
+                                                <td style="width: 45%; font-family: monospace;">=AVERAGE(D2:D7)</td>
+                                                <td style="width: 10%;" class="fw-bold fs-5">5600</td>
+                                                <td class="text-muted small">Rata-rata penjualan aktif (28000 dibagi 5 orang).</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-family: monospace;">=AVERAGEA(D2:D7)</td>
+                                                <td class="fw-bold fs-5 text-danger">4666.6</td>
+                                                <td class="text-muted small">Dodi "Absen" dihitung angka 0. (28000 dibagi 6 orang).</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-family: monospace;">=AVERAGEIF(B2:B7, "Citra", D2:D7)</td>
+                                                <td class="fw-bold fs-5">8000</td>
+                                                <td class="text-muted small">Rata-rata penjualan milik Citra di seluruh cabang.</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-family: monospace;">=AVERAGEIFS(D2:D7, C2:C7, "Jakarta", D2:D7, ">5000")</td>
+                                                <td class="fw-bold fs-5">7000</td>
+                                                <td class="text-muted small">Rata-rata di Jakarta <strong>YANG nilainya lebih besar dari 5000</strong>.</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Contoh MAX/MIN -->
+                            <div class="col-12">
+                                <div class="bg-light border rounded-3 p-4">
+                                    <h5 class="fw-bold mb-3 text-success"><i class="bi bi-graph-up-arrow me-2"></i>Contoh Hasil Keluarga MAX & MIN</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-borderless align-middle mb-0">
+                                            <tr>
+                                                <td style="width: 45%; font-family: monospace;">=MAX(D2:D7)</td>
+                                                <td style="width: 10%;" class="fw-bold fs-5">9000</td>
+                                                <td class="text-muted small">Penjualan tertinggi se-perusahaan (diraih Citra).</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-family: monospace;">=MIN(D2:D7)</td>
+                                                <td class="fw-bold fs-5">3000</td>
+                                                <td class="text-muted small">Penjualan terendah se-perusahaan.</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-family: monospace;">=MAXIFS(D2:D7, C2:C7, "Jakarta")</td>
+                                                <td class="fw-bold fs-5">7000</td>
+                                                <td class="text-muted small">Penjualan paling tinggi <strong>KHUSUS</strong> di cabang Jakarta.</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-family: monospace;">=MINIFS(D2:D7, B2:B7, "Andi")</td>
+                                                <td class="fw-bold fs-5">4000</td>
+                                                <td class="text-muted small">Riwayat penjualan paling rendah milik Andi.</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.css"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

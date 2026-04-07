@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keterampilan Lanjutan Excel - Tingkat Menengah</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        /* Excel Green Theme - Medium Level */
+        .header-bg {
+            background: linear-gradient(135deg, #185c37 0%, #0d4225 100%);
+        }
+        .content-card {
+            border-top: 5px solid #185c37;
+        }
+        .icon-box {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background-color: #e6f2eb;
+            color: #185c37;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+        .setup-detail-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #e9ecef;
+            margin-bottom: 2rem;
+        }
+        .setup-detail-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.08)!important;
+        }
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .feature-list > li {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            color: #495057;
+            border-bottom: 1px dashed #dee2e6;
+            padding-bottom: 1rem;
+        }
+        .feature-list > li:last-child {
+            border-bottom: none;
+        }
+        .feature-list > li strong {
+            color: #212529;
+        }
+        .formula-badge {
+            background-color: #185c37;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 0.25rem;
+            font-family: monospace;
+            font-size: 1rem;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+        .pro-tip {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            font-size: 0.9rem;
+            color: #664d03;
+        }
+        
+        /* Excel Spreadsheet Simulation */
+        .excel-sim {
+            background-color: #fff;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+        .excel-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+            font-size: 0.85rem;
+        }
+        .excel-table th, .excel-table td {
+            border: 1px solid #d4d4d4;
+            padding: 6px 10px;
+            vertical-align: middle;
+        }
+        .excel-header {
+            background-color: #f3f2f1;
+            text-align: center;
+            font-weight: normal;
+            color: #323130;
+            border-bottom: 2px solid #c8c6c4 !important;
+        }
+        .excel-row-num {
+            background-color: #f3f2f1;
+            text-align: center;
+            color: #323130;
+            width: 30px;
+            border-right: 2px solid #c8c6c4 !important;
+        }
+        .formula-bar {
+            background-color: #fff;
+            border-bottom: 1px solid #ced4da;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 0.9rem;
+        }
+        .formula-fx {
+            color: #605e5c;
+            font-style: italic;
+            font-weight: bold;
+        }
+        .formula-input {
+            flex-grow: 1;
+            border: 1px solid #ced4da;
+            padding: 4px 10px;
+            border-radius: 2px;
+            background-color: #f8f9fa;
+        }
+        /* Custom dropdown style for Data Validation demo */
+        .excel-dropdown {
+            border: 1px solid #a6a6a6;
+            padding: 2px 20px 2px 5px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="%23605e5c" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4z"/></svg>') no-repeat right 4px center;
+            background-color: white;
+            display: inline-block;
+            min-width: 80px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header-bg text-white py-5 mb-5 shadow-sm">
+        <div class="container">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <a href="Index.html" class="btn btn-light btn-sm rounded-pill px-3 fw-medium d-inline-flex align-items-center gap-2 text-dark">
+                    <i class="bi bi-arrow-left"></i> Kembali Ke Halaman Utama
+                </a>
+                <span class="badge bg-white text-success rounded-pill shadow-sm"><i class="bi bi-layers-half me-1"></i> Tingkat Menengah</span>
+            </div>
+            <h1 class="display-5 fw-bold mb-2">Manipulasi & Analisis Data Lanjutan</h1>
+            <p class="lead mb-0 opacity-75 d-flex align-items-center gap-2">
+                <i class="bi bi-file-earmark-spreadsheet"></i> Microsoft Excel
+            </p>
+        </div>
+    </header>
+
+    <div class="container-fluid mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                
+                <!-- Main Content Card -->
+                <div class="card shadow-sm border-0 content-card rounded-4 mb-4">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h2 class="h3 fw-bold mb-3" style="color: #185c37;">Otomatisasi Level Selanjutnya</h2>
+                            <p class="text-secondary mx-auto" style="max-width: 800px;">
+                                Di tingkat menengah, Anda tidak sekadar menjumlahkan angka. Anda akan belajar memotong teks (ID Karyawan), menghitung umur otomatis, membuat aturan validasi data, hingga melakukan proyeksi skenario bisnis dengan What-If Analysis.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1. FUNGSI TEKS -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-12 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                                <div class="icon-box"><i class="bi bi-fonts"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold text-success mb-0">1. Fungsi Teks (Memanipulasi Karakter)</h3>
+                                    <span class="text-muted small">LEFT, RIGHT, MID, LEN, TRIM, CONCAT</span>
+                                </div>
+                            </div>
+                            
+                            <div class="row g-4">
+                                <div class="col-md-5">
+                                    <p class="text-secondary mb-3">Fungsi teks berguna untuk mengekstrak atau menggabungkan data string (teks). Sangat berguna saat berhadapan dengan Kode Transaksi, NIK, atau Nomor Resi.</p>
+                                    <ul class="feature-list small">
+                                        <li><strong>LEFT, RIGHT, MID:</strong> Mengambil beberapa karakter dari Kiri, Kanan, atau Tengah teks.</li>
+                                        <li><strong>LEN:</strong> Menghitung total jumlah karakter (termasuk spasi). Berguna untuk mengecek validitas NIK (harus 16 digit).</li>
+                                        <li><strong>TRIM:</strong> Menghapus spasi ganda yang tidak sengaja terketik di awal, tengah, atau akhir kalimat. Sangat ampuh untuk *data cleaning*.</li>
+                                        <li><strong>CONCAT / CONCATENATE:</strong> Menggabungkan dua atau lebih teks dari sel yang berbeda menjadi satu. (Alternatif: pakai simbol <code>&</code>).</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-7">
+                                    <!-- Visual Tabel -->
+                                    <div class="excel-sim">
+                                        <div class="formula-bar">
+                                            <div class="formula-fx">fx</div>
+                                            <div class="formula-input font-monospace text-secondary">=MID(A3, 5, 4)</div>
+                                        </div>
+                                        <table class="excel-table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="excel-header"></th>
+                                                    <th class="excel-header">A (Kode ID)</th>
+                                                    <th class="excel-header">B (Divisi - LEFT)</th>
+                                                    <th class="excel-header" style="background-color: #e6f2eb;">C (Tahun - MID)</th>
+                                                    <th class="excel-header">D (Grup - RIGHT)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="excel-row-num">1</td>
+                                                    <td colspan="4" class="fw-bold bg-light">Studi Kasus: Ekstrak Kode Karyawan</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="excel-row-num">2</td>
+                                                    <td class="fw-bold">MKT-2021-A1</td>
+                                                    <td>MKT <br><em class="text-muted" style="font-size: 0.7rem;">=LEFT(A2, 3)</em></td>
+                                                    <td>2021 <br><em class="text-muted" style="font-size: 0.7rem;">=MID(A2, 5, 4)</em></td>
+                                                    <td>A1 <br><em class="text-muted" style="font-size: 0.7rem;">=RIGHT(A2, 2)</em></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="excel-row-num">3</td>
+                                                    <td class="fw-bold">FIN-2023-B2</td>
+                                                    <td>FIN</td>
+                                                    <td class="fw-bold text-success" style="outline: 2px solid #185c37; outline-offset: -2px; background-color: #e6f2eb;">2023</td>
+                                                    <td>B2</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="excel-row-num">4</td>
+                                                    <td colspan="4" class="fw-bold bg-light mt-2 border-top border-2">Contoh TRIM dan CONCAT</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="excel-row-num">5</td>
+                                                    <td class="text-danger">"  Budi   Santoso "</td>
+                                                    <td colspan="3"><code>=TRIM(A5)</code> hasilnya <strong>"Budi Santoso"</strong> (spasi ekstra hilang).</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="excel-row-num">6</td>
+                                                    <td>Budi</td>
+                                                    <td colspan="3"><code>=CONCAT(A6, " ", D3)</code> hasilnya <strong>"Budi B2"</strong>.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <p class="small text-muted mt-2"><strong>Penjelasan MID:</strong> <code>=MID(A3, 5, 4)</code> artinya ambil karakter dari sel A3, mulai dari karakter ke-<strong>5</strong>, dan ambil sebanyak <strong>4</strong> karakter ke kanan.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. FUNGSI TANGGAL -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-12 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                                <div class="icon-box"><i class="bi bi-calendar3"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold text-success mb-0">2. Fungsi Tanggal</h3>
+                                    <span class="text-muted small">TODAY(), NOW(), DATEDIF</span>
+                                </div>
+                            </div>
+                            
+                            <div class="row g-4">
+                                <div class="col-md-4">
+                                    <p class="text-secondary mb-3">Sangat krusial untuk departemen HR (menghitung masa kerja) atau Finance (menghitung jatuh tempo tagihan).</p>
+                                    <ul class="feature-list small">
+                                        <li><strong>=TODAY()</strong><br> Menampilkan tanggal hari ini. Akan otomatis berubah setiap hari saat file dibuka. Tidak butuh argumen di dalam kurung.</li>
+                                        <li><strong>=NOW()</strong><br> Sama seperti TODAY, tetapi menyertakan jam dan menit saat ini.</li>
+                                        <li><strong>=DATEDIF()</strong><br> Rumus tersembunyi Excel untuk menghitung selisih (difference) antara dua tanggal. Sangat akurat untuk menghitung umur atau masa kerja (Tahun/Bulan/Hari).</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="excel-sim">
+                                        <div class="formula-bar">
+                                            <div class="formula-fx">fx</div>
+                                            <div class="formula-input font-monospace text-secondary">=DATEDIF(B3, $C$1, "Y")</div>
+                                        </div>
+                                        <table class="excel-table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="excel-header"></th>
+                                                    <th class="excel-header">A (Nama)</th>
+                                                    <th class="excel-header">B (Tgl Lahir)</th>
+                                                    <th class="excel-header" style="background-color: #e6f2eb;">C (Umur / Tahun)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="excel-row-num">1</td>
+                                                    <td class="text-end fw-bold bg-light">Tgl Hari Ini:</td>
+                                                    <td class="fw-bold text-primary">15/08/2024</td>
+                                                    <td class="text-muted fst-italic">(=TODAY())</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="excel-row-num">2</td>
+                                                    <td colspan="3" class="bg-light"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="excel-row-num">3</td>
+                                                    <td>Sisca</td>
+                                                    <td>10/05/1995</td>
+                                                    <td class="fw-bold text-success" style="outline: 2px solid #185c37; outline-offset: -2px; background-color: #e6f2eb;">29</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="excel-row-num">4</td>
+                                                    <td>Bima</td>
+                                                    <td>25/12/2000</td>
+                                                    <td class="fw-bold text-success">23</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="bg-light p-3 border rounded small mt-3">
+                                        <strong>Struktur DATEDIF:</strong> <code>=DATEDIF(tgl_awal, tgl_akhir, "kode_waktu")</code> <br>
+                                        Ganti kode waktu dengan: <strong>"Y"</strong> (Tahun/Year), <strong>"M"</strong> (Bulan Total), <strong>"D"</strong> (Hari Total).<br>
+                                        <em>Contoh di atas: DATEDIF(B3, $C$1, "Y") menghitung tahun penuh antara tanggal lahir dan hari ini.</em>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. LOGICAL ADVANCED -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-12 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                                <div class="icon-box"><i class="bi bi-bezier2"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold text-success mb-0">3. Logical Advanced</h3>
+                                    <span class="text-muted small">IF Bertingkat dan Kombinasi AND/OR</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">Bagaimana jika kondisinya tidak hanya "Lulus/Gagal", tetapi ada Grade A, B, C, D? Anda butuh <strong>IF Bertingkat (Nested IF)</strong> atau menggunakan rumus modern <strong>IFS</strong>.</p>
+
+                            <div class="row g-4">
+                                <div class="col-md-12">
+                                    <div class="excel-sim mb-0">
+                                        <table class="excel-table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="excel-header"></th>
+                                                    <th class="excel-header">A (Siswa)</th>
+                                                    <th class="excel-header">B (Nilai)</th>
+                                                    <th class="excel-header">C (Absen)</th>
+                                                    <th class="excel-header" style="background-color: #e6f2eb;">D (Grade - IF Bertingkat)</th>
+                                                    <th class="excel-header" style="background-color: #fff3cd;">E (Beasiswa - IF+AND)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="excel-row-num">1</td>
+                                                    <td>Joko</td>
+                                                    <td>85</td>
+                                                    <td>100%</td>
+                                                    <td class="fw-bold">B</td>
+                                                    <td class="fw-bold text-success">Layak</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="excel-row-num">2</td>
+                                                    <td>Rina</td>
+                                                    <td>92</td>
+                                                    <td>80%</td>
+                                                    <td class="fw-bold text-success">A</td>
+                                                    <td class="fw-bold text-danger">Ditolak</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="bg-light border rounded p-3 h-100">
+                                        <h6 class="fw-bold text-success">Rumus Kolom D (Nested IF)</h6>
+                                        <p class="small text-muted mb-2">Memberi Grade: A (>90), B (>80), C (>70), Sisanya D.</p>
+                                        <code class="d-block bg-white p-2 border text-dark mb-2">=IF(B1>90, "A", IF(B1>80, "B", IF(B1>70, "C", "D")))</code>
+                                        <p class="small text-muted mb-0"><em>*Excel 2019+ bisa pakai IFS: <br><code>=IFS(B1>90,"A", B1>80,"B", B1>70,"C", TRUE,"D")</code></em></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="bg-light border rounded p-3 h-100">
+                                        <h6 class="fw-bold text-warning">Rumus Kolom E (IF + AND)</h6>
+                                        <p class="small text-muted mb-2">Syarat Beasiswa: Nilai harus >=85 <strong>DAN</strong> Absen harus 100%.</p>
+                                        <code class="d-block bg-white p-2 border text-dark mb-2">=IF(AND(B1>=85, C1=1), "Layak", "Ditolak")</code>
+                                        <p class="small text-muted mb-0"><em>*Baris 2 (Rina) Ditolak karena Absennya tidak 100%, meski nilainya A.</em></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. DATA VALIDATION -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-12 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                                <div class="icon-box"><i class="bi bi-ui-checks"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold text-success mb-0">4. Data Validation</h3>
+                                    <span class="text-muted small">Mencegah Salah Ketik dengan Dropdown & Restriksi</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">Pernahkah Anda merekap data di mana orang mengetik "Lunas", "lunas", "LUNAS", atau Typo "Luans"? Ini merusak rekapitulasi. Gunakan alat di menu <strong>Data > Data Validation</strong> untuk memaksakan aturan input.</p>
+
+                            <div class="row g-4">
+                                <div class="col-md-5 text-center">
+                                    <img src="https://placehold.co/500x300/e9ecef/495057?text=[Image+of+Data+Validation+Dialog+Box]" class="img-fluid rounded shadow-sm border mb-3" alt="Data Validation Excel">
+                                </div>
+                                <div class="col-md-7">
+                                    <ul class="feature-list small mb-0">
+                                        <li>
+                                            <h6 class="fw-bold mb-1">Dropdown List (Daftar Pilihan)</h6>
+                                            <p class="text-muted">Membuat sel hanya bisa diisi dari opsi yang disediakan (klik panah bawah).</p>
+                                            <p class="mb-1"><strong>Cara:</strong> Pilih Allow: <strong>List</strong>. Di bagian Source, ketik: <code>Lunas,Belum Lunas,Cicil</code>.</p>
+                                            <div class="mb-3 d-inline-block px-3 py-1 bg-light border">
+                                                Status: <span class="excel-dropdown fw-bold text-success ms-2">Lunas</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <h6 class="fw-bold mb-1">Input Restriction (Pembatasan Input)</h6>
+                                            <p class="text-muted">Mencegah input nilai yang tidak masuk akal. <br>
+                                            - <strong>Whole Number:</strong> Batasi umur karyawan hanya boleh antara angka 18 hingga 60.<br>
+                                            - <strong>Text Length:</strong> Batasi input Nomor Telepon maksimal 13 karakter. Jika user mengetik lebih panjang, Excel akan memunculkan pop-up Error dan menolak ketikan tersebut.</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. CONDITIONAL FORMATTING (LANJUTAN) -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-12 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                                <div class="icon-box"><i class="bi bi-paint-bucket"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold text-success mb-0">5. Conditional Formatting (Lanjutan)</h3>
+                                    <span class="text-muted small">Mewarnai Baris Secara Otomatis Berdasarkan Rumus</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">Di tingkat dasar, Anda mewarnai sel merah jika angkanya di bawah 70. Di tingkat menengah, Anda bisa <strong>mewarnai SATU BARIS PENUH</strong> jika kolom statusnya berubah menjadi "Selesai" menggunakan <strong>Formula-based formatting</strong>.</p>
+
+                            <div class="excel-sim mx-auto mb-3" style="max-width: 800px;">
+                                <table class="excel-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="excel-header"></th>
+                                            <th class="excel-header">A (Tugas)</th>
+                                            <th class="excel-header">B (PIC)</th>
+                                            <th class="excel-header">C (Status)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="background-color: #d1e7dd; border-color: #badbcc;">
+                                            <td class="excel-row-num bg-light border-0 text-dark">1</td>
+                                            <td class="text-success fw-bold">Kirim Laporan Pajak</td>
+                                            <td class="text-success fw-bold">Ani</td>
+                                            <td class="text-success fw-bold">Selesai</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="excel-row-num">2</td>
+                                            <td>Revisi Anggaran</td>
+                                            <td>Budi</td>
+                                            <td>Proses</td>
+                                        </tr>
+                                        <tr style="background-color: #f8d7da; border-color: #f5c2c7;">
+                                            <td class="excel-row-num bg-light border-0 text-dark">3</td>
+                                            <td class="text-danger fw-bold">Gaji Karyawan</td>
+                                            <td class="text-danger fw-bold">Dani</td>
+                                            <td class="text-danger fw-bold">Terlambat</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="bg-light p-3 border rounded small">
+                                <strong>Cara Mewarnai Seluruh Baris (Contoh warna Hijau "Selesai"):</strong><br>
+                                1. Blok seluruh tabel data (A1:C3).<br>
+                                2. Ke <em>Home > Conditional Formatting > New Rule > Use a formula to determine which cells to format</em>.<br>
+                                3. Ketik rumus: <code>=$C1="Selesai"</code>. (Perhatikan tanda Dolar $ hanya di depan huruf C. Ini mengunci pengecekan ke kolom C, tapi membiarkan baris bergerak).<br>
+                                4. Klik Format, pilih warna Fill Hijau.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. WHAT-IF ANALYSIS -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-12 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                                <div class="icon-box"><i class="bi bi-sliders"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold text-success mb-0">6. What-If Analysis</h3>
+                                    <span class="text-muted small">Data Table & Scenario Manager</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">Alat tingkat lanjut di tab <strong>Data</strong> untuk melakukan proyeksi atau simulasi bisnis tanpa merusak rumus asli Anda. Sangat disukai oleh para Analis Keuangan (Financial Analyst).</p>
+
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <h5 class="fw-bold mb-2">Data Table (Tabel Matriks)</h5>
+                                    <p class="text-muted small">Digunakan untuk melihat semua kemungkinan hasil jika Anda mengubah 1 atau 2 variabel secara bersamaan. <br><strong>Contoh Kasus: Simulasi Cicilan KPR (Rumus PMT).</strong> Daripada mengetik ulang rumus bunga bank 5%, 6%, 7% satu per satu, Data Table otomatis mengisi kotak matriks perbandingan suku bunga dan lama tahun cicilan.</p>
+                                    
+                                    <div class="excel-sim mb-0">
+                                        <table class="excel-table text-center">
+                                            <thead>
+                                                <tr>
+                                                    <th class="excel-header bg-warning">Cicilan /Bulan</th>
+                                                    <th class="excel-header fw-bold">10 Tahun</th>
+                                                    <th class="excel-header fw-bold">15 Tahun</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="fw-bold bg-light">Bunga 5%</td>
+                                                    <td class="text-success">5.300.000</td>
+                                                    <td class="text-success">3.950.000</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fw-bold bg-light">Bunga 7%</td>
+                                                    <td class="text-danger">5.800.000</td>
+                                                    <td class="text-danger">4.400.000</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <p class="small text-muted mt-1 mb-0"><em>*Angka di dalam matriks dihasilkan otomatis oleh Data Table.</em></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5 class="fw-bold mb-2">Scenario Manager</h5>
+                                    <p class="text-muted small">Digunakan jika Anda punya lebih dari 2 variabel yang berubah, misalnya proyeksi Laba/Rugi tahun depan. Anda dapat membuat dan menyimpan beberapa set "Skenario" di file yang sama.</p>
+                                    <ul class="text-muted small">
+                                        <li><strong>Skenario Pesimis (Worst Case):</strong> Penjualan turun 20%, Biaya Iklan naik 10%.</li>
+                                        <li><strong>Skenario Normal (Base Case):</strong> Angka penjualan standar saat ini.</li>
+                                        <li><strong>Skenario Optimis (Best Case):</strong> Penjualan naik 50%, Biaya Iklan turun 5%.</li>
+                                    </ul>
+                                    <p class="text-muted small mb-0">Anda cukup mengklik nama Skenario di menu <em>Scenario Manager</em>, dan seluruh angka beserta grafik/chart di layar Anda akan seketika berubah mengikuti proyeksi tersebut. Tersedia juga fitur "Summary" untuk membandingkan ketiganya dalam satu tabel ringkasan (mirip Pivot Table).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.css"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

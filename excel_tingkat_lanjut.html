@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keterampilan Master Excel - Tingkat Lanjut</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        /* Excel Advanced Theme (Dark Slate Green) */
+        .header-bg {
+            background: linear-gradient(135deg, #0f3f26 0%, #06190f 100%);
+        }
+        .content-card {
+            border-top: 5px solid #0f3f26;
+        }
+        .icon-box {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background-color: #e6eee9;
+            color: #0f3f26;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+        .setup-detail-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #e9ecef;
+            margin-bottom: 2rem;
+        }
+        .setup-detail-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.08)!important;
+        }
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .feature-list > li {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            color: #495057;
+            border-bottom: 1px dashed #dee2e6;
+            padding-bottom: 1rem;
+        }
+        .feature-list > li:last-child {
+            border-bottom: none;
+        }
+        .feature-list > li strong {
+            color: #212529;
+        }
+        .formula-badge {
+            background-color: #0f3f26;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 0.25rem;
+            font-family: monospace;
+            font-size: 1rem;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+        .pro-tip {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            font-size: 0.9rem;
+            color: #664d03;
+        }
+        .dax-code {
+            background-color: #fdf6e3;
+            border-left: 3px solid #d0af3c;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #b58900;
+        }
+        
+        /* Excel Spreadsheet Simulation */
+        .excel-sim {
+            background-color: #fff;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+        .excel-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+            font-size: 0.85rem;
+        }
+        .excel-table th, .excel-table td {
+            border: 1px solid #d4d4d4;
+            padding: 8px 12px;
+            vertical-align: middle;
+        }
+        .excel-header {
+            background-color: #f3f2f1;
+            text-align: center;
+            font-weight: normal;
+            color: #323130;
+            border-bottom: 2px solid #c8c6c4 !important;
+        }
+        .excel-row-num {
+            background-color: #f3f2f1;
+            text-align: center;
+            color: #323130;
+            width: 30px;
+            border-right: 2px solid #c8c6c4 !important;
+        }
+        .formula-bar {
+            background-color: #fff;
+            border-bottom: 1px solid #ced4da;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 0.9rem;
+        }
+        .formula-fx {
+            color: #605e5c;
+            font-style: italic;
+            font-weight: bold;
+        }
+        .formula-input {
+            flex-grow: 1;
+            border: 1px solid #ced4da;
+            padding: 4px 10px;
+            border-radius: 2px;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header-bg text-white py-5 mb-5 shadow-sm">
+        <div class="container">
+            <div class="d-flex align-items-center gap-3 mb-3">
+
+                <a href="Index.html" class="btn btn-light btn-sm rounded-pill px-3 fw-medium d-inline-flex align-items-center gap-2 text-dark">
+                    <i class="bi bi-arrow-left"></i> Kembali Ke Halaman Utama
+                </a>
+
+                <span class="badge bg-warning text-dark rounded-pill shadow-sm fw-bold"><i class="bi bi-star-fill me-1"></i> Tingkat Lanjut (Master)</span>
+            </div>
+            <h1 class="display-5 fw-bold mb-2">Mastering Analisis Data & Otomatisasi</h1>
+            <p class="lead mb-0 opacity-75 d-flex align-items-center gap-2">
+                <i class="bi bi-file-earmark-spreadsheet"></i> Microsoft Excel Lanjutan
+            </p>
+        </div>
+    </header>
+
+    <div class="container-fluid mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                
+                <!-- Main Content Card -->
+                <div class="card shadow-sm border-0 content-card rounded-4 mb-4">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h2 class="h3 fw-bold mb-3" style="color: #0f3f26;">Meninggalkan Cara Manual, Memasuki Era Business Intelligence</h2>
+                            <p class="text-secondary mx-auto" style="max-width: 800px;">
+                                Di tingkat ini, Anda bukan lagi seorang <em>Data Entry</em>, melainkan seorang <strong>Data Analyst</strong>. Anda akan belajar menembus batas 1 juta baris Excel dengan Data Model, membersihkan data yang sangat kotor secara otomatis dengan Power Query, dan membuat Dashboard interaktif yang mengesankan atasan Anda.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1. PIVOT TABLE LANJUTAN -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-12 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                                <div class="icon-box"><i class="bi bi-table"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold mb-0" style="color: #0f3f26;">1. Pivot Table Lanjutan</h3>
+                                    <span class="text-muted small">Calculated Field, Grouping, & Pivot Chart</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">Pemula menggunakan Pivot Table hanya untuk sekadar <em>drag-and-drop</em> dan men-sum data. Seorang ahli menggunakannya untuk membedah data lebih dalam tanpa harus menyentuh atau menambah kolom pada data mentah aslinya.</p>
+                            
+                            <div class="row g-4">
+                                <div class="col-md-5 text-center">
+                                    <img src="https://placehold.co/500x300/e9ecef/495057?text=[Image+of+Menu+Calculated+Field+di+Pivot+Table]" class="img-fluid rounded shadow-sm border mb-3" alt="Calculated Field Pivot Table">
+                                    <span class="d-block text-muted small mt-2">Membuat rumus di dalam Pivot Table</span>
+                                </div>
+                                <div class="col-md-7">
+                                    <ul class="feature-list small mb-0">
+                                        <li>
+                                            <h6 class="fw-bold mb-1">Calculated Field (Bidang Kalkulasi)</h6>
+                                            <p class="text-muted">Bagaimana jika data mentah Anda hanya punya kolom "Pendapatan" dan "HPP (Modal)", tapi Anda ingin Pivot menampilkan "Keuntungan"? Jangan tambahkan kolom baru di data mentah! <br>
+                                            Gunakan <strong>PivotTable Analyze > Fields, Items, & Sets > Calculated Field</strong>. Anda bisa membuat rumus <code>= Pendapatan - HPP</code> langsung di dalam Pivot. Ini sangat efisien dan memperingan ukuran file.</p>
+                                        </li>
+                                        <li>
+                                            <h6 class="fw-bold mb-1">Grouping Data (Pengelompokan Otomatis)</h6>
+                                            <p class="text-muted">Jika Anda menarik kolom "Tanggal" ke <em>Rows</em>, Pivot Table versi modern otomatis akan mengelompokkannya menjadi Bulan dan Tahun. Namun Anda juga bisa mengelompokkan Angka. <br>
+                                            <strong>Contoh:</strong> Mengelompokkan kolom "Umur Pelanggan" ke dalam rentang (20-29, 30-39, 40-49) cukup dengan klik kanan angka di Pivot > <strong>Group...</strong> > Atur <em>Starting at</em> dan <em>By (jarak)</em>.</p>
+                                        </li>
+                                        <li>
+                                            <h6 class="fw-bold mb-1">Pivot Chart</h6>
+                                            <p class="text-muted">Grafik yang secara langsung terhubung ke Pivot Table Anda. Jika Anda mem-filter Pivot Table, grafiknya akan ikut bergerak dan beranimasi secara <em>real-time</em>.</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. POWER QUERY (WAJIB) -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-12 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                                <div class="icon-box"><i class="bi bi-magic"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold mb-0" style="color: #0f3f26;">2. Power Query <span class="badge bg-danger fs-6 align-middle ms-2">WAJIB KUASAI</span></h3>
+                                    <span class="text-muted small">ETL (Extract, Transform, Load) - Pembersih Data Otomatis</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">Jika Anda hanya boleh belajar satu fitur tingkat lanjut di Excel, pelajarilah <strong>Power Query</strong> (Tab Data > Get Data). Ini adalah revolusi terbesar Excel dalam 10 tahun terakhir untuk urusan *Data Cleaning* dan rekonsiliasi laporan mingguan/bulanan.</p>
+
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <h6 class="fw-bold text-success">Mengapa Power Query Sangat Luar Biasa?</h6>
+                                    <ul class="text-muted small">
+                                        <li class="mb-2"><strong>Import dari Segala Sumber:</strong> Tarik data dari ratusan file CSV sekaligus, dari Website, PDF, Database SQL, atau sekadar Folder di komputer Anda.</li>
+                                        <li class="mb-2"><strong>Unpivot Data:</strong> Mengubah format tabel laporan bentuk matriks (yang melebar ke kanan per bulan) menjadi tabel tabular ke bawah (database siap olah) hanya dengan 2 klik.</li>
+                                        <li class="mb-2"><strong>Merge Queries:</strong> Menggantikan <code>VLOOKUP</code> secara permanen! Menggabungkan 2 tabel besar menjadi 1 secara visual jauh lebih cepat dan tidak membebani memori komputer.</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="bg-light border border-success rounded p-3 h-100 border-2">
+                                        <h6 class="fw-bold"><i class="bi bi-record-circle-fill text-danger me-2"></i>Merekam Langkah (Applied Steps)</h6>
+                                        <p class="small text-muted mb-0">Keajaiban sesungguhnya adalah: Power Query <strong>merekam setiap klik</strong> yang Anda lakukan (hapus kolom kosong, pecah nama, ubah format tanggal).<br><br>
+                                        Bulan depan, saat Bos mengirim file data mentah yang baru, Anda TIDAK PERLU melakukan pembersihan manual lagi. Cukup klik <strong>Refresh All</strong>, dan Power Query akan mengulangi ratusan langkah pembersihan itu secara otomatis dalam hitungan detik!</p>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-4 text-center">
+                                    <img src="https://placehold.co/800x300/e9ecef/495057?text=[Image+of+Antarmuka+Power+Query+Editor]" class="img-fluid rounded shadow-sm border" alt="Power Query Editor">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. POWER PIVOT & DATA MODEL -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-12 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                                <div class="icon-box"><i class="bi bi-diagram-3-fill"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold mb-0" style="color: #0f3f26;">3. Power Pivot (Data Model)</h3>
+                                    <span class="text-muted small">Relational Database & DAX (Menembus Limit 1 Juta Baris)</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">Satu sheet Excel hanya bisa memuat maksimal 1.048.576 baris. Jika perusahaan Anda punya 5 juta baris data transaksi, Excel biasa akan lumpuh/crash. <strong>Power Pivot</strong> menyimpannya di mesin kompresi di balik layar Excel.</p>
+
+                            <div class="row g-4">
+                                <div class="col-md-7">
+                                    <ul class="feature-list small mb-0">
+                                        <li>
+                                            <h6 class="fw-bold mb-1">Relasi Antar Tabel (Relationships)</h6>
+                                            <p class="text-muted">Daripada menggabungkan Tabel Transaksi dan Tabel Master Barang dengan ratusan ribu rumus VLOOKUP (yang membuat file Excel Anda berukuran 500MB dan super lemot), Anda cukup <strong>menarik garis relasi</strong> (Relationships) antara <em>Kode Barang</em> di kedua tabel tersebut secara visual. Pivot Table Anda nantinya bisa mengambil data dari dua tabel berbeda sekaligus!</p>
+                                        </li>
+                                        <li>
+                                            <h6 class="fw-bold mb-1">DAX Dasar (Data Analysis Expressions)</h6>
+                                            <p class="text-muted">Bahasa rumus tingkat dewa yang juga digunakan di Power BI. Berbeda dengan rumus Excel biasa yang bekerja pada sel (A1), DAX bekerja pada <strong>kolom secara keseluruhan</strong>.</p>
+                                            <div class="dax-code mt-2">
+                                                Total Sales := SUMX(Sales, Sales[Qty] * Sales[Price])<br>
+                                                Sales YTD := TOTALYTD([Total Sales], 'Calendar'[Date])
+                                            </div>
+                                            <p class="text-muted mt-2 mb-0"><em>*Rumus DAX di atas bisa menghitung total penjualan berjalan dari awal tahun (YTD) tanpa harus membuat tabel pivot manual per bulan.</em></p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-5 text-center">
+                                    <img src="https://placehold.co/500x400/e9ecef/495057?text=[Image+of+Diagram+View+Data+Model+Lines]" class="img-fluid rounded shadow-sm border" alt="Data Model Diagram View">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. DASHBOARD & VISUALISASI -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-12 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                                <div class="icon-box"><i class="bi bi-pie-chart-fill"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold mb-0" style="color: #0f3f26;">4. Dashboard & Visualisasi</h3>
+                                    <span class="text-muted small">Membuat Laporan Interaktif Eksekutif</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">Sebuah *Dashboard* adalah gabungan dari beberapa Pivot Chart yang disatukan dalam satu layar yang rapi, bersih tanpa *gridlines*, dan sangat interaktif layaknya aplikasi.</p>
+
+                            <div class="row g-4">
+                                <div class="col-md-5">
+                                    <img src="https://placehold.co/500x400/e9ecef/495057?text=[Image+of+Slicer+dan+Combo+Chart+Dashboard]" class="img-fluid rounded shadow-sm border" alt="Excel Interactive Dashboard">
+                                </div>
+                                <div class="col-md-7">
+                                    <ul class="feature-list small mb-0">
+                                        <li>
+                                            <h6 class="fw-bold mb-1">Combo Chart (Grafik Kombinasi)</h6>
+                                            <p class="text-muted">Menggabungkan dua jenis grafik dalam satu kanvas, dan memiliki dua sumbu Y (Kiri dan Kanan). <br><strong>Contoh:</strong> Grafik Batang (Bar) untuk menunjukkan jumlah unit terjual (skala ribuan), digabungkan dengan Grafik Garis (Line) untuk persentase Profit Margin (skala 0%-100%).</p>
+                                        </li>
+                                        <li>
+                                            <h6 class="fw-bold mb-1">Slicer & Timeline (Tombol Interaktif)</h6>
+                                            <p class="text-muted">Slicer adalah filter visual berbentuk tombol keren. Jika Anda memiliki 4 grafik di dashboard Anda, Anda bisa menghubungkan 1 Slicer "Cabang" ke 4 grafik tersebut (menggunakan <em>Report Connections</em>). <br>
+                                            Saat atasan Anda mengeklik tombol "Cabang Bali", <strong>keempat grafik akan beranimasi dan merubah datanya secara serentak</strong> khusus untuk Bali.</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. ARRAY FORMULA / DYNAMIC ARRAY -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-12 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                                <div class="icon-box"><i class="bi bi-braces-asterisk"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold mb-0" style="color: #0f3f26;">5. Array Formula / Dynamic Array</h3>
+                                    <span class="text-muted small">Revolusi Rumus Excel (Tersedia di Excel 365 / 2021+)</span>
+                                </div>
+                            </div>
+                            
+                            <div class="alert alert-success border-0 small mb-4">
+                                <strong>Spill Behavior:</strong> Pada Excel tradisional, 1 rumus = 1 hasil di sel tersebut. Dengan Dynamic Arrays, Anda mengetik 1 rumus di sel A1, hasilnya bisa "tumpah" (Spill) menyebar otomatis memenuhi sel ke bawah dan ke samping menyesuaikan banyaknya data!
+                            </div>
+
+                            <div class="row g-4">
+                                <div class="col-md-12">
+                                    <div class="excel-sim mb-0">
+                                        <div class="formula-bar">
+                                            <div class="formula-fx">fx</div>
+                                            <div class="formula-input font-monospace text-primary fw-bold">=FILTER(A2:C6, C2:C6="Jakarta")</div>
+                                        </div>
+                                        <table class="excel-table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="excel-header"></th>
+                                                    <th class="excel-header">A (Nama)</th>
+                                                    <th class="excel-header">B (Nilai)</th>
+                                                    <th class="excel-header border-end border-2 border-dark">C (Kota)</th>
+                                                    <th class="excel-header" style="background-color: #e6f2eb;">E (Hasil FILTER)</th>
+                                                    <th class="excel-header" style="background-color: #e6f2eb;">F</th>
+                                                    <th class="excel-header" style="background-color: #e6f2eb;">G</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="excel-row-num">1</td>
+                                                    <td colspan="3" class="fw-bold bg-light border-end border-2 border-dark text-center">Data Master</td>
+                                                    <td colspan="3" class="fw-bold text-success text-center" style="background-color: #e6f2eb;">Formula diketik HANYA di E2</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="excel-row-num">2</td>
+                                                    <td>Budi</td>
+                                                    <td>85</td>
+                                                    <td class="border-end border-2 border-dark text-primary fw-bold">Jakarta</td>
+                                                    <td class="text-primary fw-bold" style="outline: 2px solid #0d6efd; outline-offset: -2px;">Budi</td>
+                                                    <td class="text-primary fw-bold" style="outline: 2px solid #0d6efd; outline-offset: -2px;">85</td>
+                                                    <td class="text-primary fw-bold" style="outline: 2px solid #0d6efd; outline-offset: -2px; border-right: 2px solid #0d6efd !important;">Jakarta</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="excel-row-num">3</td>
+                                                    <td>Susi</td>
+                                                    <td>90</td>
+                                                    <td class="border-end border-2 border-dark">Bali</td>
+                                                    <td class="text-primary fw-bold" style="outline: 2px solid #0d6efd; outline-offset: -2px;">Roni</td>
+                                                    <td class="text-primary fw-bold" style="outline: 2px solid #0d6efd; outline-offset: -2px;">75</td>
+                                                    <td class="text-primary fw-bold" style="outline: 2px solid #0d6efd; outline-offset: -2px; border-right: 2px solid #0d6efd !important;">Jakarta</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="excel-row-num">4</td>
+                                                    <td>Roni</td>
+                                                    <td>75</td>
+                                                    <td class="border-end border-2 border-dark text-primary fw-bold">Jakarta</td>
+                                                    <td class="text-primary fw-bold" style="outline: 2px solid #0d6efd; outline-offset: -2px; border-bottom: 2px solid #0d6efd;">Ayu</td>
+                                                    <td class="text-primary fw-bold" style="outline: 2px solid #0d6efd; outline-offset: -2px; border-bottom: 2px solid #0d6efd;">95</td>
+                                                    <td class="text-primary fw-bold" style="outline: 2px solid #0d6efd; outline-offset: -2px; border-right: 2px solid #0d6efd !important; border-bottom: 2px solid #0d6efd;">Jakarta</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="excel-row-num">5</td>
+                                                    <td>Deni</td>
+                                                    <td>60</td>
+                                                    <td class="border-end border-2 border-dark">Bandung</td>
+                                                    <td colspan="3" class="bg-light"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="excel-row-num">6</td>
+                                                    <td>Ayu</td>
+                                                    <td>95</td>
+                                                    <td class="border-end border-2 border-dark text-primary fw-bold">Jakarta</td>
+                                                    <td colspan="3" class="bg-light"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <ul class="feature-list small mb-0 mt-3">
+                                        <li>
+                                            <h6 class="fw-bold mb-1">=FILTER()</h6>
+                                            <p class="text-muted">Menyaring data tanpa perlu menekan menu filter. Seperti contoh tabel di atas, rumus diketik di 1 sel, dan secara magis hasilnya tumpah meniru tabel aslinya khusus untuk kriteria "Jakarta".</p>
+                                        </li>
+                                        <li>
+                                            <h6 class="fw-bold mb-1">=SORT()</h6>
+                                            <p class="text-muted">Mengurutkan data tabel array secara dinamis tanpa menu Sort manual. Data akan selalu terurut sesuai abjad/angka meski data mentah aslinya berubah.</p>
+                                        </li>
+                                        <li>
+                                            <h6 class="fw-bold mb-1">=UNIQUE()</h6>
+                                            <p class="text-muted">Menggantikan <em>Remove Duplicates</em>. Jika diketik <code>=UNIQUE(C2:C6)</code>, rumus ini akan langsung menghasilkan "Jakarta, Bali, Bandung" secara tumpah ke bawah tanpa menghapus data aslinya. Sangat sempurna digabungkan sebagai referensi untuk <em>Data Validation Dropdown</em> menggunakan tanda pagat (<code>#</code>), misal: <code>=$E$2#</code>.</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. AUTOMATION ADVANCED (VBA & OFFICE SCRIPTS) -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-12 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                                <div class="icon-box"><i class="bi bi-robot"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold mb-0" style="color: #0f3f26;">6. Automation Advanced</h3>
+                                    <span class="text-muted small">VBA (Makro) dan Office Scripts</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">Ketika rumus dan fitur bawaan Excel sudah tidak mampu memenuhi *workflow* unik perusahaan Anda, saatnya memprogram Excel Anda sendiri.</p>
+
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <h6 class="fw-bold text-dark"><i class="bi bi-filetype-exe text-primary me-2"></i>VBA Lanjutan (Visual Basic for Applications)</h6>
+                                    <p class="text-muted small mb-2">Bahasa pemrograman legendaris Excel. Anda bisa membuat tombol yang jika diklik akan memproses data, membuat ratusan file PDF baru, lalu mengirimkannya via Outlook ke masing-masing email klien secara otomatis.</p>
+                                    <div class="dax-code mb-3" style="border-left-color: #0d6efd; color: #0d6efd;">
+                                        Sub KirimEmailOtomatis()<br>
+                                        &nbsp;&nbsp;Dim lastRow As Integer<br>
+                                        &nbsp;&nbsp;lastRow = Cells(Rows.Count, 1).End(xlUp).Row<br>
+                                        &nbsp;&nbsp;For i = 2 To lastRow<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;If Cells(i, 3).Value = "Lunas" Then<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Kirim PDF ke email<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;End If<br>
+                                        &nbsp;&nbsp;Next i<br>
+                                        End Sub
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="fw-bold text-dark"><i class="bi bi-cloud-check-fill text-info me-2"></i>Office Scripts (Excel Modern / Web)</h6>
+                                    <p class="text-muted small mb-2">Kelemahan VBA adalah: file <code>.xlsm</code> tidak bisa dijalankan di Excel Online (Web) maupun HP. Sebagai solusi masa depan, Microsoft memperkenalkan <strong>Office Scripts</strong> berbasis bahasa <em>TypeScript/JavaScript</em>.</p>
+                                    <div class="dax-code" style="border-left-color: #0dcaf0; color: #055160; background-color: #e0f8fc;">
+                                        function main(workbook: ExcelScript.Workbook) {<br>
+                                        &nbsp;&nbsp;let sheet = workbook.getActiveWorksheet();<br>
+                                        &nbsp;&nbsp;let range = sheet.getRange("A1:C10");<br>
+                                        &nbsp;&nbsp;range.getFormat().getFill().setColor("yellow");<br>
+                                        }
+                                    </div>
+                                    <p class="small text-muted mt-2"><em>*Office Scripts dapat dihubungkan dengan <strong>Power Automate</strong>, sehingga Anda bisa membuat alur: "Jika ada email masuk dengan lampiran Excel, otomatis ekstrak datanya ke file Master Excel di SharePoint".</em></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.css"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
