@@ -215,7 +215,7 @@
                                     <h4 class="h5 fw-bold mb-2">2. IFS (Banyak Kondisi)</h4>
                                     <p class="text-muted small mb-2">Tersedia di Excel 2019/365. Menggantikan rumus IF bertingkat (IF di dalam IF) yang sangat panjang dan membingungkan. Rumus ini akan mengecek dari kiri ke kanan, dan berhenti pada kondisi pertama yang bernilai TRUE.</p>
                                     <div class="formula-badge">=IFS(kondisi1, "hasil1", kondisi2, "hasil2", kondisi3, "hasil3", ...)</div>
-                                    <p class="small text-secondary mt-2 mb-0"><strong>Contoh:</strong> <code>=IFS(B2>=90, "Nilai A", B2>=80, "Nilai B", B2>=70, "Nilai C")</code> <br><em>(Lebih rapi daripada menggunakan IF bertingkat/nested IF)</em>.</p>
+                                    <p class="small text-secondary mt-2 mb-0"><strong>Contoh:</strong> <code>=IF(B2>=90,"Nilai A",IF(B2>=70,"Nilai B","Nilai C"))</code> <br><em>(Lebih rapi daripada menggunakan IF bertingkat/nested IF)</em>.</p>
                                     <div class="pro-tip mt-2 py-2 px-3">
                                         <strong>Tips:</strong> Untuk memberikan nilai cadangan jika semua kondisi salah (seperti "Lainnya"), gunakan kata <strong>TRUE</strong> di akhir. <br>Contoh: <code>=IFS(B2>90, "A", B2>80, "B", TRUE, "C")</code>
                                     </div>
