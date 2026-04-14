@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etika & Batasan AI - ChatGPT AI</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        /* OpenAI Teal Theme */
+        .header-bg {
+            background: linear-gradient(135deg, #10a37f 0%, #0b7a5e 100%);
+        }
+        .content-card {
+            border-top: 5px solid #10a37f;
+        }
+        .icon-box {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background-color: #e6f6f2; /* Soft teal */
+            color: #10a37f;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+        .text-ai {
+            color: #10a37f !important;
+        }
+        .bg-ai-soft {
+            background-color: #e6f6f2;
+        }
+        .setup-detail-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #e9ecef;
+            margin-bottom: 2rem;
+        }
+        .setup-detail-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.08)!important;
+        }
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .feature-list > li {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            color: #495057;
+            border-bottom: 1px dashed #dee2e6;
+            padding-bottom: 1rem;
+        }
+        .feature-list > li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .feature-list > li strong {
+            color: #212529;
+        }
+        .pro-tip {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.95rem;
+            color: #664d03;
+        }
+        
+        /* Chat Simulation CSS */
+        .chat-sim-box {
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            height: 100%;
+        }
+        .chat-header {
+            background-color: #f8f9fa;
+            padding: 12px 20px;
+            border-bottom: 1px solid #dee2e6;
+            font-weight: 600;
+            color: #343a40;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .chat-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            flex-grow: 1;
+            background-color: #ffffff;
+        }
+        .chat-bubble {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .chat-user {
+            align-self: flex-end;
+            background-color: #f4f6f8;
+            color: #212529;
+            border-bottom-right-radius: 2px;
+        }
+        .chat-ai-reply {
+            align-self: flex-start;
+            background-color: #e6f6f2; /* Soft Teal */
+            color: #0b7a5e;
+            border-bottom-left-radius: 2px;
+            display: flex;
+            gap: 10px;
+        }
+        .chat-ai-icon {
+            width: 24px;
+            height: 24px;
+            background-color: #10a37f;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .chat-ai-reply-bad {
+            background-color: #f8d7da;
+            color: #842029;
+        }
+        .chat-ai-icon-bad {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header-bg text-white py-5 mb-5 shadow-sm">
+        <div class="container">
+            <div class="d-flex align-items-center gap-3 mb-3">
+
+                <a href="index.html" class="btn btn-light btn-sm rounded-pill px-3 fw-medium d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-arrow-left"></i> Kembali ke Halaman Utama
+                </a>
+
+                <span class="badge bg-white text-dark rounded-pill shadow-sm fw-bold"><i class="bi bi-book me-1 text-ai"></i> Tingkat Dasar</span>
+            </div>
+            <h1 class="display-5 fw-bold mb-2">Etika & Batasan AI</h1>
+            <p class="lead mb-0 opacity-75 d-flex align-items-center gap-2">
+                <i class="bi bi-shield-exclamation"></i> Memahami Kekurangan Mesin dan Menjaga Privasi
+            </p>
+        </div>
+    </header>
+
+    <div class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                
+                <!-- Main Content Card -->
+                <div class="card shadow-sm border-0 content-card rounded-4 mb-4">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h2 class="h3 fw-bold mb-3 text-ai">Kecerdasan yang Memiliki Celah</h2>
+                            <p class="text-secondary mx-auto" style="max-width: 800px;">
+                                Menggunakan AI layaknya mempekerjakan asisten magang yang sangat cerdas, super cepat, <strong>namun terkadang terlalu percaya diri saat melakukan kesalahan</strong>. Sebelum Anda sepenuhnya bergantung pada ChatGPT untuk pekerjaan sehari-hari, Anda wajib memahami apa saja yang TIDAK BISA dilakukan oleh AI dan bahaya apa yang mengintai di balik layar.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1. HALUSINASI AI (AI HALLUCINATIONS) -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="card-body p-4 p-lg-5">
+                        <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                            <div class="icon-box"><i class="bi bi-stars"></i></div>
+                            <div>
+                                <h3 class="h4 fw-bold text-ai mb-0">1. Halusinasi AI (Pemalsuan Fakta)</h3>
+                                <span class="text-muted small">Ketika AI berbohong dengan sangat meyakinkan</span>
+                            </div>
+                        </div>
+
+                        <p class="text-secondary mb-4">
+                            <strong>Halusinasi AI</strong> adalah fenomena di mana ChatGPT memberikan jawaban yang sepenuhnya salah atau mengarang fakta, namun menuliskannya dengan bahasa yang sangat percaya diri dan terstruktur. Ini terjadi karena AI adalah "mesin penebak kata berikutnya", bukan ensiklopedia fakta mutlak.
+                        </p>
+
+                        <!-- Simulasi Chat Halusinasi -->
+                        <div class="row g-4 mt-2">
+                            <div class="col-md-6">
+                                <h6 class="fw-bold text-danger text-center mb-3">Simulasi Halusinasi Berbahaya</h6>
+                                <div class="chat-sim-box">
+                                    <div class="chat-body">
+                                        <div class="chat-bubble chat-user">
+                                            Tolong buatkan ringkasan dari buku berjudul <strong>"Sejarah Perang Kemerdekaan Mars" karya Prof. Budi Santoso tahun 1998</strong>.
+                                        </div>
+                                        <div class="chat-bubble chat-ai-reply chat-ai-reply-bad">
+                                            <div class="chat-ai-icon chat-ai-icon-bad"><i class="bi bi-robot"></i></div>
+                                            <div>
+                                                Buku "Sejarah Perang Kemerdekaan Mars" (1998) karya Prof. Budi Santoso adalah karya fiksi ilmiah klasik Indonesia. Buku ini menceritakan tentang koloni manusia di planet Mars pada tahun 2150 yang memberontak melawan korporasi Bumi...
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 d-flex flex-column justify-content-center">
+                                <div class="bg-light p-4 rounded border h-100">
+                                    <h6 class="fw-bold text-danger"><i class="bi bi-exclamation-triangle-fill me-2"></i>Bedah Kasus:</h6>
+                                    <p class="small text-muted mb-3">
+                                        Buku yang ditanyakan oleh pengguna di atas <strong>sebenarnya tidak pernah ada (fiktif)</strong>. Alih-alih menjawab "Saya tidak tahu buku tersebut", AI justru "berhalusinasi" dan mengarang sinopsis fiktif seolah-olah buku itu benar-benar diterbitkan pada tahun 1998.
+                                    </p>
+                                    <h6 class="fw-bold text-dark mb-2">Cara Mencegahnya:</h6>
+                                    <ul class="small text-muted mb-0 ps-3">
+                                        <li class="mb-1"><strong>Jangan malas cek fakta:</strong> Jangan pernah mengutip referensi medis, jurnal hukum, atau angka statistik dari AI tanpa memverifikasinya di Google.</li>
+                                        <li><strong>Gunakan Prompt Anti-Halusinasi:</strong> Tambahkan instruksi <em>"Jika kamu tidak tahu atau tidak menemukan datanya, katakan saja 'Saya tidak tahu', jangan mengarang informasi."</em></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- 2. PRIVASI DAN KEAMANAN DATA -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light p-4 d-flex flex-column align-items-center justify-content-center border-end">
+                            <img src="https://placehold.co/600x400/e9ecef/495057?text=[Image+of+Gembok+Privasi+dan+Keamanan+Data]" class="img-fluid rounded shadow-sm border mb-3" alt="Keamanan Data AI">
+                            <span class="text-muted small text-center">Data yang Anda ketik mungkin digunakan untuk melatih versi AI berikutnya.</span>
+                        </div>
+                        <div class="col-md-7 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <div class="icon-box"><i class="bi bi-shield-lock-fill"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold text-ai mb-0">2. Privasi & Keamanan Data</h3>
+                                    <span class="text-muted small">Aturan emas: Jangan masukkan data rahasia</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">ChatGPT adalah layanan berbasis <em>cloud</em> (komputasi awan). Segala sesuatu yang Anda ketik akan dikirim ke server OpenAI. Secara bawaan, riwayat obrolan Anda <strong>dapat dibaca oleh peninjau manusia</strong> dan digunakan untuk <strong>melatih model AI mereka di masa depan</strong>.</p>
+                            
+                            <div class="bg-white border border-danger rounded p-3 mb-3">
+                                <h6 class="fw-bold text-danger mb-2">Data yang HARAM dimasukkan ke ChatGPT:</h6>
+                                <ul class="small text-muted mb-0">
+                                    <li><strong>Data Pribadi (PII):</strong> NIK KTP, nomor rekening, password, atau alamat lengkap.</li>
+                                    <li><strong>Rahasia Perusahaan:</strong> Laporan keuangan internal yang belum rilis, daftar nama dan kontak klien (database CRM), atau strategi bisnis rahasia.</li>
+                                    <li><strong>Kode Sumber (Source Code) Eksklusif:</strong> Meminta AI memperbaiki <em>bug</em> pada kode aplikasi rahasia perusahaan Anda adalah pelanggaran NDA (Non-Disclosure Agreement).</li>
+                                </ul>
+                            </div>
+                            
+                            <p class="small text-muted mb-0">
+                                <strong>Solusi:</strong> Jika Anda butuh bantuan untuk merapikan tabel daftar klien, ubah namanya menjadi data *dummy* (seperti "Klien A", "Klien B") sebelum mem-<em>paste</em> datanya ke ChatGPT. Di pengaturan akun ChatGPT Anda juga bisa mematikan opsi <em>"Chat History & Training"</em>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. BIAS DAN KETERBATASAN WAKTU -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light p-4 d-flex flex-column align-items-center justify-content-center border-end">
+                            <img src="https://placehold.co/600x400/e9ecef/495057?text=[Image+of+Jam+Pasir+dan+Filter+Bias]" class="img-fluid rounded shadow-sm border mb-3" alt="Bias dan Waktu AI">
+                        </div>
+                        <div class="col-md-7 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <div class="icon-box"><i class="bi bi-calendar-x"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold text-ai mb-0">3. Bias & Keterbatasan Waktu</h3>
+                                    <span class="text-muted small">Mesin yang belajar dari manusia</span>
+                                </div>
+                            </div>
+                            
+                            <ul class="feature-list small mb-0">
+                                <li>
+                                    <h6 class="fw-bold mb-1">Knowledge Cutoff (Batas Pengetahuan)</h6>
+                                    <p class="text-muted mb-0">ChatGPT versi gratis (GPT-3.5/GPT-4o mini dasar) memiliki batas waktu pengetahuan data latih (misalnya, hanya sampai bulan lalu). Ia mungkin tidak tahu kejadian terkini (<em>Breaking News</em>) kecuali ia diberi akses untuk melakukan <em>Web Browsing</em> di internet. Selalu tanyakan: <em>"Apakah kamu tahu berita terkini mengenai topik X?"</em> sebelum meminta analisis.</p>
+                                </li>
+                                <li class="mt-4">
+                                    <h6 class="fw-bold mb-1">Bias Data (Ketidaknetralan)</h6>
+                                    <p class="text-muted mb-0">AI dilatih dari jutaan teks di internet (artikel, forum, berita) yang ditulis oleh manusia. Karena manusia memiliki bias politik, gender, dan budaya, AI juga dapat "mewarisi" bias tersebut. Saat menanyakan topik yang sensitif secara politik atau agama, AI mungkin memberikan sudut pandang yang berat sebelah.</p>
+                                </li>
+                            </ul>
+                            
+                            <div class="pro-tip mt-4 p-3 bg-light border rounded">
+                                <strong>Tips Objektivitas:</strong> Jangan gunakan prompt: <em>"Buktikan bahwa kebijakan pemerintah X itu buruk."</em> <br>Gunakan prompt yang berimbang: <em>"Jelaskan secara objektif argumen Pro dan argumen Kontra terkait kebijakan pemerintah X berdasarkan perspektif ekonomi."</em>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KESIMPULAN: TRUST BUT VERIFY -->
+                <div class="pro-tip shadow-sm mb-4 border-start-0 border-top-0 border-bottom-0 border-end border-5" style="border-color: #10a37f !important;">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <i class="bi bi-patch-check-fill fs-1 text-ai"></i>
+                        <div>
+                            <h5 class="fw-bold mb-1 text-dark">Pedoman Emas: "Trust, but Verify"</h5>
+                            <span class="small text-muted">(Percaya, tapi Verifikasi)</span>
+                        </div>
+                    </div>
+                    
+                    <p class="mb-0 text-dark small" style="line-height: 1.8;">
+                        ChatGPT adalah alat *brainstorming* (pencari ide), penyusun kerangka tulisan, dan editor bahasa yang luar biasa. Jadikan AI sebagai titik awal (Draf pertama), <strong>bukan titik akhir (Hasil final)</strong>. Tanggung jawab atas akurasi, orisinalitas, dan legalitas hasil tulisan tetap berada di tangan Anda sebagai manusia.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.css"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
