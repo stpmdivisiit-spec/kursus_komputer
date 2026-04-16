@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chain of Thought & Few-Shot - ChatGPT AI</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        /* OpenAI Teal Theme - Advanced Level */
+        .header-bg {
+            background: linear-gradient(135deg, #10a37f 0%, #064031 100%);
+        }
+        .content-card {
+            border-top: 5px solid #10a37f;
+        }
+        .icon-box {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background-color: #e6f6f2; /* Soft teal */
+            color: #10a37f;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+        .text-ai {
+            color: #10a37f !important;
+        }
+        .bg-ai-soft {
+            background-color: #e6f6f2;
+        }
+        .setup-detail-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #e9ecef;
+            margin-bottom: 2rem;
+        }
+        .setup-detail-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.08)!important;
+        }
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .feature-list > li {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            color: #495057;
+            border-bottom: 1px dashed #dee2e6;
+            padding-bottom: 1rem;
+        }
+        .feature-list > li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .feature-list > li strong {
+            color: #212529;
+        }
+        .pro-tip {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.95rem;
+            color: #664d03;
+        }
+        
+        /* Chat Simulation CSS */
+        .chat-sim-box {
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            height: 100%;
+        }
+        .chat-header {
+            background-color: #f8f9fa;
+            padding: 12px 20px;
+            border-bottom: 1px solid #dee2e6;
+            font-weight: 600;
+            color: #343a40;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .chat-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            flex-grow: 1;
+            background-color: #ffffff;
+        }
+        .chat-bubble {
+            max-width: 90%;
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        .chat-user {
+            align-self: flex-end;
+            background-color: #f4f6f8;
+            color: #212529;
+            border-bottom-right-radius: 2px;
+            border: 1px solid #dee2e6;
+        }
+        .chat-ai-reply {
+            align-self: flex-start;
+            background-color: #e6f6f2; /* Soft Teal */
+            color: #064031;
+            border-bottom-left-radius: 2px;
+            display: flex;
+            gap: 12px;
+            border: 1px solid #c3e6dc;
+            width: 100%;
+        }
+        .chat-ai-icon {
+            width: 28px;
+            height: 28px;
+            background-color: #10a37f;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .code-block {
+            background-color: #212529;
+            color: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            border-left: 4px solid #10a37f;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            white-space: pre-wrap;
+        }
+        .highlight-text {
+            background-color: #ffeeba;
+            padding: 0 4px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header-bg text-white py-5 mb-5 shadow-sm">
+        <div class="container">
+            <div class="d-flex align-items-center gap-3 mb-3">
+
+                <a href="index.html" class="btn btn-light btn-sm rounded-pill px-3 fw-medium d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-arrow-left"></i> Kembali ke Halaman Utama
+                </a>
+
+
+                <span class="badge bg-white text-dark rounded-pill shadow-sm fw-bold"><i class="bi bi-lightning-charge-fill text-warning me-1"></i> Tingkat Mahir</span>
+            </div>
+            <h1 class="display-5 fw-bold mb-2">Chain of Thought & Few-Shot</h1>
+            <p class="lead mb-0 opacity-75 d-flex align-items-center gap-2">
+                <i class="bi bi-diagram-2"></i> Rekayasa Prompt Lanjutan untuk Memandu Logika AI
+            </p>
+        </div>
+    </header>
+
+    <div class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                
+                <!-- Main Content Card -->
+                <div class="card shadow-sm border-0 content-card rounded-4 mb-4">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h2 class="h3 fw-bold mb-3 text-ai">Mengontrol Penalaran dan Format Secara Absolut</h2>
+                            <p class="text-secondary mx-auto" style="max-width: 800px;">
+                                Meskipun formula RTCF (Role, Task, Context, Format) sangat efektif untuk penulisan umum, pendekatan tersebut seringkali gagal ketika dihadapkan pada tugas klasifikasi data berskala besar atau persoalan logika matematis. Pada tingkat mahir, kita memanfaatkan dua teknik utama yang bersumber dari jurnal penelitian AI: <strong>Few-Shot Prompting</strong> (Pembelajaran via Contoh) dan <strong>Chain of Thought</strong> (Rantai Pemikiran).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1. FEW-SHOT PROMPTING -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light p-4 d-flex flex-column align-items-center justify-content-center border-end">
+                            <img src="https://placehold.co/600x400/e9ecef/495057?text=[Image+of+Ilustrasi+Input+menjadi+Output+Terpola]" class="img-fluid rounded shadow-sm border mb-3" alt="Few-Shot Prompting">
+                            <span class="text-muted small text-center">AI mempelajari pola format langsung dari contoh yang diberikan dalam instruksi.</span>
+                        </div>
+                        <div class="col-md-7 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <div class="icon-box"><i class="bi bi-copy"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold text-ai mb-0">1. Few-Shot Prompting</h3>
+                                    <span class="text-muted small">Mengajarkan AI melalui pemberian sampel</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">Metode <em>Zero-Shot</em> adalah ketika Anda meminta AI melakukan sesuatu tanpa memberikan contoh. Sebaliknya, <strong>Few-Shot Prompting</strong> melibatkan pemberian 2 hingga 5 contoh pasangan "Input dan Output" yang sempurna di dalam <em>prompt</em> Anda sebelum AI diminta mengerjakan data yang sebenarnya.</p>
+                            
+                            <ul class="feature-list small mb-0">
+                                <li>
+                                    <h6 class="fw-bold mb-1">Mengapa Teknik Ini Digunakan?</h6>
+                                    <p class="text-muted mb-0">Terkadang mendeskripsikan format JSON atau skema klasifikasi sangat sulit dilakukan dengan kata-kata. Dengan memberikan contoh konkret, AI secara otomatis akan meniru pola, gaya bahasa, dan struktur data yang Anda inginkan tanpa deviasi sedikit pun.</p>
+                                </li>
+                                <li>
+                                    <h6 class="fw-bold mb-1">Kasus Penggunaan Optimal:</h6>
+                                    <p class="text-muted mb-0">Sangat krusial untuk tugas seperti <strong>Analisis Sentimen</strong>, <strong>Ekstraksi Entitas</strong> (mengambil nama/harga dari teks acak), dan penulisan ulasan dengan gaya spesifik (<em>brand voice</em>).</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SIMULASI FEW-SHOT -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card mb-5">
+                    <div class="card-body p-4 p-lg-5">
+                        <h3 class="h5 fw-bold mb-4 border-bottom pb-2 text-dark">Studi Kasus 1: Ekstraksi Data Pelanggan (Few-Shot)</h3>
+                        <div class="row g-4">
+                            <div class="col-md-12">
+                                <div class="chat-sim-box">
+                                    <div class="chat-body">
+                                        <div class="chat-bubble chat-user">
+                                            Ekstrak informasi dari keluhan pelanggan ke dalam format ringkas.<br><br>
+                                            <strong>Contoh 1:</strong><br>
+                                            Input: "Paket saya nomor resi JP1234 rusak parah. Tolong hubungi saya di 0812345678."<br>
+                                            Output: [Resi: JP1234 | Masalah: Barang Rusak | Kontak: 0812345678]<br><br>
+                                            <strong>Contoh 2:</strong><br>
+                                            Input: "Kurir belum mengirimkan barang padahal di status sudah delivered. Resi AB9988. Telepon saya 0855667788."<br>
+                                            Output: [Resi: AB9988 | Masalah: Status Fiktif | Kontak: 0855667788]<br><br>
+                                            <strong>Tugas Anda:</strong><br>
+                                            Input: "Barang elektronik yang saya terima dengan resi XY5566 tidak bisa menyala saat dicolok. Tolong email saya di budi@mail.com."<br>
+                                            Output:
+                                        </div>
+                                        <div class="chat-bubble chat-ai-reply">
+                                            <div class="chat-ai-icon"><i class="bi bi-robot"></i></div>
+                                            <div class="fw-bold text-dark">
+                                                [Resi: XY5566 | Masalah: Barang Mati/Cacat Fungsi | Kontak: budi@mail.com]
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="small text-muted mt-2 text-center"><em>*Dengan memberikan dua contoh (Few-Shot), AI secara instan memahami struktur braket <code>[...]</code> dan separator pipa <code>|</code> yang diinginkan tanpa harus dijelaskan melalui paragraf instruksi panjang.</em></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. CHAIN OF THOUGHT -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light p-4 border-end d-flex flex-column align-items-center justify-content-center">
+                            <div class="bg-white p-3 rounded border shadow-sm w-100 mb-3 text-center">
+                                <span class="d-block small text-muted mb-1">Zero-Shot (Sering Gagal)</span>
+                                <span class="text-danger fw-bold"><i class="bi bi-x-circle-fill"></i> Berikan saya jawaban akhir.</span>
+                            </div>
+                            <div class="bg-white p-3 rounded border shadow-sm w-100 text-center" style="border-color: #10a37f !important;">
+                                <span class="d-block small text-muted mb-1">Chain of Thought (Akurat)</span>
+                                <span class="text-success fw-bold"><i class="bi bi-check-circle-fill"></i> Mari kita jabarkan langkah demi langkah.</span>
+                            </div>
+                        </div>
+                        <div class="col-md-7 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <div class="icon-box"><i class="bi bi-link"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold text-ai mb-0">2. Chain of Thought (Rantai Pemikiran)</h3>
+                                    <span class="text-muted small">Memaksa AI untuk "berpikir lantang"</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">Model bahasa besar rentan melakukan kesalahan konyol pada matematika dasar atau logika bercabang apabila dipaksa untuk menghasilkan jawaban akhir (final answer) pada kalimat pertama.</p>
+                            
+                            <ul class="feature-list small mb-0">
+                                <li>
+                                    <h6 class="fw-bold mb-1">Konsep Dasar (CoT)</h6>
+                                    <p class="text-muted mb-0"><em>Chain of Thought</em> adalah teknik menyisipkan instruksi yang memaksa AI untuk menuliskan proses deduksinya secara berurutan. Dengan memecah masalah besar menjadi sub-masalah, tingkat akurasi komputasi AI meningkat hingga 70% pada tugas yang kompleks.</p>
+                                </li>
+                                <li>
+                                    <h6 class="fw-bold mb-1">Zero-Shot CoT (Mantra Ajaib)</h6>
+                                    <p class="text-muted mb-0">Cara paling sederhana mengaktifkan mode ini adalah dengan menambahkan kalimat sakti: <span class="highlight-text">"Mari kita selesaikan ini langkah demi langkah"</span> (Let's think step by step) di akhir <em>prompt</em> Anda.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SIMULASI CHAIN OF THOUGHT -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card mb-4">
+                    <div class="card-body p-4 p-lg-5">
+                        <h3 class="h5 fw-bold mb-4 border-bottom pb-2 text-dark">Studi Kasus 2: Logika Bisnis (Chain of Thought)</h3>
+                        <div class="row g-4">
+                            
+                            <!-- Bad Prompt -->
+                            <div class="col-md-6">
+                                <div class="chat-sim-box h-100">
+                                    <div class="chat-header bg-danger text-white"><i class="bi bi-x-circle-fill"></i> Tanpa CoT (Gagal)</div>
+                                    <div class="chat-body">
+                                        <div class="chat-bubble chat-user">
+                                            Sebuah toko menjual 15 sepatu di hari Senin. Hari Selasa penjualannya 1/3 dari hari Senin. Hari Rabu penjualannya bertambah 5 dari hari Selasa. Berapa total pendapatan jika harga per sepatu Rp 100.000? Berikan jawabannya saja.
+                                        </div>
+                                        <div class="chat-bubble chat-ai-reply" style="background-color: #f8d7da; border-color: #f5c2c7; color: #842029;">
+                                            <div class="chat-ai-icon" style="background-color: #dc3545;"><i class="bi bi-robot"></i></div>
+                                            <div>
+                                                Total pendapatan adalah Rp 1.500.000.
+                                            </div>
+                                        </div>
+                                        <div class="mt-auto pt-3 text-center border-top">
+                                            <p class="small text-danger fw-bold mb-0">Analisis Kegagalan:</p>
+                                            <p class="small text-muted mb-0">AI dipaksa langsung menebak hasil akhir sehingga kehilangan konteks perhitungan hari Selasa dan Rabu. (Jawaban salah).</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Good Prompt -->
+                            <div class="col-md-6">
+                                <div class="chat-sim-box h-100 border-success">
+                                    <div class="chat-header bg-success text-white"><i class="bi bi-check-circle-fill"></i> Dengan CoT (Akurat)</div>
+                                    <div class="chat-body">
+                                        <div class="chat-bubble chat-user">
+                                            Sebuah toko menjual 15 sepatu di hari Senin. Hari Selasa penjualannya 1/3 dari hari Senin. Hari Rabu penjualannya bertambah 5 dari hari Selasa. Berapa total pendapatan jika harga per sepatu Rp 100.000? <br><br><strong>Mari kita hitung secara runut langkah demi langkah sebelum memberikan jawaban akhir.</strong>
+                                        </div>
+                                        <div class="chat-bubble chat-ai-reply">
+                                            <div class="chat-ai-icon"><i class="bi bi-robot"></i></div>
+                                            <div class="small">
+                                                Mari kita hitung penjualannya setiap hari:<br>
+                                                1. <strong>Senin:</strong> 15 sepatu.<br>
+                                                2. <strong>Selasa:</strong> 1/3 dari Senin (15) = 5 sepatu.<br>
+                                                3. <strong>Rabu:</strong> Penjualan Selasa (5) ditambah 5 = 10 sepatu.<br>
+                                                <br>
+                                                Total sepatu terjual = 15 + 5 + 10 = 30 sepatu.<br>
+                                                Harga per sepatu = Rp 100.000.<br>
+                                                <br>
+                                                <strong>Total Pendapatan Akhir:</strong> 30 x Rp 100.000 = <strong>Rp 3.000.000</strong>.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRO TIP: CUSTOM INSTRUCTIONS -->
+                <div class="pro-tip shadow-sm mb-4 border-start-0 border-top-0 border-bottom-0 border-end border-5" style="border-color: #10a37f !important;">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <i class="bi bi-gear-wide fs-1 text-ai"></i>
+                        <div>
+                            <h5 class="fw-bold mb-1 text-dark">Pedoman Efisiensi: Custom Instructions (Instruksi Kustom)</h5>
+                            <span class="small text-muted">Menanamkan aturan permanen pada AI Anda</span>
+                        </div>
+                    </div>
+                    
+                    <p class="mb-0 text-dark small" style="line-height: 1.8;">
+                        Jika Anda selalu membutuhkan AI untuk memberikan jawaban dalam format <em>Chain of Thought</em> atau selalu ingin disapa dengan sebutan profesional, Anda tidak perlu mengetik ulang aturan tersebut pada setiap sesi obrolan (chat). <br><br>
+                        Buka menu pengaturan profil ChatGPT Anda dan pilih <strong>Custom Instructions</strong>. Pada kolom <em>"How would you like ChatGPT to respond?"</em>, ketikkan: <code>Selalu analisis masalah selangkah demi selangkah. Jangan pernah asumsikan nilai tanpa perhitungan matematis. Berikan respons dalam bahasa Indonesia yang sangat formal.</code><br> Aturan ini akan tertanam secara sistemik pada setiap sesi baru Anda.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.css"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

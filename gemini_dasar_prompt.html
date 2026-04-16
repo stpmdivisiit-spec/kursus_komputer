@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengenalan & Prompt Multimodal - Gemini AI</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        /* Google/Gemini Blue Theme */
+        .header-bg {
+            background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+        }
+        .content-card {
+            border-top: 5px solid #1a73e8;
+        }
+        .icon-box {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background-color: #e8f0fe; /* Soft blue */
+            color: #1a73e8;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+        .text-gemini {
+            color: #1a73e8 !important;
+        }
+        .bg-gemini-soft {
+            background-color: #e8f0fe;
+        }
+        .setup-detail-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #e9ecef;
+            margin-bottom: 2rem;
+        }
+        .setup-detail-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.08)!important;
+        }
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .feature-list > li {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            color: #495057;
+            border-bottom: 1px dashed #dee2e6;
+            padding-bottom: 1rem;
+        }
+        .feature-list > li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .feature-list > li strong {
+            color: #212529;
+        }
+        .pro-tip {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.95rem;
+            color: #664d03;
+        }
+        
+        /* Chat Simulation CSS for Gemini */
+        .chat-sim-box {
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            height: 100%;
+        }
+        .chat-header {
+            background-color: #f8f9fa;
+            padding: 12px 20px;
+            border-bottom: 1px solid #dee2e6;
+            font-weight: 600;
+            color: #343a40;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .chat-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            flex-grow: 1;
+            background-color: #ffffff;
+        }
+        .chat-bubble {
+            max-width: 85%;
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        .chat-user {
+            align-self: flex-end;
+            background-color: #f1f3f4;
+            color: #212529;
+            border-bottom-right-radius: 2px;
+            border: 1px solid #e8eaed;
+        }
+        .chat-ai-reply {
+            align-self: flex-start;
+            background-color: #e8f0fe; /* Soft Blue */
+            color: #0d47a1;
+            border-bottom-left-radius: 2px;
+            display: flex;
+            gap: 12px;
+            border: 1px solid #d2e3fc;
+        }
+        .chat-ai-icon {
+            width: 28px;
+            height: 28px;
+            background-color: #ffffff;
+            color: #1a73e8;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+            border: 1px solid #1a73e8;
+        }
+        /* Attached media mockup */
+        .attached-media {
+            background-color: #ffffff;
+            border: 1px solid #ced4da;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: #495057;
+            margin-bottom: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .attached-media img {
+            border-radius: 4px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header-bg text-white py-5 mb-5 shadow-sm">
+        <div class="container">
+            <div class="d-flex align-items-center gap-3 mb-3">
+
+                             <a href="index.html" class="btn btn-light btn-sm rounded-pill px-3 fw-medium d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-arrow-left"></i> Kembali ke Halaman Utama
+                </a>    
+                
+
+                <span class="badge bg-white text-dark rounded-pill shadow-sm fw-bold"><i class="bi bi-book me-1 text-gemini"></i> Tingkat Dasar</span>
+            </div>
+            <h1 class="display-5 fw-bold mb-2">Pengenalan & Prompt Multimodal</h1>
+            <p class="lead mb-0 opacity-75 d-flex align-items-center gap-2">
+                <i class="bi bi-stars"></i> Berkomunikasi Melalui Teks, Suara, dan Gambar
+            </p>
+        </div>
+    </header>
+
+    <div class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                
+                <!-- Main Content Card -->
+                <div class="card shadow-sm border-0 content-card rounded-4 mb-4">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h2 class="h3 fw-bold mb-3 text-gemini">Era Baru AI Multimodal Sejati</h2>
+                            <p class="text-secondary mx-auto" style="max-width: 800px;">
+                                Berbeda dengan model AI generasi sebelumnya yang harus "menerjemahkan" gambar menjadi teks terlebih dahulu, <strong>Google Gemini dibangun sebagai model multimodal dari awal (natively multimodal)</strong>. Artinya, Gemini memahami teks, melihat gambar, dan mendengar suara pada saat yang bersamaan, layaknya otak manusia. Hal ini memungkinkan kita untuk memberikan instruksi (prompt) yang jauh lebih kompleks dan kreatif.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1. ANTARMUKA & KONTROL INPUT -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light p-4 d-flex flex-column align-items-center justify-content-center border-end">
+                            <img src="https://placehold.co/600x400/e9ecef/495057?text=[Image+of+Kolom+Input+Gemini+dengan+Ikon+Plus+dan+Mic]" class="img-fluid rounded shadow-sm border mb-3" alt="Antarmuka Input Gemini">
+                            <span class="text-muted small text-center">Kolom input Gemini dilengkapi dengan ikon Galeri/Plus untuk unggah gambar dan Mikrofon untuk input suara.</span>
+                        </div>
+                        <div class="col-md-7 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <div class="icon-box"><i class="bi bi-input-cursor-text"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold text-gemini mb-0">1. Mengenal Area Ruang Kerja</h3>
+                                    <span class="text-muted small">Tiga jalur komunikasi utama Anda</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">Di bagian bawah layar Gemini, Anda tidak hanya menemukan kolom teks biasa. Terdapat beberapa ikon penting yang menjadi pintu gerbang interaksi multimodal:</p>
+                            
+                            <ul class="feature-list small mb-0">
+                                <li>
+                                    <h6 class="fw-bold mb-1"><i class="bi bi-keyboard me-2 text-gemini"></i>Input Teks (Standar)</h6>
+                                    <p class="text-muted mb-0">Sama seperti ChatGPT, Anda mengetikkan perintah di sini. Pastikan perintah Anda jelas, spesifik, dan memiliki konteks. <em>Contoh: "Buatkan daftar 5 tempat wisata di Bali untuk keluarga."</em></p>
+                                </li>
+                                <li>
+                                    <h6 class="fw-bold mb-1"><i class="bi bi-image me-2 text-gemini"></i>Upload Image (Ikon Gambar / Plus)</h6>
+                                    <p class="text-muted mb-0">Memungkinkan Anda mengunggah foto dari komputer atau HP Anda (JPG, PNG). Gemini dapat menganalisis objek, membaca teks di dalam gambar (OCR), atau mencari pola visual.</p>
+                                </li>
+                                <li>
+                                    <h6 class="fw-bold mb-1"><i class="bi bi-mic-fill me-2 text-gemini"></i>Voice Input (Ikon Mikrofon)</h6>
+                                    <p class="text-muted mb-0">Jika Anda malas mengetik ide panjang, cukup klik ikon mikrofon dan bicaralah. Teknologi <em>Speech-to-Text</em> Google sangat akurat, bahkan mampu memahami campuran bahasa Indonesia dan Inggris (Gado-gado).</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. STUDI KASUS MULTIMODAL (GAMBAR + TEKS) -->
+                <div class="d-flex align-items-center gap-3 mt-5 mb-4 border-top pt-5">
+                    <i class="bi bi-images fs-2 text-gemini"></i>
+                    <h2 class="h3 fw-bold mb-0">Studi Kasus Ekstensif: Prompt Visual (Gambar + Teks)</h2>
+                </div>
+
+                <p class="text-muted mb-4">Mengunggah gambar saja tanpa instruksi tidak akan menghasilkan output maksimal. <strong>Rahasia Multimodal adalah menggabungkan gambar dengan pertanyaan atau tugas spesifik (Teks).</strong> Mari kita lihat contoh penerapannya di dunia nyata.</p>
+
+                <div class="row g-4 mb-5">
+                    
+                    <!-- Kasus 1: Problem Solving -->
+                    <div class="col-md-6">
+                        <div class="chat-sim-box h-100">
+                            <div class="chat-header text-dark"><i class="bi bi-1-circle-fill text-gemini me-2"></i>Kasus 1: Memecahkan Masalah Sehari-hari</div>
+                            <div class="chat-body">
+                                <div class="chat-bubble chat-user">
+                                    <div class="attached-media w-100">
+                                        <img src="https://placehold.co/60x60/ced4da/495057?text=[Isi+Kulkas]" alt="Isi Kulkas">
+                                        <div>
+                                            <div class="fw-bold text-dark">Kulkas_Saya.jpg</div>
+                                            <div class="small">Image • 1.2 MB</div>
+                                        </div>
+                                    </div>
+                                    Berdasarkan bahan-bahan yang terlihat di dalam kulkas ini, tolong berikan 3 ide resep makan malam yang mudah dibuat dalam waktu kurang dari 30 menit.
+                                </div>
+                                <div class="chat-bubble chat-ai-reply">
+                                    <div class="chat-ai-icon"><i class="bi bi-stars"></i></div>
+                                    <div class="small">
+                                        Saya melihat Anda memiliki telur, tomat, seikat bayam, sisa nasi putih, dan ayam potong di dalam kulkas. Berikut adalah 3 ide resep cepat untuk makan malam Anda:<br><br>
+                                        <strong>1. Nasi Goreng Ayam Sayur (20 Menit)</strong><br>
+                                        Gunakan sisa nasi putih, potong dadu ayam Anda, dan iris bayam. Tumis dengan telur dan bumbu dasar.<br><br>
+                                        <strong>2. Omelet Sayur Tomat (15 Menit)</strong><br>
+                                        Kocok 3 butir telur, campurkan irisan tomat dan bayam. Goreng dengan sedikit minyak. Sangat sehat dan kaya protein.<br><br>
+                                        <strong>3. Sup Ayam Bayam Bening (25 Menit)</strong><br>
+                                        Rebus ayam hingga matang untuk membuat kaldu, lalu masukkan bayam dan potongan tomat di menit-menit akhir.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kasus 2: Penerjemahan & Analisis -->
+                    <div class="col-md-6">
+                        <div class="chat-sim-box h-100 border-primary">
+                            <div class="chat-header text-dark"><i class="bi bi-2-circle-fill text-gemini me-2"></i>Kasus 2: Penerjemahan Teks dari Foto</div>
+                            <div class="chat-body">
+                                <div class="chat-bubble chat-user">
+                                    <div class="attached-media w-100">
+                                        <img src="https://placehold.co/60x60/ced4da/495057?text=[Papan+Jepang]" alt="Papan Nama Jepang">
+                                        <div>
+                                            <div class="fw-bold text-dark">Papan_Jalan.png</div>
+                                            <div class="small">Image • 850 KB</div>
+                                        </div>
+                                    </div>
+                                    Saya sedang tersesat di stasiun ini. Tolong baca teks bahasa Jepang di papan penunjuk arah warna kuning tersebut, terjemahkan ke bahasa Indonesia, dan beri tahu saya jalur mana yang harus saya ambil untuk menuju pintu keluar (Exit).
+                                </div>
+                                <div class="chat-bubble chat-ai-reply">
+                                    <div class="chat-ai-icon"><i class="bi bi-stars"></i></div>
+                                    <div class="small">
+                                        Jangan panik. Berdasarkan gambar yang Anda unggah:<br><br>
+                                        Papan warna kuning tersebut bertuliskan <strong>"出口 (Deguchi)"</strong> yang berarti <strong>"Pintu Keluar"</strong>, dan <strong>"北口 (Kita-guchi)"</strong> yang berarti <strong>"Pintu Keluar Utara"</strong>.<br><br>
+                                        Panah di papan tersebut menunjuk ke arah <strong>kanan atas (naik eskalator)</strong>. Untuk keluar dari stasiun, silakan naik eskalator yang berada tepat di sebelah kanan papan kuning tersebut menuju Pintu Utara.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. STUDI KASUS: ANALISIS DATA VISUAL (DIAGRAM/BAGAN) -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card mb-4">
+                    <div class="row g-0">
+                        <div class="col-md-4 bg-light p-4 d-flex align-items-center justify-content-center border-end">
+                            <img src="https://placehold.co/400x400/e9ecef/495057?text=[Grafik+Penjualan+Menurun]" class="img-fluid rounded shadow-sm border" alt="Grafik Penjualan">
+                        </div>
+                        <div class="col-md-8 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <div class="icon-box"><i class="bi bi-graph-down-arrow"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold text-gemini mb-0">Kasus 3: Membaca Grafik dan Diagram</h3>
+                                    <span class="text-muted small">Menyederhanakan data rumit bagi pemula</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">Salah satu kehebatan "mata" Gemini adalah kemampuannya menafsirkan grafik statistik. Anda tidak perlu menyalin angka-angka tersebut ke Excel; cukup foto grafiknya.</p>
+                            
+                            <div class="bg-light p-3 border rounded mb-3">
+                                <div class="fw-bold text-dark small mb-2">Prompt yang Dimasukkan:</div>
+                                <p class="font-monospace small mb-0">"Bertindaklah sebagai analis bisnis. Perhatikan grafik penjualan kuartalan yang saya lampirkan ini. Tolong jelaskan tren apa yang terjadi, dan temukan anomali (keanehan) yang muncul di kuartal ke-3. Jelaskan penyebab yang mungkin terjadi."</p>
+                            </div>
+                            
+                            <div class="bg-gemini-soft border p-3 rounded" style="border-color: #d2e3fc !important;">
+                                <div class="fw-bold text-gemini small mb-2"><i class="bi bi-stars me-1"></i> Respon Gemini:</div>
+                                <p class="small text-dark mb-0">
+                                    Dari grafik batang tersebut, terlihat tren penjualan stabil di kisaran angka $50,000 pada Q1 dan Q2. Namun, terdapat anomali penurunan drastis hingga menyentuh angka $15,000 pada Q3. Berdasarkan warna legenda, penurunan ini secara spesifik terjadi pada "Kategori Produk Elektronik".<br><br>
+                                    <strong>Kemungkinan Penyebab:</strong> Penurunan drastis pada satu kategori di Q3 (Juli-September) mungkin disebabkan oleh gangguan rantai pasok global (krisis <em>chip/semikonduktor</em>), atau karena kompetitor baru saja merilis produk inovatif pada bulan Juli.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRO TIP: FORMULA PROMPT MULTIMODAL -->
+                <div class="pro-tip shadow-sm mb-4 border-start-0 border-top-0 border-bottom-0 border-end border-5" style="border-color: #1a73e8 !important;">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <i class="bi bi-camera-fill fs-1 text-gemini"></i>
+                        <div>
+                            <h5 class="fw-bold mb-1 text-dark">Pedoman Emas: Formula Prompt Multimodal</h5>
+                            <span class="small text-muted">Cara mendapatkan hasil visual terbaik</span>
+                        </div>
+                    </div>
+                    
+                    <p class="mb-2 text-dark small" style="line-height: 1.8;">
+                        Ketika Anda menyertakan gambar dalam prompt Anda, pastikan teks Anda mengandung tiga elemen penting ini:
+                    </p>
+                    <ul class="text-dark small mb-0 fw-medium">
+                        <li class="mb-1"><strong>1. Arahan Fokus (Focus):</strong> Beri tahu Gemini bagian mana dari gambar yang harus diperhatikan. <em>(Misal: "Perhatikan mesin mobil di sudut kiri bawah...")</em></li>
+                        <li class="mb-1"><strong>2. Tugas (Task):</strong> Apa yang harus ia lakukan dengan gambar itu. <em>(Misal: "...identifikasi komponen apa yang bocor...")</em></li>
+                        <li><strong>3. Format Keluaran (Format):</strong> Bagaimana cara ia menjawab. <em>(Misal: "...dan tuliskan 3 langkah cara memperbaikinya dalam bentuk poin peluru.")</em></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.css"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

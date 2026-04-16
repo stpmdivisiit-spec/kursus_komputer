@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Data Analysis - ChatGPT AI</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        /* OpenAI Teal Theme - Advanced Level */
+        .header-bg {
+            background: linear-gradient(135deg, #10a37f 0%, #064031 100%);
+        }
+        .content-card {
+            border-top: 5px solid #10a37f;
+        }
+        .icon-box {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background-color: #e6f6f2; /* Soft teal */
+            color: #10a37f;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+        .text-ai {
+            color: #10a37f !important;
+        }
+        .bg-ai-soft {
+            background-color: #e6f6f2;
+        }
+        .setup-detail-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #e9ecef;
+            margin-bottom: 2rem;
+        }
+        .setup-detail-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.08)!important;
+        }
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .feature-list > li {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            color: #495057;
+            border-bottom: 1px dashed #dee2e6;
+            padding-bottom: 1rem;
+        }
+        .feature-list > li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .feature-list > li strong {
+            color: #212529;
+        }
+        .pro-tip {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.95rem;
+            color: #664d03;
+        }
+        
+        /* Chat Simulation CSS */
+        .chat-sim-box {
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            height: 100%;
+        }
+        .chat-header {
+            background-color: #f8f9fa;
+            padding: 12px 20px;
+            border-bottom: 1px solid #dee2e6;
+            font-weight: 600;
+            color: #343a40;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .chat-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            flex-grow: 1;
+            background-color: #ffffff;
+        }
+        .chat-bubble {
+            max-width: 90%;
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        .chat-user {
+            align-self: flex-end;
+            background-color: #f4f6f8;
+            color: #212529;
+            border-bottom-right-radius: 2px;
+            border: 1px solid #dee2e6;
+        }
+        .chat-ai-reply {
+            align-self: flex-start;
+            background-color: #e6f6f2; /* Soft Teal */
+            color: #064031;
+            border-bottom-left-radius: 2px;
+            display: flex;
+            gap: 12px;
+            border: 1px solid #c3e6dc;
+            width: 100%;
+        }
+        .chat-ai-icon {
+            width: 28px;
+            height: 28px;
+            background-color: #10a37f;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        /* Python Execution Simulation */
+        .python-exec {
+            background-color: #f8f9fa;
+            border-left: 3px solid #10a37f;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        .python-exec:hover {
+            background-color: #e9ecef;
+        }
+        .file-attachment {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #ffffff;
+            border: 1px solid #ced4da;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #495057;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header-bg text-white py-5 mb-5 shadow-sm">
+        <div class="container">
+            <div class="d-flex align-items-center gap-3 mb-3">
+
+                <a href="index.html" class="btn btn-light btn-sm rounded-pill px-3 fw-medium d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-arrow-left"></i> Kembali ke Halaman Utama
+                </a>
+
+                <span class="badge bg-white text-dark rounded-pill shadow-sm fw-bold"><i class="bi bi-lightning-charge-fill text-warning me-1"></i> Tingkat Mahir</span>
+            </div>
+            <h1 class="display-5 fw-bold mb-2">Advanced Data Analysis</h1>
+            <p class="lead mb-0 opacity-75 d-flex align-items-center gap-2">
+                <i class="bi bi-bar-chart-line-fill"></i> Mengekstrak Wawasan Bisnis dari Kumpulan Data Kompleks
+            </p>
+        </div>
+    </header>
+
+    <div class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                
+                <!-- Main Content Card -->
+                <div class="card shadow-sm border-0 content-card rounded-4 mb-4">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h2 class="h3 fw-bold mb-3 text-ai">Bukan Sekadar Membaca, Melainkan Memproses</h2>
+                            <p class="text-secondary mx-auto" style="max-width: 800px;">
+                                <strong>Advanced Data Analysis</strong> (sebelumnya dikenal sebagai <em>Code Interpreter</em>) adalah fitur tingkat mahir di mana ChatGPT diberikan akses ke dalam lingkungan kerja <strong>Python Sandbox</strong>. Fitur ini memungkinkan AI untuk menulis, menjalankan, dan mengevaluasi kode pemrograman secara otonom di latar belakang untuk merespons perintah Anda. Dengan ini, Anda memiliki seorang <em>Data Scientist</em> virtual yang siap menganalisis jutaan baris data dalam hitungan detik.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1. MEKANISME KERJA -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light p-4 d-flex flex-column align-items-center justify-content-center border-end">
+                            <img src="https://placehold.co/600x400/e9ecef/495057?text=[Image+of+Ilustrasi+Mesin+Python+di+Latar+Belakang]" class="img-fluid rounded shadow-sm border mb-3" alt="Python Execution">
+                            <span class="text-muted small text-center">AI menerjemahkan perintah Anda menjadi kode Python, mengeksekusinya, dan menampilkan hasil akhirnya.</span>
+                        </div>
+                        <div class="col-md-7 p-4 p-lg-5">
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <div class="icon-box"><i class="bi bi-gear-wide-connected"></i></div>
+                                <div>
+                                    <h3 class="h4 fw-bold text-ai mb-0">1. Mekanisme Kerja Internal</h3>
+                                    <span class="text-muted small">Eksekusi Kode secara Otonom</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-secondary mb-4">Berbeda dengan modul teks biasa yang hanya "menebak" kata selanjutnya, Advanced Data Analysis bekerja secara matematis dan deterministik.</p>
+                            
+                            <ul class="feature-list small mb-0">
+                                <li>
+                                    <h6 class="fw-bold mb-1">Membaca Berbagai Format File</h6>
+                                    <p class="text-muted mb-0">Anda dapat mengunggah kumpulan data mentah dalam format CSV, XLSX (Excel), JSON, hingga PDF atau gambar. AI akan memanfaatkan pustaka Python (seperti <em>Pandas</em>) untuk mengonversi data tersebut menjadi struktur *DataFrame* yang dapat diolah.</p>
+                                </li>
+                                <li>
+                                    <h6 class="fw-bold mb-1">Kalkulasi Presisi Tinggi</h6>
+                                    <p class="text-muted mb-0">Karena AI mendelegasikan proses perhitungan kepada mesin Python, masalah inakurasi matematika yang sering terjadi pada *Large Language Models* standar dapat teratasi. Hasil penjumlahan, rata-rata, maupun regresi statistik dijamin akurat secara matematis.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. DATA CLEANING & TRANSFORMATION -->
+                <div class="card border-0 shadow-sm bg-white rounded-4 overflow-hidden setup-detail-card">
+                    <div class="card-body p-4 p-lg-5">
+                        <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                            <div class="icon-box"><i class="bi bi-magic"></i></div>
+                            <div>
+                                <h3 class="h4 fw-bold text-ai mb-0">2. Pembersihan Data (Data Cleaning)</h3>
+                                <span class="text-muted small">Merestrukturisasi data mentah yang tidak beraturan</span>
+                            </div>
+                        </div>
+
+                        <p class="text-secondary mb-4">
+                            Dalam praktiknya, 80% waktu seorang analis data dihabiskan untuk merapikan data yang berantakan. Melalui fitur ini, Anda dapat menginstruksikan ChatGPT untuk melakukan <em>Data Cleaning</em> skala besar tanpa perlu menguasai sintaks pemrograman.
+                        </p>
+
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <div class="bg-light p-4 rounded border h-100">
+                                    <h6 class="fw-bold text-dark"><i class="bi bi-eraser-fill text-ai me-2"></i>Penanganan Nilai Kosong (Missing Values)</h6>
+                                    <p class="small text-muted mb-2">Anda dapat memberikan perintah komprehensif seperti:</p>
+                                    <div class="p-2 bg-white border rounded small font-monospace">
+                                        "Identifikasi baris yang memiliki nilai sel kosong. Hapus baris jika kolom 'ID Transaksi' kosong, namun isi dengan nilai rata-rata (mean) jika yang kosong adalah kolom 'Usia Pelanggan'."
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="bg-light p-4 rounded border h-100">
+                                    <h6 class="fw-bold text-dark"><i class="bi bi-funnel-fill text-ai me-2"></i>Penghapusan Duplikasi (Deduplication)</h6>
+                                    <p class="small text-muted mb-2">Sistem dapat melacak data ganda dengan presisi tinggi:</p>
+                                    <div class="p-2 bg-white border rounded small font-monospace">
+                                        "Cari pelanggan yang memiliki alamat email ganda. Pertahankan baris dengan tanggal transaksi paling baru (Latest Date) dan hapus entri duplikat sebelumnya."
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="bg-light p-4 rounded border h-100">
+                                    <h6 class="fw-bold text-dark"><i class="bi bi-calendar2-check text-ai me-2"></i>Transformasi Format Data</h6>
+                                    <p class="small text-muted mb-2">Menyeragamkan struktur tipe data secara instan:</p>
+                                    <div class="p-2 bg-white border rounded small font-monospace">
+                                        "Ubah seluruh teks pada kolom 'Nama Kota' menjadi huruf kapital (UPPERCASE). Konversi format tanggal di kolom 'Date' menjadi standar 'YYYY-MM-DD'."
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===================== STUDI KASUS LUAS ===================== -->
+                <div class="d-flex align-items-center gap-3 mt-5 mb-4 border-top pt-5">
+                    <i class="bi bi-display fs-2 text-ai"></i>
+                    <h2 class="h3 fw-bold mb-0">Studi Kasus Ekstensif: Analisis Kinerja E-Commerce</h2>
+                </div>
+
+                <p class="text-muted mb-4">Mari kita simulasikan proses <em>Exploratory Data Analysis</em> (EDA) yang dilakukan oleh seorang Manajer Penjualan menggunakan file CSV berukuran 50.000 baris transaksi.</p>
+
+                <div class="row g-4 mb-5">
+                    <div class="col-12">
+                        <div class="chat-sim-box">
+                            <div class="chat-header"><i class="bi bi-robot text-ai"></i> Sesi Advanced Data Analysis</div>
+                            <div class="chat-body" style="background-color: #fafbfc;">
+                                
+                                <!-- TURN 1: Upload & Summary -->
+                                <div class="w-100 mb-2 border-bottom pb-2">
+                                    <span class="step-badge">Tahap 1: Inspeksi Data Awal (Data Profiling)</span>
+                                </div>
+                                <div class="chat-bubble chat-user">
+                                    <div class="file-attachment">
+                                        <i class="bi bi-filetype-csv text-success fs-5"></i> Data_Penjualan_Q3.csv
+                                    </div><br>
+                                    Tolong bertindak sebagai Data Analyst. Bacalah file yang saya unggah, pahami strukturnya, dan berikan ringkasan eksekutif (Data Profiling) terkait metrik utama yang ada di dalamnya.
+                                </div>
+                                <div class="chat-bubble chat-ai-reply">
+                                    <div class="chat-ai-icon"><i class="bi bi-robot"></i></div>
+                                    <div class="w-100">
+                                        <!-- Python execution simulation -->
+                                        <div class="python-exec">
+                                            <i class="bi bi-terminal text-muted"></i> <span>Analyzed with Python</span> <i class="bi bi-chevron-down ms-auto text-muted"></i>
+                                        </div>
+                                        Saya telah memuat dan menganalisis dataset <code>Data_Penjualan_Q3.csv</code>. Berikut adalah ringkasan eksekutif dari struktur data tersebut:<br><br>
+                                        <strong>1. Dimensi Data:</strong> Dataset ini terdiri dari 52.410 baris transaksi dan 8 kolom.<br>
+                                        <strong>2. Kualitas Data:</strong> Terdapat 142 baris dengan nilai kosong (null) pada kolom <code>Kategori_Produk</code>, yang merepresentasikan hanya 0.2% dari total data.<br>
+                                        <strong>3. Metrik Utama (Descriptive Statistics):</strong>
+                                        <ul>
+                                            <li>Total Pendapatan (Revenue) pada Q3: <strong>Rp 12.450.000.000</strong></li>
+                                            <li>Rata-rata Nilai Transaksi (AOV): <strong>Rp 237.550</strong></li>
+                                            <li>Kategori paling dominan: <strong>Elektronik (34%)</strong></li>
+                                        </ul>
+                                        Apakah Anda ingin saya membersihkan nilai kosong tersebut atau langsung menuju visualisasi tren penjualan?
+                                    </div>
+                                </div>
+
+                                <!-- TURN 2: Visualization -->
+                                <div class="w-100 mt-4 mb-2 border-bottom pb-2">
+                                    <span class="step-badge bg-primary">Tahap 2: Pembuatan Visualisasi (Data Visualization)</span>
+                                </div>
+                                <div class="chat-bubble chat-user">
+                                    Abaikan nilai kosong tersebut. Tolong <strong>buatkan visualisasi grafik garis (Line Chart)</strong> yang merepresentasikan tren pendapatan harian selama kuartal ke-3. Pastikan grafiknya terlihat profesional dan berikan anotasi (tanda) pada hari dengan penjualan tertinggi.
+                                </div>
+                                <div class="chat-bubble chat-ai-reply">
+                                    <div class="chat-ai-icon"><i class="bi bi-robot"></i></div>
+                                    <div class="w-100">
+                                        <div class="python-exec">
+                                            <i class="bi bi-terminal text-muted"></i> <span>Analyzed with Python</span> <i class="bi bi-chevron-down ms-auto text-muted"></i>
+                                        </div>
+                                        Tentu, saya telah mengelompokkan (aggregate) data pendapatan berdasarkan tanggal transaksi dan menyusun grafik garis tren hariannya.<br><br>
+                                        <!-- Image Placeholder for Chart -->
+                                        <div class="text-center my-3 border rounded bg-white p-2">
+                                            <img src="https://placehold.co/600x300/e6f6f2/10a37f?text=[Grafik+Garis:+Tren+Pendapatan+Harian+Q3]" class="img-fluid rounded" alt="Line Chart Revenue">
+                                            <p class="small text-muted mt-2 mb-0">Klik kanan gambar untuk mengunduh (Save image as...)</p>
+                                        </div>
+                                        <strong>Wawasan Visual:</strong> Seperti yang terlihat pada grafik, puncak penjualan tertinggi (Peak Sales) terjadi pada tanggal <strong>15 Agustus</strong> dengan total pendapatan harian menyentuh Rp 450 Juta. Lonjakan ini kemungkinan besar berkorelasi dengan momentum kampanye diskon Hari Kemerdekaan.
+                                    </div>
+                                </div>
+
+                                <!-- TURN 3: Predictive Analysis -->
+                                <div class="w-100 mt-4 mb-2 border-bottom pb-2">
+                                    <span class="step-badge bg-success">Tahap 3: Pemodelan & Ekstraksi Dokumen (Data Export)</span>
+                                </div>
+                                <div class="chat-bubble chat-user">
+                                    Wawasan yang sangat tajam. Terakhir, gunakan data historis ini untuk memproyeksikan (forecast) total penjualan untuk bulan depan. Kemudian, ekspor kumpulan data pelanggan VIP (yang bertransaksi > Rp 1 Juta) menjadi file Excel baru agar dapat saya unduh.
+                                </div>
+                                <div class="chat-bubble chat-ai-reply" style="border-width: 2px; border-color: #10a37f;">
+                                    <div class="chat-ai-icon"><i class="bi bi-stars"></i></div>
+                                    <div class="w-100">
+                                        <div class="python-exec">
+                                            <i class="bi bi-terminal text-muted"></i> <span>Analyzed with Python</span> <i class="bi bi-chevron-down ms-auto text-muted"></i>
+                                        </div>
+                                        <strong>1. Proyeksi Penjualan (Forecasting):</strong><br>
+                                        Berdasarkan perhitungan regresi linear sederhana dari tren Q3, estimasi total pendapatan untuk bulan Oktober mendatang diproyeksikan berada pada kisaran <strong>Rp 4.2 Miliar hingga Rp 4.5 Miliar</strong> (dengan asumsi tidak ada anomali pasar yang ekstrem).<br><br>
+                                        
+                                        <strong>2. Ekstraksi Data Pelanggan VIP:</strong><br>
+                                        Saya telah memfilter pelanggan yang memiliki akumulasi transaksi lebih dari Rp 1.000.000. Ditemukan sebanyak 1.250 pelanggan VIP. File Excel telah berhasil di-generate.<br><br>
+                                        
+                                        <div class="file-attachment border-success bg-light cursor-pointer" style="cursor: pointer;">
+                                            <i class="bi bi-file-earmark-excel-fill text-success fs-5"></i> 
+                                            <div>
+                                                <div class="fw-bold text-dark">Pelanggan_VIP_Q3.xlsx</div>
+                                                <div class="small text-muted">Spreadsheet • 150 KB</div>
+                                            </div>
+                                            <i class="bi bi-download ms-3 text-primary"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRO TIP: DATA SECURITY -->
+                <div class="pro-tip shadow-sm mb-4 border-start-0 border-top-0 border-bottom-0 border-end border-5" style="border-color: #10a37f !important;">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <i class="bi bi-shield-lock-fill fs-1 text-ai"></i>
+                        <div>
+                            <h5 class="fw-bold mb-1 text-dark">Pedoman Kepatuhan: Anonimisasi Data (Data Masking)</h5>
+                            <span class="small text-muted">Keamanan Informasi Identitas Pribadi (PII)</span>
+                        </div>
+                    </div>
+                    
+                    <p class="mb-0 text-dark small" style="line-height: 1.8;">
+                        Meskipun fitur Advanced Data Analysis dikelola dalam kotak pasir (sandbox) terenkripsi, <strong>Anda dilarang keras mengunggah dokumen yang memuat Identitas Pribadi mentah</strong> (seperti Nomor KTP, Rekening Bank, atau Alamat Rumah Lengkap Pelanggan). <br><br>
+                        <strong>Praktik Terbaik:</strong> Lakukan anonimisasi (Masking) pada Microsoft Excel sebelum Anda mengunggahnya ke ChatGPT. Hapus kolom identitas spesifik, atau ubah "Nama Klien" menjadi penamaan samaran seperti <code>Klien_A</code>, <code>Klien_B</code> untuk memastikan kepatuhan terhadap regulasi privasi data.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.css"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
