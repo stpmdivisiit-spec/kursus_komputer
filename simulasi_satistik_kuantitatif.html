@@ -87,6 +87,15 @@
         .text-orange { color: #fd7e14; }
         .border-orange { border-color: #fd7e14 !important; }
         .bg-orange { background-color: #fd7e14 !important; color: white; }
+        .explanation-box {
+            background-color: #eef2f5;
+            border-left: 4px solid #6c757d;
+            padding: 12px 15px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9rem;
+            color: #495057;
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
@@ -94,7 +103,7 @@
     <div class="header-title text-center">
         <div class="container">
             <h1 class="fw-bold">Kalkulator Analisis Kuantitatif Dinamis</h1>
-            <p class="mb-0">Mendukung Multiple X, Variabel Mediasi (M), dan Multiple Y</p>
+            <p class="mb-0">Mendukung Multiple X, Variabel Mediasi (M), dan Multiple Y beserta Interpretasi Otomatis</p>
         </div>
     </div>
 
@@ -155,7 +164,7 @@
                     
                     <div class="card-body text-center" id="emptyState">
                         <h1 class="display-1 text-muted opacity-25 mt-5">📈</h1>
-                        <p class="text-muted mt-3">Silakan isi data dan klik <strong>"Hitung Analisis"</strong> untuk melihat hasil statistik lengkap.</p>
+                        <p class="text-muted mt-3">Silakan isi data dan klik <strong>"Hitung Analisis"</strong> untuk melihat hasil statistik lengkap beserta interpretasinya.</p>
                     </div>
 
                     <div class="card-body" id="resultArea" style="display: none;">
@@ -171,11 +180,11 @@
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="reg-tab" data-bs-toggle="tab" data-bs-target="#reg" type="button">3. Regresi</button>
                             </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="conclusion-tab" data-bs-toggle="tab" data-bs-target="#conclusion" type="button">4. Kesimpulan</button>
-                            </li>
                             <li class="nav-item" role="presentation" id="mediationTabContainer" style="display:none;">
-                                <button class="nav-link text-orange fw-bold" id="mediation-tab" data-bs-toggle="tab" data-bs-target="#mediation" type="button">5. Mediasi</button>
+                                <button class="nav-link text-orange fw-bold" id="mediation-tab" data-bs-toggle="tab" data-bs-target="#mediation" type="button">4. Mediasi</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="conclusion-tab" data-bs-toggle="tab" data-bs-target="#conclusion" type="button">5. Kesimpulan</button>
                             </li>
                         </ul>
 
@@ -200,6 +209,7 @@
                                         <tbody id="descTableBody"></tbody>
                                     </table>
                                 </div>
+                                <div id="descExplanation" class="explanation-box"></div>
                             </div>
 
                             <!-- TAB 2: KORELASI -->
@@ -213,17 +223,17 @@
                                 <div id="regOutput"></div>
                             </div>
 
-                            <!-- TAB 4: KESIMPULAN -->
+                            <!-- TAB 4: MEDIASI -->
+                            <div class="tab-pane fade" id="mediation" role="tabpanel">
+                                <div id="mediationOutput"></div>
+                            </div>
+
+                            <!-- TAB 5: KESIMPULAN -->
                             <div class="tab-pane fade" id="conclusion" role="tabpanel">
                                 <div id="conclusionOutput"></div>
                                 <div class="alert alert-warning border-0 shadow-sm mt-3">
                                     <small><strong>Catatan Akademis:</strong> Perhitungan matriks regresi ini menggunakan OLS. Apabila nilai matriks singular, kemungkinan terdapat multikolinearitas sempurna antar variabel Anda.</small>
                                 </div>
-                            </div>
-
-                            <!-- TAB 5: MEDIASI -->
-                            <div class="tab-pane fade" id="mediation" role="tabpanel">
-                                <div id="mediationOutput"></div>
                             </div>
 
                         </div>
@@ -253,7 +263,7 @@
             { x: [80], m: [85], y: [86] }
         ];
 
-        // Library Operasi Matriks Lanjutan (untuk mendapatkan SE dan T-Stats)
+        // Library Operasi Matriks Lanjutan
         const MatrixMath = {
             transpose: (m) => m[0].map((_, c) => m.map(r => r[c])),
             multiply: (a, b) => {
@@ -278,7 +288,7 @@
                     [a[j], a[maxRow]] = [a[maxRow], a[j]];
                     [i[j], i[maxRow]] = [i[maxRow], i[j]];
                     let pivot = a[j][j];
-                    if (Math.abs(pivot) < 1e-10) return null; // Singular matrix
+                    if (Math.abs(pivot) < 1e-10) return null; 
                     for (let k = 0; k < n; k++) { a[j][k] /= pivot; i[j][k] /= pivot; }
                     for (let k = 0; k < n; k++) {
                         if (k !== j) {
@@ -294,11 +304,9 @@
             }
         };
 
-        // Regresi OLS Wrapper untuk mendapatkan Beta, SE, dan T-Stat
         function runRegression(xCols, yCol) {
             let n = yCol.length;
-            let k = xCols.length; // termasuk konstanta
-            
+            let k = xCols.length;
             let XMatrix = [];
             for(let i=0; i<n; i++) {
                 let row = [];
@@ -316,7 +324,6 @@
             let betaMatrix = MatrixMath.multiply(XtX_inv, XtY);
             let beta = betaMatrix.map(b => b[0]);
 
-            // Hitung Mean Square Error (MSE)
             let ssr = 0;
             for(let i=0; i<n; i++) {
                 let yPred = 0;
@@ -342,8 +349,6 @@
         function renderUI() {
             renderVarSetup();
             renderTable();
-            
-            // Tampilkan/Sembunyikan tab mediasi berdasarkan eksistensi M
             if(varsM.length > 0) {
                 document.getElementById('mediationTabContainer').style.display = 'block';
             } else {
@@ -353,7 +358,6 @@
 
         function renderVarSetup() {
             let html = '';
-            
             varsX.forEach((name, idx) => {
                 html += `
                     <div class="col-md-4">
@@ -364,7 +368,6 @@
                         </div>
                     </div>`;
             });
-
             varsM.forEach((name, idx) => {
                 html += `
                     <div class="col-md-4">
@@ -375,7 +378,6 @@
                         </div>
                     </div>`;
             });
-
             varsY.forEach((name, idx) => {
                 html += `
                     <div class="col-md-4">
@@ -386,12 +388,10 @@
                         </div>
                     </div>`;
             });
-
             document.getElementById('varSetupContainer').innerHTML = html;
         }
 
         function renderTable() {
-            // Header
             let thead = '<tr><th class="text-center align-middle">No</th>';
             varsX.forEach((name, i) => thead += `<th class="text-center align-middle">${name}<br><small class="text-primary">(X${i+1})</small></th>`);
             varsM.forEach((name, i) => thead += `<th class="text-center align-middle">${name}<br><small class="text-orange">(M${i+1})</small></th>`);
@@ -399,7 +399,6 @@
             thead += '<th class="text-center align-middle">Aksi</th></tr>';
             document.getElementById('tableHead').innerHTML = thead;
 
-            // Body
             let tbody = '';
             dataSet.forEach((row, i) => {
                 tbody += `<tr><td class="text-center align-middle">${i + 1}</td>`;
@@ -411,7 +410,6 @@
             document.getElementById('tableBody').innerHTML = tbody;
         }
 
-        // VARIABLE MANAGEMENT
         function updateVarName(type, idx, val) {
             if(type === 'X') varsX[idx] = val;
             if(type === 'M') varsM[idx] = val;
@@ -421,58 +419,33 @@
 
         function addVar(type) {
             saveCurrentData();
-            if(type === 'X') {
-                varsX.push(`Variabel X${varsX.length+1}`);
-                dataSet.forEach(row => row.x.push(0));
-            } else if(type === 'M') {
-                varsM.push(`Variabel M${varsM.length+1}`);
-                dataSet.forEach(row => row.m.push(0));
-            } else {
-                varsY.push(`Variabel Y${varsY.length+1}`);
-                dataSet.forEach(row => row.y.push(0));
-            }
+            if(type === 'X') { varsX.push(`Variabel X${varsX.length+1}`); dataSet.forEach(row => row.x.push(0)); }
+            else if(type === 'M') { varsM.push(`Variabel M${varsM.length+1}`); dataSet.forEach(row => row.m.push(0)); }
+            else { varsY.push(`Variabel Y${varsY.length+1}`); dataSet.forEach(row => row.y.push(0)); }
             renderUI();
         }
 
         function removeVar(type, idx) {
             saveCurrentData();
-            if(type === 'X' && varsX.length > 1) {
-                varsX.splice(idx, 1);
-                dataSet.forEach(row => row.x.splice(idx, 1));
-            } else if(type === 'M') {
-                varsM.splice(idx, 1);
-                dataSet.forEach(row => row.m.splice(idx, 1));
-            } else if(type === 'Y' && varsY.length > 1) {
-                varsY.splice(idx, 1);
-                dataSet.forEach(row => row.y.splice(idx, 1));
-            }
+            if(type === 'X' && varsX.length > 1) { varsX.splice(idx, 1); dataSet.forEach(row => row.x.splice(idx, 1)); }
+            else if(type === 'M') { varsM.splice(idx, 1); dataSet.forEach(row => row.m.splice(idx, 1)); }
+            else if(type === 'Y' && varsY.length > 1) { varsY.splice(idx, 1); dataSet.forEach(row => row.y.splice(idx, 1)); }
             renderUI();
         }
 
-        // DATA MANAGEMENT
         function saveCurrentData() {
             let trs = document.querySelectorAll('#tableBody tr');
             trs.forEach((tr, rowIndex) => {
                 if(!dataSet[rowIndex]) return;
-                
-                let inputsX = tr.querySelectorAll('.val-x');
-                inputsX.forEach(inp => dataSet[rowIndex].x[parseInt(inp.getAttribute('data-idx'))] = parseFloat(inp.value) || 0);
-
-                let inputsM = tr.querySelectorAll('.val-m');
-                inputsM.forEach(inp => dataSet[rowIndex].m[parseInt(inp.getAttribute('data-idx'))] = parseFloat(inp.value) || 0);
-
-                let inputsY = tr.querySelectorAll('.val-y');
-                inputsY.forEach(inp => dataSet[rowIndex].y[parseInt(inp.getAttribute('data-idx'))] = parseFloat(inp.value) || 0);
+                let inputsX = tr.querySelectorAll('.val-x'); inputsX.forEach(inp => dataSet[rowIndex].x[parseInt(inp.getAttribute('data-idx'))] = parseFloat(inp.value) || 0);
+                let inputsM = tr.querySelectorAll('.val-m'); inputsM.forEach(inp => dataSet[rowIndex].m[parseInt(inp.getAttribute('data-idx'))] = parseFloat(inp.value) || 0);
+                let inputsY = tr.querySelectorAll('.val-y'); inputsY.forEach(inp => dataSet[rowIndex].y[parseInt(inp.getAttribute('data-idx'))] = parseFloat(inp.value) || 0);
             });
         }
 
         function addRow() {
             saveCurrentData();
-            dataSet.push({ 
-                x: Array(varsX.length).fill(0), 
-                m: Array(varsM.length).fill(0),
-                y: Array(varsY.length).fill(0) 
-            });
+            dataSet.push({ x: Array(varsX.length).fill(0), m: Array(varsM.length).fill(0), y: Array(varsY.length).fill(0) });
             renderTable();
         }
 
@@ -482,7 +455,6 @@
             renderTable();
         }
 
-        // STATISTICAL CALCULATION
         function getPearsonCorrelation(arr1, arr2) {
             let n = arr1.length;
             let sum1 = 0, sum2 = 0, sum1Sq = 0, sum2Sq = 0, pSum = 0;
@@ -496,6 +468,15 @@
             return den === 0 ? 0 : num / den;
         }
 
+        function getCorrelationInterpretation(r) {
+            let absR = Math.abs(r);
+            if (absR >= 0.8) return "Sangat Kuat";
+            if (absR >= 0.6) return "Kuat";
+            if (absR >= 0.4) return "Sedang";
+            if (absR >= 0.2) return "Lemah";
+            return "Sangat Lemah / Tidak Ada";
+        }
+
         function getDescStats(arr) {
             let n = arr.length;
             let sum = arr.reduce((a,b)=>a+b,0);
@@ -505,7 +486,6 @@
         }
 
         function checkSignificance(tStat) {
-            // Menggunakan distribusi normal aproksimasi (|Z| > 1.96 untuk Alpha 0.05)
             return Math.abs(tStat) > 1.96;
         }
 
@@ -520,39 +500,56 @@
 
             // --- 1. DESKRIPTIF ---
             let descHTML = '';
+            let allMeans = [];
             const addToDesc = (name, code, arr) => {
                 let stats = getDescStats(arr);
                 descHTML += `<tr><td><strong>${name} (${code})</strong></td><td>${stats.n}</td><td>${stats.min}</td><td>${stats.max}</td><td>${stats.mean.toFixed(2)}</td><td>${stats.stdDev.toFixed(2)}</td></tr>`;
+                allMeans.push({name: name, mean: stats.mean, std: stats.stdDev});
             };
             varsX.forEach((name, i) => addToDesc(name, `X${i+1}`, dataSet.map(r => r.x[i])));
             varsM.forEach((name, i) => addToDesc(name, `M${i+1}`, dataSet.map(r => r.m[i])));
             varsY.forEach((name, i) => addToDesc(name, `Y${i+1}`, dataSet.map(r => r.y[i])));
             document.getElementById('descTableBody').innerHTML = descHTML;
 
+            // Penjelasan Deskriptif
+            let highestMean = allMeans.reduce((prev, current) => (prev.mean > current.mean) ? prev : current);
+            document.getElementById('descExplanation').innerHTML = `
+                <strong>Penjelasan Hasil Deskriptif:</strong><br>
+                Berdasarkan tabel statistik deskriptif di atas dari total ${n} sampel data, terlihat bahwa rata-rata (Mean) digunakan untuk mengukur nilai tengah dari jawaban atau data yang terkumpul. Variabel dengan rata-rata tertinggi adalah <strong>${highestMean.name}</strong> (${highestMean.mean.toFixed(2)}), yang mengindikasikan bahwa responden cenderung memberikan penilaian paling tinggi pada variabel ini dibandingkan variabel lainnya. Sementara itu, nilai Standar Deviasi menunjukkan seberapa bervariasi (menyebar) data dari rata-ratanya; semakin kecil nilainya, semakin seragam jawaban responden.`;
 
             // --- 2. KORELASI ---
             let corrHTML = '<div class="row">';
+            let corrExplanations = "";
             varsY.forEach((nameY, yi) => {
                 corrHTML += `<div class="col-12 mt-2"><h6 class="text-success border-bottom pb-1">Korelasi terhadap ${nameY} (Y${yi+1})</h6><div class="row">`;
+                
+                let maxR = -1; let maxRName = ""; let maxRType = "";
+                
                 varsX.forEach((nameX, xi) => {
                     let r = getPearsonCorrelation(dataSet.map(r => r.x[xi]), dataSet.map(r => r.y[yi]));
-                    corrHTML += `<div class="col-md-4 mb-2"><div class="result-box py-2"><span class="small d-block text-muted">X${xi+1} & Y${yi+1}:</span><h5 class="mb-0 text-primary">${r.toFixed(3)}</h5></div></div>`;
+                    if(Math.abs(r) > maxR) { maxR = Math.abs(r); maxRName = nameX; maxRType = getCorrelationInterpretation(r); }
+                    corrHTML += `<div class="col-md-4 mb-2"><div class="result-box py-2"><span class="small d-block text-muted">X${xi+1} (${nameX}) & Y${yi+1}:</span><h5 class="mb-0 text-primary">${r.toFixed(3)} <small class="text-dark fs-6">(${getCorrelationInterpretation(r)})</small></h5></div></div>`;
                 });
                 varsM.forEach((nameM, mi) => {
                     let r = getPearsonCorrelation(dataSet.map(r => r.m[mi]), dataSet.map(r => r.y[yi]));
-                    corrHTML += `<div class="col-md-4 mb-2"><div class="result-box py-2 border-orange"><span class="small d-block text-muted">M${mi+1} & Y${yi+1}:</span><h5 class="mb-0 text-orange">${r.toFixed(3)}</h5></div></div>`;
+                    if(Math.abs(r) > maxR) { maxR = Math.abs(r); maxRName = nameM; maxRType = getCorrelationInterpretation(r); }
+                    corrHTML += `<div class="col-md-4 mb-2"><div class="result-box py-2 border-orange"><span class="small d-block text-muted">M${mi+1} (${nameM}) & Y${yi+1}:</span><h5 class="mb-0 text-orange">${r.toFixed(3)} <small class="text-dark fs-6">(${getCorrelationInterpretation(r)})</small></h5></div></div>`;
                 });
                 corrHTML += `</div></div>`;
+                
+                corrExplanations += `<p class="mb-2">Untuk variabel <strong>${nameY}</strong>, hubungan (korelasi linier) paling kuat ditunjukkan oleh variabel <strong>${maxRName}</strong> dengan kategori hubungan <strong>${maxRType}</strong>. Nilai positif menandakan bahwa hubungan tersebut bersifat searah (jika ${maxRName} naik, maka ${nameY} juga ikut naik).</p>`;
             });
+            
+            corrHTML += `<div class="col-12"><div class="explanation-box"><strong>Penjelasan Hasil Korelasi (Pearson r):</strong><br>Analisis ini mengukur kekuatan dan arah hubungan antar variabel, di mana nilai mendekati 1 atau -1 berarti hubungan sangat kuat, dan mendekati 0 berarti lemah. ${corrExplanations}</div></div></div>`;
             document.getElementById('corrOutput').innerHTML = corrHTML;
 
 
-            // --- 3 & 4. REGRESI UMUM ---
-            // Regresi semua X dan M terhadap Y
+            // --- 3. REGRESI UMUM ---
             let ones = Array(n).fill(1);
             let predictors = [ones];
-            varsX.forEach((_, xi) => predictors.push(dataSet.map(r => r.x[xi])));
-            varsM.forEach((_, mi) => predictors.push(dataSet.map(r => r.m[mi])));
+            let predictorNames = [];
+            varsX.forEach((name, xi) => { predictors.push(dataSet.map(r => r.x[xi])); predictorNames.push(`X${xi+1} (${name})`); });
+            varsM.forEach((name, mi) => { predictors.push(dataSet.map(r => r.m[mi])); predictorNames.push(`M${mi+1} (${name})`); });
 
             let regHTML = '';
             let conclHTML = '';
@@ -583,8 +580,20 @@
                 // Teks persamaan
                 let eqText = `Y${yi+1} = ${reg.beta[0].toFixed(3)}`;
                 let pIdx = 1;
-                varsX.forEach((_, xi) => { eqText += ` ${(reg.beta[pIdx]>=0?'+':'-')} ${Math.abs(reg.beta[pIdx]).toFixed(3)}X${xi+1}`; pIdx++; });
-                varsM.forEach((_, mi) => { eqText += ` ${(reg.beta[pIdx]>=0?'+':'-')} ${Math.abs(reg.beta[pIdx]).toFixed(3)}M${mi+1}`; pIdx++; });
+                let eqInterpretations = `<li><strong>Konstanta (a) = ${reg.beta[0].toFixed(3)}:</strong> Artinya, jika semua variabel independen dan mediasi diasumsikan bernilai 0 (tidak ada), maka nilai ${nameY} secara konsisten adalah ${reg.beta[0].toFixed(3)}.</li>`;
+                
+                varsX.forEach((name, xi) => { 
+                    let b = reg.beta[pIdx];
+                    eqText += ` ${(b>=0?'+':'-')} ${Math.abs(b).toFixed(3)}X${xi+1}`; 
+                    eqInterpretations += `<li><strong>Koefisien X${xi+1} = ${b.toFixed(3)}:</strong> Menunjukkan bahwa setiap peningkatan 1 satuan pada ${name}, akan ${b>=0?'meningkatkan':'menurunkan'} ${nameY} sebesar ${Math.abs(b).toFixed(3)} satuan (dengan asumsi variabel lain tetap).</li>`;
+                    pIdx++; 
+                });
+                varsM.forEach((name, mi) => { 
+                    let b = reg.beta[pIdx];
+                    eqText += ` ${(b>=0?'+':'-')} ${Math.abs(b).toFixed(3)}M${mi+1}`; 
+                    eqInterpretations += `<li><strong>Koefisien M${mi+1} = ${b.toFixed(3)}:</strong> Menunjukkan bahwa setiap peningkatan 1 satuan pada ${name}, akan ${b>=0?'meningkatkan':'menurunkan'} ${nameY} sebesar ${Math.abs(b).toFixed(3)} satuan.</li>`;
+                    pIdx++; 
+                });
 
                 regHTML += `
                     <div class="mb-4">
@@ -592,20 +601,36 @@
                         <div class="result-box text-center py-3">
                             <h5 class="mb-0 fw-bold font-monospace">${eqText}</h5>
                         </div>
-                        <p class="mb-0"><strong>R-Square:</strong> ${(r2).toFixed(3)} (${(r2*100).toFixed(1)}%)</p>
+                        <p class="mb-2"><strong>R-Square (R²):</strong> ${(r2).toFixed(3)} (${(r2*100).toFixed(1)}%)</p>
+                        <div class="explanation-box mt-0">
+                            <strong>Penjelasan Hasil Regresi:</strong><br>
+                            Persamaan regresi linier di atas membentuk model matematis pengaruh antar variabel.
+                            <ul class="mb-2 mt-2">
+                                ${eqInterpretations}
+                            </ul>
+                            <strong>Interpretasi Koefisien Determinasi (R²):</strong><br>
+                            Nilai R² sebesar ${(r2).toFixed(3)} berarti bahwa sebesar <strong>${(r2*100).toFixed(1)}%</strong> variasi (perubahan) pada <strong>${nameY}</strong> mampu dijelaskan secara simultan oleh variabel-variabel prediktor di dalam model penelitian ini. Sisanya sebesar ${(100-(r2*100)).toFixed(1)}% dipengaruhi oleh faktor atau variabel lain yang tidak diikutsertakan dalam penelitian.
+                        </div>
                     </div>`;
                     
-                conclHTML += `<div class="alert alert-info border-0 shadow-sm"><h6 class="fw-bold">Variabel Y: ${nameY}</h6><p class="mb-0">Secara simultan, seluruh variabel bebas (termasuk mediator) mampu menjelaskan ${(r2*100).toFixed(1)}% perubahan pada ${nameY}.</p></div>`;
+                conclHTML += `
+                    <div class="alert alert-info border-0 shadow-sm mb-3">
+                        <h6 class="fw-bold text-dark border-bottom border-info pb-2">Kesimpulan Utama untuk: ${nameY}</h6>
+                        <p class="mb-2">Berdasarkan hasil analisis data secara keseluruhan, ditarik simpulan sebagai berikut:</p>
+                        <ul class="mb-0">
+                            <li class="mb-1">Terdapat pengaruh secara simultan (bersama-sama) dari seluruh variabel independen terhadap <strong>${nameY}</strong> dengan kontribusi pengaruh sebesar <strong>${(r2*100).toFixed(1)}%</strong>. Model regresi ini dikategorikan ${r2 > 0.5 ? 'cukup kuat' : 'lemah'} dalam memprediksi variabel terikat.</li>
+                            <li>Berdasarkan besaran nilai koefisien parsial (b), variabel prediktor yang memberikan dampak perubahan paling dominan terhadap ${nameY} dapat diidentifikasi dari nilai absolut koefisien regresinya yang paling besar. Hal ini dapat menjadi acuan bagi praktisi untuk memprioritaskan perbaikan pada indikator variabel tersebut.</li>
+                        </ul>
+                    </div>`;
             });
             document.getElementById('regOutput').innerHTML = regHTML;
             document.getElementById('conclusionOutput').innerHTML = conclHTML;
 
 
-            // --- 5. ANALISIS MEDIASI (BARON & KENNY, SOBEL, BOOTSTRAP) ---
+            // --- 4. ANALISIS MEDIASI ---
             if(varsM.length > 0) {
                 let medHTML = '';
                 
-                // Evaluasi untuk setiap X terhadap setiap Y melalui setiap M
                 varsY.forEach((nameY, yi) => {
                     varsM.forEach((nameM, mi) => {
                         varsX.forEach((nameX, xi) => {
@@ -613,11 +638,8 @@
                             let arrM = dataSet.map(r => r.m[mi]);
                             let arrY = dataSet.map(r => r.y[yi]);
 
-                            // Jalur c (X ke Y)
                             let regC = runRegression([ones, arrX], arrY);
-                            // Jalur a (X ke M)
                             let regA = runRegression([ones, arrX], arrM);
-                            // Jalur b dan c' (X, M ke Y)
                             let regBC = runRegression([ones, arrX, arrM], arrY);
 
                             if(!regC || !regA || !regBC) return;
@@ -627,27 +649,25 @@
                             let path_c_prime = { b: regBC.beta[1], se: regBC.se[1], t: regBC.tStats[1], sig: checkSignificance(regBC.tStats[1]) };
                             let path_b = { b: regBC.beta[2], se: regBC.se[2], t: regBC.tStats[2], sig: checkSignificance(regBC.tStats[2]) };
 
-                            // 1. BARON & KENNY CONCLUSION
                             let bk_concl = "Tidak ada Mediasi (No Mediation)";
+                            let bk_detail = "Karena syarat kebermaknaan pengaruh antar jalur tidak terpenuhi secara utuh, maka " + nameM + " gagal membuktikan dirinya sebagai variabel perantara.";
+                            
                             if(path_c.sig && path_a.sig && path_b.sig) {
                                 if(path_c_prime.sig) {
                                     bk_concl = "<span class='text-warning fw-bold'>Mediasi Parsial (Partial Mediation)</span>";
+                                    bk_detail = `Artinya, variabel <strong>${nameM}</strong> bertindak sebagai perantara sebagian. <strong>${nameX}</strong> memiliki dua jalan untuk memengaruhi <strong>${nameY}</strong>: bisa secara langsung, dan bisa juga secara tidak langsung melalui ${nameM}.`;
                                 } else {
                                     bk_concl = "<span class='text-success fw-bold'>Mediasi Penuh (Full Mediation)</span>";
+                                    bk_detail = `Artinya, efek langsung dari <strong>${nameX}</strong> ke <strong>${nameY}</strong> menjadi tidak signifikan setelah mediator dimasukkan. <strong>${nameX}</strong> hanya bisa memengaruhi <strong>${nameY}</strong> secara mutlak melalui perantara <strong>${nameM}</strong>.`;
                                 }
-                            } else {
-                                bk_concl = "<span class='text-danger fw-bold'>Tidak Ada Mediasi (Syarat signifikan tidak terpenuhi)</span>";
                             }
 
-                            // 2. SOBEL TEST
                             let a = path_a.b; let se_a = path_a.se;
                             let b = path_b.b; let se_b = path_b.se;
-                            
                             let se_ab = Math.sqrt(Math.pow(a,2)*Math.pow(se_b,2) + Math.pow(b,2)*Math.pow(se_a,2));
                             let z_sobel = se_ab !== 0 ? (a * b) / se_ab : 0;
-                            let sobel_sig = checkSignificance(z_sobel) ? "<span class='text-success fw-bold'>Signifikan (Terdapat efek mediasi)</span>" : "<span class='text-danger fw-bold'>Tidak Signifikan</span>";
+                            let sobel_sig = checkSignificance(z_sobel);
 
-                            // 3. BOOTSTRAP (500 iterasi)
                             let ab_boot = [];
                             for(let iter=0; iter<500; iter++) {
                                 let bootX = [], bootM = [], bootY = [];
@@ -659,53 +679,51 @@
                                 }
                                 let b_regA = runRegression([Array(n).fill(1), bootX], bootM);
                                 let b_regBC = runRegression([Array(n).fill(1), bootX, bootM], bootY);
-                                
-                                if(b_regA && b_regBC) {
-                                    ab_boot.push(b_regA.beta[1] * b_regBC.beta[2]);
-                                }
+                                if(b_regA && b_regBC) ab_boot.push(b_regA.beta[1] * b_regBC.beta[2]);
                             }
                             ab_boot.sort((a,b) => a - b);
-                            let lowerCI = 0; let upperCI = 0; let boot_sig = "";
+                            let lowerCI = 0; let upperCI = 0; let boot_sig = false;
                             if(ab_boot.length > 0) {
                                 lowerCI = ab_boot[Math.floor(ab_boot.length * 0.025)];
                                 upperCI = ab_boot[Math.floor(ab_boot.length * 0.975)];
-                                // Signifikan jika rentang (Lower to Upper) TIDAK melewati angka Nol (0)
-                                if((lowerCI > 0 && upperCI > 0) || (lowerCI < 0 && upperCI < 0)) {
-                                    boot_sig = "<span class='text-success fw-bold'>Signifikan (Nol tidak masuk rentang CI)</span>";
-                                } else {
-                                    boot_sig = "<span class='text-danger fw-bold'>Tidak Signifikan (Nol masuk rentang CI)</span>";
-                                }
+                                if((lowerCI > 0 && upperCI > 0) || (lowerCI < 0 && upperCI < 0)) boot_sig = true;
                             }
 
-                            // Render Block
                             medHTML += `
                             <div class="card mb-4 border-warning shadow-sm">
                                 <div class="card-header bg-orange text-white fw-bold">
-                                    Jalur Mediasi: [X${xi+1}] ➔ [M${mi+1}] ➔ [Y${yi+1}]
+                                    Jalur Mediasi: [${nameX}] ➔ [${nameM}] ➔ [${nameY}]
                                 </div>
                                 <div class="card-body">
-                                    <h6 class="fw-bold border-bottom pb-1">1. Uji Baron dan Kenny (Pendekatan Kausal)</h6>
-                                    <ul class="small mb-3">
+                                    <h6 class="fw-bold border-bottom pb-1">1. Interpretasi Uji Baron dan Kenny</h6>
+                                    <ul class="small mb-2">
                                         <li><strong>Jalur c (Total Effect X➔Y):</strong> Coef = ${path_c.b.toFixed(3)} | t-stat = ${path_c.t.toFixed(3)} ${path_c.sig?'(Sig)':'(Not Sig)'}</li>
                                         <li><strong>Jalur a (X➔M):</strong> Coef = ${path_a.b.toFixed(3)} | t-stat = ${path_a.t.toFixed(3)} ${path_a.sig?'(Sig)':'(Not Sig)'}</li>
                                         <li><strong>Jalur b (M➔Y mengontrol X):</strong> Coef = ${path_b.b.toFixed(3)} | t-stat = ${path_b.t.toFixed(3)} ${path_b.sig?'(Sig)':'(Not Sig)'}</li>
                                         <li><strong>Jalur c' (Direct Effect X➔Y mengontrol M):</strong> Coef = ${path_c_prime.b.toFixed(3)} | t-stat = ${path_c_prime.t.toFixed(3)} ${path_c_prime.sig?'(Sig)':'(Not Sig)'}</li>
-                                        <li class="mt-1"><strong>Kesimpulan Baron & Kenny:</strong> ${bk_concl}</li>
                                     </ul>
+                                    <div class="explanation-box mt-0 mb-3" style="border-left-color: #ffc107;">
+                                        <strong>Hasil Keputusan:</strong> ${bk_concl}<br>
+                                        <strong>Penjelasan:</strong> ${bk_detail}
+                                    </div>
 
-                                    <h6 class="fw-bold border-bottom pb-1">2. Uji Sobel (Sobel Test)</h6>
-                                    <ul class="small mb-3">
+                                    <h6 class="fw-bold border-bottom pb-1">2. Interpretasi Uji Sobel (Sobel Test)</h6>
+                                    <ul class="small mb-2">
                                         <li><strong>Standard Error (SEab):</strong> ${se_ab.toFixed(4)}</li>
-                                        <li><strong>Nilai Z Sobel:</strong> ${z_sobel.toFixed(3)}</li>
-                                        <li><strong>Kesimpulan:</strong> ${sobel_sig} <span class="text-muted">*(Batas Z > 1.96)*</span></li>
+                                        <li><strong>Nilai Z Sobel:</strong> ${z_sobel.toFixed(3)} (Batas kritis |Z| > 1.96)</li>
                                     </ul>
+                                    <div class="explanation-box mt-0 mb-3" style="border-left-color: #ffc107;">
+                                        <strong>Penjelasan:</strong> Berdasarkan perhitungan Sobel, rasio pembagian efek tidak langsung dengan standard errornya menghasilkan nilai Z sebesar ${z_sobel.toFixed(3)}. Hal ini menyatakan efek mediasi <strong>${sobel_sig ? 'SIGNIFIKAN' : 'TIDAK SIGNIFIKAN'}</strong> secara statistik.
+                                    </div>
 
-                                    <h6 class="fw-bold border-bottom pb-1">3. Uji Bootstrap (500 Iterasi)</h6>
-                                    <ul class="small mb-0">
+                                    <h6 class="fw-bold border-bottom pb-1">3. Interpretasi Uji Bootstrap (500 Iterasi)</h6>
+                                    <ul class="small mb-2">
                                         <li><strong>Efek Tidak Langsung (a × b):</strong> ${(path_a.b * path_b.b).toFixed(3)}</li>
-                                        <li><strong>95% Confidence Interval (CI):</strong> [${lowerCI.toFixed(3)}, ${upperCI.toFixed(3)}]</li>
-                                        <li><strong>Kesimpulan Bootstrap:</strong> ${boot_sig}</li>
+                                        <li><strong>95% Confidence Interval (CI):</strong> [${lowerCI.toFixed(3)} , ${upperCI.toFixed(3)}]</li>
                                     </ul>
+                                    <div class="explanation-box mt-0" style="border-left-color: #ffc107;">
+                                        <strong>Penjelasan:</strong> Uji Bootstrap melakukan resampling berulang pada data untuk membangun interval kepercayaan 95%. Karena rentang batas bawah (${lowerCI.toFixed(3)}) hingga batas atas (${upperCI.toFixed(3)}) <strong>${boot_sig ? 'TIDAK melewati angka nol (0)' : 'MELEWATI angka nol (0)'}</strong>, maka dapat disimpulkan bahwa peran mediasi ${nameM} adalah <strong>${boot_sig ? 'SIGNIFIKAN' : 'TIDAK SIGNIFIKAN'}</strong>.
+                                    </div>
                                 </div>
                             </div>`;
                         });
@@ -715,12 +733,10 @@
                 document.getElementById('mediationOutput').innerHTML = medHTML;
             }
 
-            // Tampilkan Area Hasil
             document.getElementById('emptyState').style.display = 'none';
             document.getElementById('resultArea').style.display = 'block';
         }
 
-        // Initialize UI
         renderUI();
     </script>
 </body>
