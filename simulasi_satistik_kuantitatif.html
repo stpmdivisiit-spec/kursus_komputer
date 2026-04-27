@@ -114,25 +114,44 @@
             width: 100%;
             margin-bottom: 10px;
         }
+        .table-spss th {
+            background-color: #f8f9fa;
+            text-align: center;
+            vertical-align: middle;
+        }
+        .table-spss td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .table-spss td:first-child {
+            text-align: left;
+        }
     </style>
 </head>
 <body>
 
     <div class="header-title text-center">
         <div class="container">
-            <h1 class="fw-bold">Kalkulator Analisis Kuantitatif Dinamis</h1>
-            <p class="mb-0">Mendukung Multiple X, Variabel Mediasi (M), Multiple Y, & Chart/Export Laporan</p>
+            <h1 class="fw-bold">Kalkulator Analisis Penelitian Kuantitatif Dinamis</h1>
+            <p class="mb-0">Mendukung Multiple X, Variabel Mediasi (M), Multiple Y, Uji t, Uji F & Chart Laporan</p>
         </div>
     </div>
 
     <div class="container-fluid pb-5">
+        
+
+
+
+
+
+
         
         <!-- Setup Variabel -->
         <div class="card mb-4">
             <div class="card-body">
                 <div class="var-setup-header">
                     <h5>⚙️ Pengaturan Variabel Penelitian</h5>
-                    <a href="index.html" class="btn btn-ms-word">Kembali ke Microsoft Word</a>
+                    <button class="btn btn-ms-word">Kembali ke Microsoft Word</button>
                 </div>
                 
                 <div class="row g-3" id="varSetupContainer">
@@ -147,7 +166,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row mb-4">
             <!-- Bagian Input Data -->
             <div class="col-lg-4">
                 <div class="card h-100">
@@ -225,8 +244,8 @@
                             <div class="tab-pane fade show active" id="desc" role="tabpanel">
                                 <h6 class="fw-bold mb-3">Statistik Deskriptif Variabel</h6>
                                 <div class="table-responsive">
-                                    <table class="table table-sm table-bordered">
-                                        <thead class="table-light">
+                                    <table class="table table-sm table-bordered table-spss">
+                                        <thead>
                                             <tr>
                                                 <th>Variabel</th>
                                                 <th>N</th>
@@ -248,7 +267,7 @@
                                 <div id="corrOutput"></div>
                             </div>
 
-                            <!-- TAB 3: REGRESI & DETERMINASI -->
+                            <!-- TAB 3: REGRESI, UJI T, UJI F -->
                             <div class="tab-pane fade" id="reg" role="tabpanel">
                                 <div id="regOutput"></div>
                             </div>
@@ -261,7 +280,6 @@
                             <!-- TAB 5: VISUALISASI (CHART) -->
                             <div class="tab-pane fade" id="viz" role="tabpanel">
                                 <h6 class="fw-bold mb-3">Visualisasi Grafik Analisis</h6>
-                                
                                 <div class="card mb-4 border-0 shadow-sm" style="background-color: #f8f9fa;">
                                     <div class="card-body">
                                         <h6 class="fw-bold text-primary mb-3">A. Grafik Rata-rata (Mean) Seluruh Variabel</h6>
@@ -271,7 +289,6 @@
                                         <div id="meanChartExplanation" class="explanation-box bg-white mt-3 border-primary"></div>
                                     </div>
                                 </div>
-
                                 <div id="betaChartsContainer"></div>
                             </div>
 
@@ -279,7 +296,7 @@
                             <div class="tab-pane fade" id="conclusion" role="tabpanel">
                                 <div id="conclusionOutput"></div>
                                 <div class="alert alert-warning border-0 shadow-sm mt-3">
-                                    <small><strong>Catatan Akademis:</strong> Perhitungan matriks regresi ini menggunakan OLS. Apabila nilai matriks singular, kemungkinan terdapat multikolinearitas sempurna antar variabel Anda.</small>
+                                    <small><strong>Catatan Akademis:</strong> Nilai Sig pada pengujian parsial/simultan diestimasikan berdasarkan pendekatan distribusi T dan F (apabila T-Stat > 1.96 dianggap Sig < 0.05). Pastikan selalu membandingkan dengan F-Tabel atau T-Tabel sesuai derajat kebebasan (df) Anda.</small>
                                 </div>
                             </div>
 
@@ -288,6 +305,111 @@
                 </div>
             </div>
         </div>
+
+ 
+                                    <div class="row mb-2 g-3">
+                                        <!-- Penjelasan -->
+                                        <div class="col-lg-6">
+                                            <div class="card card-step border-0 border-start border-primary border-4 shadow-sm h-100 bg-white">
+                                                <div class="card-body">
+                                                    <h5 class="fw-bold text-dark mb-1">Statistik Deskriptif</h5>
+                                                    <p class="text-muted small mb-0">Mengukur nilai pemusatan (Mean) dan sebaran variasi data sampel (Standar Deviasi) dari setiap variabel.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Rumus -->
+                                        <div class="col-lg-6">
+                                            <div class="card border-0 shadow-sm h-100 formula-box">
+                                                <div class="card-body d-flex flex-column justify-content-center text-center">
+                                                    <div class="mb-2">x̄ = &Sigma;x / n</div>
+                                                    <div>s = &radic; [ &Sigma;(x - x̄)&sup2; / (n - 1) ]</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row mb-2 g-3">
+                                        <div class="col-lg-6">
+                                            <div class="card card-step border-0 border-start border-info border-4 shadow-sm h-100 bg-white">
+                                                <div class="card-body">
+                                                    <h5 class="fw-bold text-dark mb-1">Uji Korelasi Pearson</h5>
+                                                    <p class="text-muted small mb-0">Mengukur kekuatan dan arah hubungan linier antara dua variabel secara langsung (berkisar antara -1 hingga 1).</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="card border-0 shadow-sm h-100 formula-box">
+                                                <div class="card-body d-flex flex-column justify-content-center text-center">
+                                                    <div class="mb-1 border-bottom border-dark pb-1 d-inline-block mx-auto">r = &Sigma;(x - x̄)(y - ȳ)</div>
+                                                    <div>&radic; [ &Sigma;(x - x̄)&sup2; &times; &Sigma;(y - ȳ)&sup2; ]</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row mb-2 g-3">
+                                        <div class="col-lg-6">
+                                            <div class="card card-step border-0 border-start border-4 shadow-sm h-100 bg-white" style="border-color: #6f42c1 !important;">
+                                                <div class="card-body">
+                                                    <h5 class="fw-bold text-dark mb-1">Regresi Linier Berganda</h5>
+                                                    <p class="text-muted small mb-0">Memodelkan pengaruh beberapa variabel bebas (X) dan perantara (M) terhadap variabel terikat (Y) ke dalam satu persamaan.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="card border-0 shadow-sm h-100 formula-box">
+                                                <div class="card-body d-flex flex-column justify-content-center text-center">
+                                                    <div class="mb-2">Y = &alpha; + &beta;&plusmn;X&plusmn; + &beta;&sup2;X&sup2; + ... + &epsilon;</div>
+                                                    <div>R&sup2; = SSR / SST</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row mb-2 g-3">
+                                        <div class="col-lg-6">
+                                            <div class="card card-step border-0 border-start border-danger border-4 shadow-sm h-100 bg-white">
+                                                <div class="card-body">
+                                                    <h5 class="fw-bold text-dark mb-1">Pengujian Hipotesis</h5>
+                                                    <p class="text-muted small mb-0">Menganalisis kemaknaan pengaruh secara parsial/sendiri (Uji t) maupun secara simultan/bersama-sama (Uji F).</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="card border-0 shadow-sm h-100 formula-box">
+                                                <div class="card-body d-flex flex-column justify-content-center text-center">
+                                                    <div class="mb-2">t = &beta; / SE(&beta;)</div>
+                                                    <div>F = (R&sup2;/k) / [ (1 - R&sup2;)/(n - k - 1) ]</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-2 g-3">
+                                        <div class="col-lg-6">
+                                            <div class="card card-step border-0 border-start border-success border-4 shadow-sm h-100 bg-white">
+                                                <div class="card-body">
+                                                    <h5 class="fw-bold text-dark mb-1">Uji Sobel (Mediasi)</h5>
+                                                    <p class="text-muted small mb-0">Menghitung rasio statistik (Z-value) untuk melihat signifikansi efek tidak langsung melalui variabel perantara (M).</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="card border-0 shadow-sm h-100 formula-box">
+                                                <div class="card-body d-flex flex-column justify-content-center text-center">
+                                                    <div class="mb-1 border-bottom border-dark pb-1 d-inline-block mx-auto">Z = a &times; b</div>
+                                                    <div>&radic; [ (b&sup2; &times; SEa&sup2;) + (a&sup2; &times; SEb&sup2;) ]</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+        
     </div>
 
     <!-- Bootstrap JS -->
@@ -295,19 +417,19 @@
     
     <!-- JavaScript Logika Kuantitatif Dinamis -->
     <script>
-        // State Management
-        let varsX = ["Kualitas Produk"];
-        let varsM = ["Kepuasan Pelanggan"];
-        let varsY = ["Loyalitas Konsumen"];
+        // State Management Default
+        let varsX = ["Transparansi Anggaran", "Akuntabilitas Keuangan"];
+        let varsM = [];
+        let varsY = ["Kepuasan Masyarakat"];
         
         let dataSet = [
-            { x: [75], m: [80], y: [85] },
-            { x: [60], m: [65], y: [70] },
-            { x: [85], m: [88], y: [92] },
-            { x: [70], m: [72], y: [78] },
-            { x: [90], m: [92], y: [88] },
-            { x: [65], m: [68], y: [75] },
-            { x: [80], m: [85], y: [86] }
+            { x: [85, 82], m: [], y: [86] },
+            { x: [72, 70], m: [], y: [73] },
+            { x: [90, 88], m: [], y: [91] },
+            { x: [65, 68], m: [], y: [66] },
+            { x: [78, 76], m: [], y: [79] },
+            { x: [88, 85], m: [], y: [88] },
+            { x: [74, 72], m: [], y: [75] }
         ];
 
         // Global Chart Instances
@@ -359,7 +481,7 @@
 
         function runRegression(xCols, yCol) {
             let n = yCol.length;
-            let k = xCols.length;
+            let k = xCols.length; // Number of parameters including intercept
             let XMatrix = [];
             for(let i=0; i<n; i++) {
                 let row = [];
@@ -377,11 +499,15 @@
             let betaMatrix = MatrixMath.multiply(XtX_inv, XtY);
             let beta = betaMatrix.map(b => b[0]);
 
-            let ssr = 0;
+            let ssr = 0; // Sum of squared residuals (errors)
+            let sst = 0; // Total sum of squares
+            let yMean = yCol.reduce((a,b)=>a+b,0) / n;
+
             for(let i=0; i<n; i++) {
                 let yPred = 0;
                 for(let j=0; j<k; j++) yPred += beta[j] * XMatrix[i][j];
                 ssr += Math.pow(yCol[i] - yPred, 2);
+                sst += Math.pow(yCol[i] - yMean, 2);
             }
             
             let dof = n - k;
@@ -395,7 +521,23 @@
                 tStats.push(stdErr !== 0 ? beta[j] / stdErr : 0);
             }
 
-            return { beta, se, tStats, mse };
+            // R Square & F-Stat
+            let ssReg = sst - ssr; // Regression sum of squares
+            let p = k - 1; // Number of predictors
+            let fStat = 0;
+            if (p > 0 && dof > 0) {
+                let msReg = ssReg / p;
+                fStat = msReg / mse;
+            }
+            let r2 = sst !== 0 ? ssReg / sst : 0;
+            if (r2 < 0) r2 = 0; if (r2 > 1) r2 = 1;
+
+            return { beta, se, tStats, mse, r2, fStat, n, p, dof };
+        }
+
+        function checkSignificance(tStat) {
+            // Approximation for 95% CI (alpha 0.05)
+            return Math.abs(tStat) > 1.96; 
         }
 
         // ==========================================
@@ -408,7 +550,7 @@
             varsM.forEach((v, i) => headers.push(`${v} (M${i+1})`));
             varsY.forEach((v, i) => headers.push(`${v} (Y${i+1})`));
             
-            let csvContent = "\uFEFF"; // BOM for UTF-8
+            let csvContent = "\uFEFF"; 
             csvContent += headers.join(",") + "\n";
             
             for(let i=1; i<=3; i++) {
@@ -481,7 +623,7 @@
 
         function exportPDF() {
             if (document.getElementById('emptyState').style.display !== 'none') {
-                alert('Silakan Klik "Hitung Analisis" terlebih dahulu sebelum mendownload PDF.');
+                alert('Silakan Klik "Hitung" terlebih dahulu sebelum mendownload PDF.');
                 return;
             }
 
@@ -490,7 +632,6 @@
             printDiv.style.color = '#000';
             printDiv.style.fontFamily = 'Arial, sans-serif';
 
-            // Menyiapkan gambar dari Chart Canvas agar bisa dirender ke PDF
             let meanChartImgHTML = '';
             let meanCanvas = document.getElementById('meanChart');
             if(meanCanvas) {
@@ -511,7 +652,7 @@
             });
 
             let htmlContent = `
-                <h2 style="text-align:center; margin-bottom:30px; font-weight:bold;">Laporan Lengkap Hasil Analisis Kuantitatif</h2>
+                <h2 style="text-align:center; margin-bottom:30px; font-weight:bold;">Laporan Analisis Kuantitatif</h2>
                 
                 <h4 style="border-bottom: 2px solid #000; padding-bottom:5px;">1. Statistik Deskriptif</h4>
                 <div style="margin-bottom:20px;">${document.getElementById('desc').innerHTML}</div>
@@ -519,7 +660,7 @@
                 <h4 style="border-bottom: 2px solid #000; padding-bottom:5px;">2. Analisis Korelasi Pearson</h4>
                 <div style="margin-bottom:20px;">${document.getElementById('corr').innerHTML}</div>
                 
-                <h4 style="border-bottom: 2px solid #000; padding-bottom:5px;">3. Analisis Regresi & Determinasi</h4>
+                <h4 style="border-bottom: 2px solid #000; padding-bottom:5px;">3. Analisis Regresi & Uji Hipotesis</h4>
                 <div style="margin-bottom:20px;">${document.getElementById('reg').innerHTML}</div>
             `;
 
@@ -565,25 +706,22 @@
 
         function exportExcel() {
             if (document.getElementById('emptyState').style.display !== 'none') {
-                alert('Silakan Klik "Hitung Analisis" terlebih dahulu sebelum mendownload Excel.');
+                alert('Silakan Klik "Hitung" terlebih dahulu sebelum mendownload Excel.');
                 return;
             }
 
             let wb = XLSX.utils.book_new();
 
-            // SHEET 1: DATA
             let wsData = [];
             let headerData = ["No", ...varsX.map((v,i)=>`${v} (X${i+1})`), ...varsM.map((v,i)=>`${v} (M${i+1})`), ...varsY.map((v,i)=>`${v} (Y${i+1})`)];
             wsData.push(headerData);
             dataSet.forEach((r, i) => wsData.push([i+1, ...r.x, ...r.m, ...r.y]));
             XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(wsData), "Data Mentah");
 
-            // SHEET 2: DESKRIPTIF
             let tableDesc = document.querySelector("#descTableBody").parentNode;
             let wsDesc = XLSX.utils.table_to_sheet(tableDesc);
             XLSX.utils.book_append_sheet(wb, wsDesc, "Statistik Deskriptif");
 
-            // SHEET 3: KORELASI
             let wsCorr = [["Variabel 1", "Variabel 2", "Nilai Pearson (r)", "Interpretasi Hubungan"]];
             varsY.forEach((nameY, yi) => {
                 varsX.forEach((nameX, xi) => {
@@ -609,7 +747,6 @@
             renderVarSetup();
             renderTable();
             
-            // Adjust tabs visibility
             if(varsM.length > 0) {
                 document.getElementById('mediationTabContainer').style.display = 'block';
                 document.getElementById('viz-tab').innerText = "5. Visualisasi";
@@ -618,6 +755,15 @@
                 document.getElementById('mediationTabContainer').style.display = 'none';
                 document.getElementById('viz-tab').innerText = "4. Visualisasi";
                 document.getElementById('conclusion-tab').innerText = "5. Kesimpulan";
+                
+                // Pindah otomatis ke tab 1 jika sedang membuka tab Mediasi yang akan disembunyikan
+                let medTab = document.getElementById('mediation-tab');
+                if(medTab.classList.contains('active')) {
+                    medTab.classList.remove('active');
+                    document.getElementById('mediation').classList.remove('show', 'active');
+                    document.getElementById('desc-tab').classList.add('active');
+                    document.getElementById('desc').classList.add('show', 'active');
+                }
             }
         }
 
@@ -754,22 +900,16 @@
             return { n, min: Math.min(...arr), max: Math.max(...arr), mean, stdDev: Math.sqrt(sqDiff / (n - 1)) };
         }
 
-        function checkSignificance(tStat) {
-            return Math.abs(tStat) > 1.96;
-        }
-
         // ==========================================
         // RENDER GRAFIK (CHART.JS)
         // ==========================================
         function renderVisualizations(allMeans, regResults) {
-            // 1. Chart Rata-rata (Mean)
             if (meanChartInstance) meanChartInstance.destroy();
             
             const meanCtx = document.getElementById('meanChart').getContext('2d');
             const meanLabels = allMeans.map(m => m.name);
             const meanData = allMeans.map(m => m.mean);
             
-            // Assign colors based on variable type: X (Blue), M (Orange), Y (Green)
             let colorArray = [];
             varsX.forEach(() => colorArray.push('rgba(52, 152, 219, 0.8)'));
             varsM.forEach(() => colorArray.push('rgba(253, 126, 20, 0.8)'));
@@ -800,12 +940,11 @@
             let lowestMean = allMeans.reduce((p, c) => p.mean < c.mean ? p : c);
             document.getElementById('meanChartExplanation').innerHTML = `
                 <strong>📖 Penjelasan Grafik Rata-rata:</strong><br>
-                Grafik batang di atas memvisualisasikan nilai rata-rata dari seluruh instrumen variabel penelitian. Variabel <strong>${highestMean.name}</strong> memiliki batang tertinggi dengan rata-rata <strong>${highestMean.mean.toFixed(2)}</strong>, yang menunjukkan bahwa pada indikator ini, responden memberikan persetujuan atau penilaian paling tinggi. Sebaliknya, variabel <strong>${lowestMean.name}</strong> memiliki rata-rata terendah sebesar <strong>${lowestMean.mean.toFixed(2)}</strong>, yang dapat menjadi area evaluasi bagi peneliti atau praktisi.`;
+                Grafik batang di atas memvisualisasikan nilai rata-rata dari seluruh instrumen variabel penelitian. Variabel <strong>${highestMean.name}</strong> memiliki batang tertinggi dengan rata-rata <strong>${highestMean.mean.toFixed(2)}</strong>, yang menunjukkan bahwa pada indikator ini, responden memberikan persetujuan atau penilaian paling tinggi. Sebaliknya, variabel <strong>${lowestMean.name}</strong> memiliki rata-rata terendah sebesar <strong>${lowestMean.mean.toFixed(2)}</strong>.`;
 
 
-            // 2. Chart Koefisien Beta (Regresi)
             const betaContainer = document.getElementById('betaChartsContainer');
-            betaContainer.innerHTML = ''; // Clear existing
+            betaContainer.innerHTML = ''; 
             betaChartInstances.forEach(c => c.destroy());
             betaChartInstances = [];
 
@@ -813,7 +952,7 @@
                 let cardHTML = `
                     <div class="card mb-4 border-0 shadow-sm" style="background-color: #f8f9fa;">
                         <div class="card-body">
-                            <h6 class="fw-bold text-success mb-3">B. Grafik Pengaruh Variabel terhadap ${res.nameY}</h6>
+                            <h6 class="fw-bold text-success mb-3">B. Grafik Koefisien Regresi (Beta) terhadap ${res.nameY}</h6>
                             <div class="chart-container">
                                 <canvas id="betaChart_${i}"></canvas>
                             </div>
@@ -846,16 +985,17 @@
                 });
                 betaChartInstances.push(bChart);
 
-                // Find Dominant Variable
                 let maxBetaIdx = 0;
                 let maxBetaVal = Math.abs(res.betas[0]);
                 for(let j=1; j<res.betas.length; j++){
                     if(Math.abs(res.betas[j]) > maxBetaVal) { maxBetaVal = Math.abs(res.betas[j]); maxBetaIdx = j; }
                 }
 
+                let varTypesText2 = varsM.length > 0 ? "(X dan M)" : "(X)";
+
                 document.getElementById(`betaChartExplanation_${i}`).innerHTML = `
                     <strong>📖 Penjelasan Grafik Koefisien Pengaruh:</strong><br>
-                    Grafik di atas menggambarkan besaran koefisien regresi (dampak/pengaruh) dari masing-masing variabel prediktor (X dan M) terhadap variabel <strong>${res.nameY}</strong>. Semakin panjang batang grafik ke atas (positif) maupun ke bawah (negatif), semakin besar dampak variabel tersebut.<br><br>
+                    Grafik di atas menggambarkan besaran koefisien regresi (dampak/pengaruh) dari masing-masing variabel prediktor ${varTypesText2} terhadap variabel <strong>${res.nameY}</strong>. Semakin panjang batang grafik ke atas (positif) maupun ke bawah (negatif), semakin besar dampak variabel tersebut.<br><br>
                     Berdasarkan visualisasi, variabel <strong>${res.labels[maxBetaIdx]}</strong> memiliki batang grafik paling dominan dengan nilai koefisien <strong>${res.betas[maxBetaIdx].toFixed(3)}</strong>. Hal ini berarti bahwa <strong>${res.labels[maxBetaIdx]}</strong> adalah faktor pendorong paling kuat yang memengaruhi naik-turunnya ${res.nameY}.`;
             });
         }
@@ -890,7 +1030,7 @@
             let highestMean = globalAllMeans.reduce((prev, current) => (prev.mean > current.mean) ? prev : current);
             document.getElementById('descExplanation').innerHTML = `
                 <strong>Penjelasan Hasil Deskriptif:</strong><br>
-                Berdasarkan tabel statistik deskriptif di atas dari total ${n} sampel data, terlihat bahwa rata-rata (Mean) digunakan untuk mengukur nilai tengah dari jawaban atau data yang terkumpul. Variabel dengan rata-rata tertinggi adalah <strong>${highestMean.name}</strong> (${highestMean.mean.toFixed(2)}), yang mengindikasikan bahwa responden cenderung memberikan penilaian paling tinggi pada variabel ini dibandingkan variabel lainnya. Sementara itu, nilai Standar Deviasi menunjukkan seberapa bervariasi (menyebar) data dari rata-ratanya; semakin kecil nilainya, semakin seragam jawaban responden.`;
+                Berdasarkan tabel statistik deskriptif di atas dari total ${n} sampel data, rata-rata (Mean) digunakan untuk mengukur nilai tengah dari data yang terkumpul. Variabel dengan rata-rata tertinggi adalah <strong>${highestMean.name}</strong> (${highestMean.mean.toFixed(2)}). Nilai Standar Deviasi menunjukkan seberapa bervariasi data dari rata-ratanya.`;
 
             // --- 2. KORELASI ---
             let corrHTML = '<div class="row">';
@@ -912,17 +1052,17 @@
                 });
                 corrHTML += `</div></div>`;
                 
-                corrExplanations += `<p class="mb-2">Untuk variabel <strong>${nameY}</strong>, hubungan (korelasi linier) paling kuat ditunjukkan oleh variabel <strong>${maxRName}</strong> dengan kategori hubungan <strong>${maxRType}</strong>. Nilai positif menandakan bahwa hubungan tersebut bersifat searah (jika ${maxRName} naik, maka ${nameY} juga ikut naik).</p>`;
+                corrExplanations += `<p class="mb-2">Untuk variabel <strong>${nameY}</strong>, hubungan korelasi paling kuat ditunjukkan oleh variabel <strong>${maxRName}</strong> dengan kategori hubungan <strong>${maxRType}</strong>.</p>`;
             });
             
-            corrHTML += `<div class="col-12"><div class="explanation-box"><strong>Penjelasan Hasil Korelasi (Pearson r):</strong><br>Analisis ini mengukur kekuatan dan arah hubungan antar variabel, di mana nilai mendekati 1 atau -1 berarti hubungan sangat kuat, dan mendekati 0 berarti lemah. ${corrExplanations}</div></div></div>`;
+            corrHTML += `<div class="col-12"><div class="explanation-box"><strong>Penjelasan Hasil Korelasi:</strong><br>${corrExplanations}</div></div></div>`;
             document.getElementById('corrOutput').innerHTML = corrHTML;
 
 
-            // --- 3. REGRESI UMUM ---
+            // --- 3. REGRESI UMUM (BESERTA UJI T & UJI F) ---
             let ones = Array(n).fill(1);
             let predictors = [ones];
-            let predictorNames = [];
+            let predictorNames = ["Constant"];
             varsX.forEach((name, xi) => { predictors.push(dataSet.map(r => r.x[xi])); predictorNames.push(`X${xi+1} (${name})`); });
             varsM.forEach((name, mi) => { predictors.push(dataSet.map(r => r.m[mi])); predictorNames.push(`M${mi+1} (${name})`); });
 
@@ -934,78 +1074,135 @@
                 let reg = runRegression(predictors, yArr);
                 
                 if(!reg) {
-                    regHTML += '<div class="alert alert-danger">Matriks singular untuk model ini.</div>';
+                    regHTML += '<div class="alert alert-danger">Matriks singular untuk model ini. Tidak dapat diproses.</div>';
                     return;
                 }
 
-                // Kalkulasi R2
-                let yMean = getDescStats(yArr).mean;
-                let sst = yArr.reduce((sum, val) => sum + Math.pow(val - yMean, 2), 0);
-                let ssr = 0;
-                for(let i=0; i<n; i++) {
-                    let yPred = reg.beta[0];
-                    let pIdx = 1;
-                    varsX.forEach((_, xi) => { yPred += reg.beta[pIdx] * dataSet[i].x[xi]; pIdx++; });
-                    varsM.forEach((_, mi) => { yPred += reg.beta[pIdx] * dataSet[i].m[mi]; pIdx++; });
-                    ssr += Math.pow(yPred - yMean, 2);
-                }
-                let r2 = sst !== 0 ? ssr / sst : 0;
-                if(r2 > 1) r2 = 1; if(r2 < 0) r2 = 0;
-
-                // Teks persamaan dan Koleksi Data Chart Beta
+                // Bangun Teks Persamaan
                 let eqText = `Y${yi+1} = ${reg.beta[0].toFixed(3)}`;
-                let pIdx = 1;
-                let eqInterpretations = `<li><strong>Konstanta (a) = ${reg.beta[0].toFixed(3)}:</strong> Artinya, jika semua variabel independen dan mediasi diasumsikan bernilai 0 (tidak ada), maka nilai ${nameY} secara konsisten adalah ${reg.beta[0].toFixed(3)}.</li>`;
-                
                 let currentRegResult = { nameY: nameY, labels: [], betas: [] };
+                
+                let regType = "";
+                if(varsX.length === 1 && varsM.length === 0) regType = "Linier Sederhana";
+                else if(varsX.length > 1 && varsM.length === 0) regType = "Linier Berganda";
+                else regType = "Berganda (dengan Mediasi)";
 
+                let pIdx = 1;
                 varsX.forEach((name, xi) => { 
                     let b = reg.beta[pIdx];
                     eqText += ` ${(b>=0?'+':'-')} ${Math.abs(b).toFixed(3)}X${xi+1}`; 
-                    eqInterpretations += `<li><strong>Koefisien X${xi+1} = ${b.toFixed(3)}:</strong> Menunjukkan bahwa setiap peningkatan 1 satuan pada ${name}, akan ${b>=0?'meningkatkan':'menurunkan'} ${nameY} sebesar ${Math.abs(b).toFixed(3)} satuan (dengan asumsi variabel lain tetap).</li>`;
-                    currentRegResult.labels.push(`X${xi+1} (${name})`);
+                    currentRegResult.labels.push(`X${xi+1}`);
                     currentRegResult.betas.push(b);
                     pIdx++; 
                 });
                 varsM.forEach((name, mi) => { 
                     let b = reg.beta[pIdx];
                     eqText += ` ${(b>=0?'+':'-')} ${Math.abs(b).toFixed(3)}M${mi+1}`; 
-                    eqInterpretations += `<li><strong>Koefisien M${mi+1} = ${b.toFixed(3)}:</strong> Menunjukkan bahwa setiap peningkatan 1 satuan pada ${name}, akan ${b>=0?'meningkatkan':'menurunkan'} ${nameY} sebesar ${Math.abs(b).toFixed(3)} satuan.</li>`;
-                    currentRegResult.labels.push(`M${mi+1} (${name})`);
+                    currentRegResult.labels.push(`M${mi+1}`);
                     currentRegResult.betas.push(b);
                     pIdx++; 
                 });
-
                 globalRegressionResults.push(currentRegResult);
 
+                // Bangun Tabel SPSS-style untuk Uji T (Coefficients)
+                let tTableRows = '';
+                reg.beta.forEach((b, idx) => {
+                    let isSig = checkSignificance(reg.tStats[idx]);
+                    let sigText = isSig ? "<span class='text-success fw-bold'>Sig (<0.05)</span>" : "<span class='text-danger'>Tidak Sig</span>";
+                    if(idx === 0) sigText = "-"; // Biasa tidak diinterpretasi
+                    
+                    tTableRows += `
+                        <tr>
+                            <td class="text-start">${predictorNames[idx]}</td>
+                            <td>${b.toFixed(3)}</td>
+                            <td>${reg.se[idx].toFixed(3)}</td>
+                            <td>${reg.tStats[idx].toFixed(3)}</td>
+                            <td>${sigText}</td>
+                        </tr>
+                    `;
+                });
+
+                // Status Uji F
+                let fSig = reg.fStat > 3.0 ? "Signifikan (<0.05)" : "Tidak Signifikan"; // Very rough approx for F threshold
+
+                let varTypesText = varsM.length > 0 ? "independen dan mediasi" : "independen";
+
                 regHTML += `
-                    <div class="mb-4">
-                        <h6 class="fw-bold bg-success text-white p-2 rounded">Model Regresi Lengkap: ${nameY} (Y${yi+1})</h6>
-                        <div class="result-box text-center py-3">
-                            <h5 class="mb-0 fw-bold font-monospace">${eqText}</h5>
+                    <div class="card mb-4 border-success">
+                        <div class="card-header bg-success text-white fw-bold">
+                            Model Regresi ${regType}: Pengaruh terhadap ${nameY} (Y${yi+1})
                         </div>
-                        <p class="mb-2"><strong>R-Square (R²):</strong> ${(r2).toFixed(3)} (${(r2*100).toFixed(1)}%)</p>
-                        <div class="explanation-box mt-0">
-                            <strong>Penjelasan Hasil Regresi:</strong><br>
-                            Persamaan regresi linier di atas membentuk model matematis pengaruh antar variabel.
-                            <ul class="mb-2 mt-2">
-                                ${eqInterpretations}
-                            </ul>
-                            <strong>Interpretasi Koefisien Determinasi (R²):</strong><br>
-                            Nilai R² sebesar ${(r2).toFixed(3)} berarti bahwa sebesar <strong>${(r2*100).toFixed(1)}%</strong> variasi (perubahan) pada <strong>${nameY}</strong> mampu dijelaskan secara simultan oleh variabel-variabel prediktor di dalam model penelitian ini. Sisanya sebesar ${(100-(r2*100)).toFixed(1)}% dipengaruhi oleh faktor atau variabel lain yang tidak diikutsertakan dalam penelitian.
+                        <div class="card-body">
+                            <h6 class="fw-bold">A. Persamaan Regresi Linier</h6>
+                            <div class="result-box text-center py-3 mb-4">
+                                <h5 class="mb-0 fw-bold font-monospace">${eqText}</h5>
+                            </div>
+
+                            <h6 class="fw-bold">B. Hasil Uji Parsial (Uji T) & Koefisien</h6>
+                            <div class="table-responsive mb-4">
+                                <table class="table table-bordered table-spss">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Variabel Model</th>
+                                            <th>Koefisien (B)</th>
+                                            <th>Std. Error</th>
+                                            <th>t-Hitung</th>
+                                            <th>Keterangan (Sig)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${tTableRows}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h6 class="fw-bold">C. Hasil Uji Simultan (Uji F) & Determinasi (R²)</h6>
+                            <div class="row text-center mb-3">
+                                <div class="col-md-4">
+                                    <div class="p-3 bg-light border rounded">
+                                        <small class="d-block text-muted">Nilai F-Hitung</small>
+                                        <h5 class="mb-0 fw-bold">${reg.fStat.toFixed(3)}</h5>
+                                        <small class="text-success">${fSig}</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="p-3 bg-light border rounded">
+                                        <small class="d-block text-muted">R-Square (R²)</small>
+                                        <h5 class="mb-0 fw-bold">${reg.r2.toFixed(3)}</h5>
+                                        <small class="text-primary">${(reg.r2*100).toFixed(1)}% Kontribusi</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="p-3 bg-light border rounded">
+                                        <small class="d-block text-muted">Adjusted R-Square</small>
+                                        <h5 class="mb-0 fw-bold">${(reg.r2 - (1-reg.r2)*(reg.p)/(reg.dof)).toFixed(3)}</h5>
+                                        <small class="text-muted">Koreksi Parameter</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="explanation-box mt-0 border-success">
+                                <strong>Penjelasan Hasil Uji Hipotesis:</strong><br>
+                                <ul class="mb-0 mt-2">
+                                    <li><strong>Uji T (Parsial):</strong> Tabel di atas menunjukkan nilai t-hitung untuk masing-masing variabel independen. Jika t-hitung > 1.96, maka variabel tersebut memiliki pengaruh parsial yang <strong>signifikan</strong> terhadap ${nameY}.</li>
+                                    <li><strong>Uji F (Simultan):</strong> Diperoleh F-hitung sebesar ${reg.fStat.toFixed(3)}. Angka yang tinggi menunjukkan bahwa seluruh variabel ${varTypesText} secara bersama-sama (simultan) memiliki pengaruh yang <strong>signifikan</strong> terhadap ${nameY}.</li>
+                                    <li><strong>Koefisien Determinasi (R²):</strong> Nilai R² sebesar ${(reg.r2).toFixed(3)} berarti bahwa <strong>${(reg.r2*100).toFixed(1)}%</strong> variasi (perubahan) pada ${nameY} mampu dijelaskan oleh model ini. Sisanya ${(100-(reg.r2*100)).toFixed(1)}% dijelaskan oleh variabel lain.</li>
+                                    <li><strong>Persamaan Matematis:</strong> Jika semua variabel ${varTypesText} bernilai 0, maka nilai ${nameY} adalah ${reg.beta[0].toFixed(3)}. Setiap kenaikan 1 satuan variabel prediktor akan mengubah ${nameY} sebesar nilai koefisiennya.</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>`;
-                    
+
                 conclHTML += `
                     <div class="alert alert-info border-0 shadow-sm mb-3">
                         <h6 class="fw-bold text-dark border-bottom border-info pb-2">Kesimpulan Utama untuk: ${nameY}</h6>
-                        <p class="mb-2">Berdasarkan hasil analisis data secara keseluruhan, ditarik simpulan sebagai berikut:</p>
                         <ul class="mb-0">
-                            <li class="mb-1">Terdapat pengaruh secara simultan (bersama-sama) dari seluruh variabel independen terhadap <strong>${nameY}</strong> dengan kontribusi pengaruh sebesar <strong>${(r2*100).toFixed(1)}%</strong>. Model regresi ini dikategorikan ${r2 > 0.5 ? 'cukup kuat' : 'lemah'} dalam memprediksi variabel terikat.</li>
-                            <li>Berdasarkan besaran nilai koefisien parsial (b), variabel prediktor yang memberikan dampak perubahan paling dominan terhadap ${nameY} dapat diidentifikasi dari nilai absolut koefisien regresinya yang paling besar. Hal ini dapat menjadi acuan bagi praktisi untuk memprioritaskan perbaikan pada indikator variabel tersebut.</li>
+                            <li class="mb-1">Terdapat pengaruh secara simultan dari seluruh variabel ${varTypesText} terhadap <strong>${nameY}</strong> dengan kontribusi sebesar <strong>${(reg.r2*100).toFixed(1)}%</strong>.</li>
+                            <li>Berdasarkan Uji T, perhatikan variabel dengan keterangan <strong>Sig (<0.05)</strong> pada tabel regresi, karena variabel itulah yang secara empiris terbukti memengaruhi kepuasan/keberhasilan di lapangan.</li>
                         </ul>
                     </div>`;
             });
+
             document.getElementById('regOutput').innerHTML = regHTML;
             document.getElementById('conclusionOutput').innerHTML = conclHTML;
 
@@ -1095,18 +1292,6 @@
                                         <li><strong>Standard Error (SEab):</strong> ${se_ab.toFixed(4)}</li>
                                         <li><strong>Nilai Z Sobel:</strong> ${z_sobel.toFixed(3)} (Batas kritis |Z| > 1.96)</li>
                                     </ul>
-                                    <div class="explanation-box mt-0 mb-3" style="border-left-color: #ffc107;">
-                                        <strong>Penjelasan:</strong> Berdasarkan perhitungan Sobel, rasio pembagian efek tidak langsung dengan standard errornya menghasilkan nilai Z sebesar ${z_sobel.toFixed(3)}. Hal ini menyatakan efek mediasi <strong>${sobel_sig ? 'SIGNIFIKAN' : 'TIDAK SIGNIFIKAN'}</strong> secara statistik.
-                                    </div>
-
-                                    <h6 class="fw-bold border-bottom pb-1">3. Interpretasi Uji Bootstrap (500 Iterasi)</h6>
-                                    <ul class="small mb-2">
-                                        <li><strong>Efek Tidak Langsung (a × b):</strong> ${(path_a.b * path_b.b).toFixed(3)}</li>
-                                        <li><strong>95% Confidence Interval (CI):</strong> [${lowerCI.toFixed(3)} , ${upperCI.toFixed(3)}]</li>
-                                    </ul>
-                                    <div class="explanation-box mt-0" style="border-left-color: #ffc107;">
-                                        <strong>Penjelasan:</strong> Uji Bootstrap melakukan resampling berulang pada data untuk membangun interval kepercayaan 95%. Karena rentang batas bawah (${lowerCI.toFixed(3)}) hingga batas atas (${upperCI.toFixed(3)}) <strong>${boot_sig ? 'TIDAK melewati angka nol (0)' : 'MELEWATI angka nol (0)'}</strong>, maka dapat disimpulkan bahwa peran mediasi ${nameM} adalah <strong>${boot_sig ? 'SIGNIFIKAN' : 'TIDAK SIGNIFIKAN'}</strong>.
-                                    </div>
                                 </div>
                             </div>`;
                         });
