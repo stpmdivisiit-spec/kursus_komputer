@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Analisis Data Kuantitatif</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .header-title {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 2.5rem 0;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        .card-header {
+            border-radius: 12px 12px 0 0 !important;
+            background-color: #fff;
+            border-bottom: 2px solid #f0f2f5;
+        }
+        .result-box {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 5px solid #3498db;
+            margin-bottom: 15px;
+        }
+        .table-inputs input {
+            text-align: center;
+        }
+        .nav-tabs .nav-link {
+            color: #6c757d;
+            font-weight: 500;
+        }
+        .nav-tabs .nav-link.active {
+            color: #2c3e50;
+            font-weight: bold;
+            border-bottom: 3px solid #3498db;
+        }
+        .var-setup input {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-title text-center">
+        <div class="container">
+            <h1 class="fw-bold">Kalkulator Analisis Kuantitatif Umum</h1>
+            <p class="mb-0">Simulasi Statistik Deskriptif, Korelasi, dan Regresi Berganda</p>
+        </div>
+    </div>
+
+    <div class="container pb-5">
+        
+        <!-- Setup Variabel -->
+        <div class="card mb-4">
+            <div class="card-body var-setup">
+                <h5 class="fw-bold text-primary mb-3">⚙️ Pengaturan Variabel Penelitian <a href="index.html" class="btn btn-light btn-sm rounded-pill px-3 fw-medium d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-arrow-left"></i> Kembali ke Microsoft Word
+                </a></h5>  
+                                
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label small text-muted">Nama Variabel Bebas 1 (X1)</label>
+                        <input type="text" class="form-control" id="nameX1" value="Kualitas Produk" onkeyup="updateLabels()">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label small text-muted">Nama Variabel Bebas 2 (X2)</label>
+                        <input type="text" class="form-control" id="nameX2" value="Harga" onkeyup="updateLabels()">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label small text-muted">Nama Variabel Terikat (Y)</label>
+                        <input type="text" class="form-control" id="nameY" value="Keputusan Pembelian" onkeyup="updateLabels()">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Bagian Input Data -->
+            <div class="col-lg-5">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0 fw-bold text-dark">📝 Input Data Kuesioner</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            <table class="table table-bordered table-hover table-inputs" id="dataTable">
+                                <thead class="table-light sticky-top">
+                                    <tr>
+                                        <th class="text-center">No</th>
+                                        <th class="text-center" id="thX1">X1</th>
+                                        <th class="text-center" id="thX2">X2</th>
+                                        <th class="text-center" id="thY">Y</th>
+                                        <th class="text-center">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBody">
+                                    <!-- Data awal -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-flex justify-content-between mt-3">
+                            <button class="btn btn-outline-secondary" onclick="addRow()">+ Tambah Baris</button>
+                            <button class="btn btn-primary px-4 fw-bold" onclick="calculateAll()">Hitung Semua Analisis</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bagian Output / Hasil -->
+            <div class="col-lg-7">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0 fw-bold text-success">📊 Hasil Analisis Data</h5>
+                    </div>
+                    
+                    <div class="card-body text-center" id="emptyState">
+                        <h1 class="display-1 text-muted opacity-25 mt-5">📈</h1>
+                        <p class="text-muted mt-3">Silakan isi data dan klik <strong>"Hitung Semua Analisis"</strong> untuk melihat hasil statistik lengkap.</p>
+                    </div>
+
+                    <div class="card-body" id="resultArea" style="display: none;">
+                        
+                        <!-- Nav Tabs -->
+                        <ul class="nav nav-tabs mb-3" id="resultTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="desc-tab" data-bs-toggle="tab" data-bs-target="#desc" type="button" role="tab">1. Deskriptif</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="corr-tab" data-bs-toggle="tab" data-bs-target="#corr" type="button" role="tab">2. Korelasi</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="reg-tab" data-bs-toggle="tab" data-bs-target="#reg" type="button" role="tab">3. Regresi</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="conclusion-tab" data-bs-toggle="tab" data-bs-target="#conclusion" type="button" role="tab">4. Kesimpulan</button>
+                            </li>
+                        </ul>
+
+                        <!-- Tab Contents -->
+                        <div class="tab-content" id="resultTabsContent">
+                            
+                            <!-- TAB 1: DESKRIPTIF -->
+                            <div class="tab-pane fade show active" id="desc" role="tabpanel">
+                                <h6 class="fw-bold mb-3">Statistik Deskriptif Variabel</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-bordered">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Variabel</th>
+                                                <th>N (Sampel)</th>
+                                                <th>Min</th>
+                                                <th>Max</th>
+                                                <th>Mean (Rata-rata)</th>
+                                                <th>Std. Deviasi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="descTableBody">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <p class="small text-muted mt-2"><strong>Interpretasi:</strong> Tabel ini menunjukkan gambaran umum data. Rata-rata (Mean) mengindikasikan kecenderungan jawaban responden, sedangkan Standar Deviasi menunjukkan seberapa bervariasi/menyebar jawaban responden dari nilai rata-ratanya.</p>
+                            </div>
+
+                            <!-- TAB 2: KORELASI -->
+                            <div class="tab-pane fade" id="corr" role="tabpanel">
+                                <h6 class="fw-bold mb-3">Analisis Korelasi Pearson (r)</h6>
+                                <p class="small text-muted mb-2">Mengukur kekuatan dan arah hubungan linier antar variabel (-1 hingga 1).</p>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-2">
+                                        <div class="result-box">
+                                            <span class="small d-block text-muted">Hubungan X1 & Y:</span>
+                                            <h5 class="mb-0 text-primary" id="corrX1Y">0.000</h5>
+                                            <small id="interpCorrX1Y" class="fw-bold"></small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <div class="result-box">
+                                            <span class="small d-block text-muted">Hubungan X2 & Y:</span>
+                                            <h5 class="mb-0 text-primary" id="corrX2Y">0.000</h5>
+                                            <small id="interpCorrX2Y" class="fw-bold"></small>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="result-box bg-light border-0 border-start border-warning border-5">
+                                            <span class="small d-block text-muted">Multikolinearitas (X1 & X2):</span>
+                                            <h6 class="mb-0 text-dark" id="corrX1X2">0.000</h6>
+                                            <small class="text-muted">Jika nilai > 0.8, maka terjadi gejala multikolinearitas (tidak baik untuk regresi).</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- TAB 3: REGRESI & DETERMINASI -->
+                            <div class="tab-pane fade" id="reg" role="tabpanel">
+                                <h6 class="fw-bold">A. Persamaan Regresi Linier Berganda</h6>
+                                <div class="result-box text-center py-4">
+                                    <h4 class="mb-0 fw-bold" id="equationOutput" style="letter-spacing: 1px;">Y = a + b1X1 + b2X2</h4>
+                                </div>
+                                <div class="row text-center mb-4">
+                                    <div class="col-4">
+                                        <small class="text-muted d-block">Konstanta (a)</small>
+                                        <strong id="valA">0</strong>
+                                    </div>
+                                    <div class="col-4">
+                                        <small class="text-muted d-block">Koefisien X1 (b1)</small>
+                                        <strong id="valB1">0</strong>
+                                    </div>
+                                    <div class="col-4">
+                                        <small class="text-muted d-block">Koefisien X2 (b2)</small>
+                                        <strong id="valB2">0</strong>
+                                    </div>
+                                </div>
+
+                                <h6 class="fw-bold mt-4">B. Koefisien Determinasi ($R^2$)</h6>
+                                <div class="result-box">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="fw-bold text-muted">R-Square ($R^2$):</span>
+                                        <h4 class="mb-0 text-success" id="r2Output">0.00%</h4>
+                                    </div>
+                                    <hr>
+                                    <p class="small text-muted mb-0" id="r2Interpretation"></p>
+                                </div>
+                            </div>
+
+                            <!-- TAB 4: KESIMPULAN -->
+                            <div class="tab-pane fade" id="conclusion" role="tabpanel">
+                                <div class="alert alert-info border-0 shadow-sm" id="conclusionOutput">
+                                    <!-- Terisi Otomatis -->
+                                </div>
+                                <div class="alert alert-warning border-0 shadow-sm mt-3">
+                                    <small><strong>Catatan Akademis:</strong> Perhitungan ini menggunakan estimasi kuadrat terkecil biasa (OLS). Dalam skripsi sesungguhnya, pastikan Anda juga menguji Asumsi Klasik (Normalitas, Heteroskedastisitas) dan melihat nilai Probabilitas/Signifikansi (P-Value/Sig. < 0.05) pada Uji-t dan Uji-F di software seperti SPSS/SmartPLS untuk menyatakan "Signifikan".</small>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- JavaScript Logika Kuantitatif -->
+    <script>
+        // Data Dummy Awal
+        let dataSet = [
+            { id: 1, x1: 75, x2: 80, y: 85 },
+            { id: 2, x1: 60, x2: 65, y: 70 },
+            { id: 3, x1: 85, x2: 90, y: 92 },
+            { id: 4, x1: 70, x2: 75, y: 78 },
+            { id: 5, x1: 90, x2: 85, y: 88 },
+            { id: 6, x1: 65, x2: 70, y: 75 },
+            { id: 7, x1: 80, x2: 82, y: 86 }
+        ];
+
+        let rowCount = dataSet.length;
+
+        // Update Label Table Header based on Input
+        function updateLabels() {
+            const nX1 = document.getElementById('nameX1').value || 'X1';
+            const nX2 = document.getElementById('nameX2').value || 'X2';
+            const nY = document.getElementById('nameY').value || 'Y';
+            
+            document.getElementById('thX1').innerText = nX1 + " (X1)";
+            document.getElementById('thX2').innerText = nX2 + " (X2)";
+            document.getElementById('thY').innerText = nY + " (Y)";
+        }
+
+        // Render tabel
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+            dataSet.forEach((row, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="text-center align-middle">${index + 1}</td>
+                    <td><input type="number" class="form-control form-control-sm val-x1" value="${row.x1}"></td>
+                    <td><input type="number" class="form-control form-control-sm val-x2" value="${row.x2}"></td>
+                    <td><input type="number" class="form-control form-control-sm val-y" value="${row.y}"></td>
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-outline-danger" onclick="removeRow(this)">x</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Tambah baris baru
+        function addRow() {
+            rowCount++;
+            dataSet.push({ id: rowCount, x1: 0, x2: 0, y: 0 });
+            renderTable();
+        }
+
+        // Hapus baris
+        function removeRow(btn) {
+            const row = btn.closest('tr');
+            row.remove();
+        }
+
+        // Ambil data terbaru dari input tabel
+        function getTableData() {
+            const rows = document.querySelectorAll('#tableBody tr');
+            let currentData = [];
+            rows.forEach(row => {
+                const x1 = parseFloat(row.querySelector('.val-x1').value) || 0;
+                const x2 = parseFloat(row.querySelector('.val-x2').value) || 0;
+                const y = parseFloat(row.querySelector('.val-y').value) || 0;
+                currentData.push({ x1, x2, y });
+            });
+            return currentData;
+        }
+
+        // Hitung Pearson Correlation (r)
+        function getPearsonCorrelation(arr1, arr2) {
+            let n = arr1.length;
+            let sum1 = 0, sum2 = 0, sum1Sq = 0, sum2Sq = 0, pSum = 0;
+            for (let i = 0; i < n; i++) {
+                sum1 += arr1[i];
+                sum2 += arr2[i];
+                sum1Sq += Math.pow(arr1[i], 2);
+                sum2Sq += Math.pow(arr2[i], 2);
+                pSum += arr1[i] * arr2[i];
+            }
+            let num = pSum - (sum1 * sum2 / n);
+            let den = Math.sqrt((sum1Sq - Math.pow(sum1, 2) / n) * (sum2Sq - Math.pow(sum2, 2) / n));
+            if (den === 0) return 0;
+            return num / den;
+        }
+
+        // Interpretasi Korelasi
+        function getCorrelationInterpretation(r) {
+            let absR = Math.abs(r);
+            if (absR >= 0.8) return "Sangat Kuat";
+            if (absR >= 0.6) return "Kuat";
+            if (absR >= 0.4) return "Sedang";
+            if (absR >= 0.2) return "Lemah";
+            return "Sangat Lemah / Tidak Ada";
+        }
+
+        // Fungsi Utama Menghitung Semua
+        function calculateAll() {
+            const data = getTableData();
+            const n = data.length;
+
+            if (n < 4) {
+                alert("Minimal dibutuhkan 4 data sampel untuk perhitungan regresi berganda yang valid.");
+                return;
+            }
+
+            // Ambil Nama Variabel
+            const nX1 = document.getElementById('nameX1').value || 'Variabel X1';
+            const nX2 = document.getElementById('nameX2').value || 'Variabel X2';
+            const nY = document.getElementById('nameY').value || 'Variabel Y';
+
+            // Array Terpisah
+            let arrX1 = [], arrX2 = [], arrY = [];
+            data.forEach(d => { arrX1.push(d.x1); arrX2.push(d.x2); arrY.push(d.y); });
+
+            // ---------------------------------------------------------
+            // 1. STATISTIK DESKRIPTIF
+            // ---------------------------------------------------------
+            const getDesc = (arr) => {
+                let sum = arr.reduce((a,b)=>a+b,0);
+                let mean = sum / n;
+                let min = Math.min(...arr);
+                let max = Math.max(...arr);
+                let sqDiff = arr.reduce((a,b)=>a + Math.pow(b - mean, 2), 0);
+                let stdDev = Math.sqrt(sqDiff / (n - 1)); // Sample Std Dev
+                return { mean, min, max, stdDev };
+            };
+
+            const descX1 = getDesc(arrX1);
+            const descX2 = getDesc(arrX2);
+            const descY = getDesc(arrY);
+
+            const buildDescRow = (name, desc) => `
+                <tr>
+                    <td><strong>${name}</strong></td>
+                    <td>${n}</td>
+                    <td>${desc.min}</td>
+                    <td>${desc.max}</td>
+                    <td>${desc.mean.toFixed(2)}</td>
+                    <td>${desc.stdDev.toFixed(2)}</td>
+                </tr>
+            `;
+            
+            document.getElementById('descTableBody').innerHTML = 
+                buildDescRow(`${nX1} (X1)`, descX1) +
+                buildDescRow(`${nX2} (X2)`, descX2) +
+                buildDescRow(`${nY} (Y)`, descY);
+
+
+            // ---------------------------------------------------------
+            // 2. ANALISIS KORELASI PEARSON
+            // ---------------------------------------------------------
+            const rX1Y = getPearsonCorrelation(arrX1, arrY);
+            const rX2Y = getPearsonCorrelation(arrX2, arrY);
+            const rX1X2 = getPearsonCorrelation(arrX1, arrX2);
+
+            document.getElementById('corrX1Y').innerText = rX1Y.toFixed(3);
+            document.getElementById('interpCorrX1Y').innerText = `(${getCorrelationInterpretation(rX1Y)})`;
+            
+            document.getElementById('corrX2Y').innerText = rX2Y.toFixed(3);
+            document.getElementById('interpCorrX2Y').innerText = `(${getCorrelationInterpretation(rX2Y)})`;
+            
+            document.getElementById('corrX1X2').innerText = rX1X2.toFixed(3);
+
+
+            // ---------------------------------------------------------
+            // 3. ANALISIS REGRESI BERGANDA & DETERMINASI
+            // ---------------------------------------------------------
+            let sumX1Sq = 0, sumX2Sq = 0, sumYSq = 0;
+            let sumX1Y = 0, sumX2Y = 0, sumX1X2 = 0;
+
+            // Deviasi dari mean
+            data.forEach(d => {
+                let dx1 = d.x1 - descX1.mean;
+                let dx2 = d.x2 - descX2.mean;
+                let dy = d.y - descY.mean;
+
+                sumX1Sq += (dx1 * dx1);
+                sumX2Sq += (dx2 * dx2);
+                sumYSq += (dy * dy);
+                sumX1Y += (dx1 * dy);
+                sumX2Y += (dx2 * dy);
+                sumX1X2 += (dx1 * dx2);
+            });
+
+            const denominator = (sumX1Sq * sumX2Sq) - (sumX1X2 * sumX1X2);
+            let b1 = 0, b2 = 0;
+            
+            if(denominator !== 0) {
+                 b1 = ((sumX2Sq * sumX1Y) - (sumX1X2 * sumX2Y)) / denominator;
+                 b2 = ((sumX1Sq * sumX2Y) - (sumX1X2 * sumX1Y)) / denominator;
+            }
+
+            const a = descY.mean - (b1 * descX1.mean) - (b2 * descX2.mean);
+
+            // R-Square (R^2)
+            const ssr = (b1 * sumX1Y) + (b2 * sumX2Y);
+            let r2 = (sumYSq !== 0) ? ssr / sumYSq : 0;
+            if (r2 < 0) r2 = 0; // Floating point safeguard
+            if (r2 > 1) r2 = 1;
+            const r2Percent = (r2 * 100).toFixed(1);
+
+            // Tampilkan Regresi
+            document.getElementById('valA').innerText = a.toFixed(3);
+            document.getElementById('valB1').innerText = b1.toFixed(3);
+            document.getElementById('valB2').innerText = b2.toFixed(3);
+            
+            const signB1 = b1 >= 0 ? "+" : "-";
+            const signB2 = b2 >= 0 ? "+" : "-";
+            document.getElementById('equationOutput').innerText = 
+                `Y = ${a.toFixed(3)} ${signB1} ${Math.abs(b1).toFixed(3)}X1 ${signB2} ${Math.abs(b2).toFixed(3)}X2`;
+
+            document.getElementById('r2Output').innerText = `${r2.toFixed(3)} (${r2Percent}%)`;
+            document.getElementById('r2Interpretation').innerHTML = 
+                `Variabel <strong>${nX1}</strong> dan <strong>${nX2}</strong> secara bersama-sama memberikan kontribusi pengaruh sebesar <strong>${r2Percent}%</strong> terhadap variabel <strong>${nY}</strong>. Sisanya sebesar ${(100 - r2Percent).toFixed(1)}% dipengaruhi oleh faktor/variabel lain.`;
+
+
+            // ---------------------------------------------------------
+            // 4. KESIMPULAN OTOMATIS
+            // ---------------------------------------------------------
+            let dominantVar = "";
+            let b1Abs = Math.abs(b1);
+            let b2Abs = Math.abs(b2);
+
+            if (b1Abs > b2Abs) {
+                dominantVar = `<strong>${nX1}</strong> (Koefisien: ${b1.toFixed(3)})`;
+            } else if (b2Abs > b1Abs) {
+                dominantVar = `<strong>${nX2}</strong> (Koefisien: ${b2.toFixed(3)})`;
+            } else {
+                dominantVar = "Kedua variabel (Pengaruh seimbang)";
+            }
+
+            let html = `
+                <h6 class="fw-bold mb-3">Ringkasan Naratif Penelitian:</h6>
+                <ol class="mb-0 ps-3">
+                    <li class="mb-2"><strong>Arah Pengaruh:</strong> <br>
+                        Setiap peningkatan 1 satuan pada ${nX1}, akan ${b1 >= 0 ? 'meningkatkan' : 'menurunkan'} ${nY} sebesar ${Math.abs(b1).toFixed(3)} satuan. <br>
+                        Setiap peningkatan 1 satuan pada ${nX2}, akan ${b2 >= 0 ? 'meningkatkan' : 'menurunkan'} ${nY} sebesar ${Math.abs(b2).toFixed(3)} satuan.
+                    </li>
+                    <li class="mb-2"><strong>Korelasi:</strong> <br>
+                        Hubungan antara ${nX1} dengan ${nY} adalah <strong>${getCorrelationInterpretation(rX1Y)}</strong> (r = ${rX1Y.toFixed(2)}). <br>
+                        Sedangkan hubungan antara ${nX2} dengan ${nY} adalah <strong>${getCorrelationInterpretation(rX2Y)}</strong> (r = ${rX2Y.toFixed(2)}).
+                    </li>
+                    <li class="mb-2"><strong>Faktor Dominan:</strong> <br>
+                        Berdasarkan besaran koefisien regresi, variabel yang memberikan dampak paling besar terhadap ${nY} dalam model ini adalah ${dominantVar}.
+                    </li>
+                    <li class="mb-0"><strong>Determinasi:</strong> <br>
+                        Penelitian ini berhasil menjelaskan ${r2Percent}% fenomena perubahan pada ${nY}, yang menunjukkan bahwa model penelitian ini ${r2Percent >= 50 ? 'cukup kuat/baik' : 'masih membutuhkan variabel tambahan untuk memprediksi Y dengan akurat'}.
+                    </li>
+                </ol>
+            `;
+
+            document.getElementById('conclusionOutput').innerHTML = html;
+
+            // Tampilkan Area Hasil
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('resultArea').style.display = 'block';
+        }
+
+        // Inisialisasi awal
+        updateLabels();
+        renderTable();
+    </script>
+</body>
+</html>
