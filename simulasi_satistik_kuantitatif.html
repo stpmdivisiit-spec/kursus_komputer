@@ -6,6 +6,13 @@
     <title>Kalkulator Analisis Data Kuantitatif</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Library Eksternal untuk Ekspor/Impor (Excel, CSV, PDF) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- Library untuk Grafik (Chart.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
         body {
             background-color: #f0f2f5;
@@ -29,6 +36,9 @@
             border-radius: 12px 12px 0 0 !important;
             background-color: #fff;
             border-bottom: 2px solid #f0f2f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         .result-box {
             background-color: #f8f9fa;
@@ -43,6 +53,8 @@
         .nav-tabs .nav-link {
             color: #6c757d;
             font-weight: 500;
+            font-size: 0.9rem;
+            padding: 10px 5px;
         }
         .nav-tabs .nav-link.active {
             color: #2c3e50;
@@ -96,6 +108,12 @@
             color: #495057;
             margin-top: 15px;
         }
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -103,7 +121,7 @@
     <div class="header-title text-center">
         <div class="container">
             <h1 class="fw-bold">Kalkulator Analisis Kuantitatif Dinamis</h1>
-            <p class="mb-0">Mendukung Multiple X, Variabel Mediasi (M), dan Multiple Y beserta Interpretasi Otomatis</p>
+            <p class="mb-0">Mendukung Multiple X, Variabel Mediasi (M), Multiple Y, & Chart/Export Laporan</p>
         </div>
     </div>
 
@@ -131,13 +149,18 @@
 
         <div class="row">
             <!-- Bagian Input Data -->
-            <div class="col-lg-5">
+            <div class="col-lg-4">
                 <div class="card h-100">
-                    <div class="card-header">
+                    <div class="card-header flex-column align-items-start gap-2">
                         <h5 class="card-title mb-0 fw-bold text-dark">📝 Input Data Kuesioner</h5>
+                        <div class="w-100 d-flex gap-2">
+                            <button class="btn btn-sm btn-outline-secondary flex-grow-1" onclick="downloadCSVTemplate()" title="Download Template CSV">⬇️ Template CSV</button>
+                            <input type="file" id="csvFileInput" accept=".csv" style="display: none;" onchange="uploadCSV(event)">
+                            <button class="btn btn-sm btn-secondary flex-grow-1" onclick="document.getElementById('csvFileInput').click()" title="Upload CSV">⬆️ Upload CSV</button>
+                        </div>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                        <div class="table-responsive" style="max-height: 450px; overflow-y: auto;">
                             <table class="table table-bordered table-hover table-inputs" id="dataTable">
                                 <thead class="table-light sticky-top" id="tableHead">
                                     <!-- Header Tabel dinamis -->
@@ -149,22 +172,26 @@
                         </div>
                         <div class="d-flex justify-content-between mt-3">
                             <button class="btn btn-outline-secondary" onclick="addRow()">+ Tambah Baris</button>
-                            <button class="btn btn-primary px-4 fw-bold" onclick="calculateAll()">Hitung Analisis</button>
+                            <button class="btn btn-primary px-4 fw-bold" onclick="calculateAll()">Hitung</button>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Bagian Output / Hasil -->
-            <div class="col-lg-7">
+            <div class="col-lg-8">
                 <div class="card h-100">
                     <div class="card-header">
                         <h5 class="card-title mb-0 fw-bold text-success">📊 Hasil Analisis Data</h5>
+                        <div>
+                            <button class="btn btn-sm btn-outline-danger fw-bold" onclick="exportPDF()">📄 Download PDF</button>
+                            <button class="btn btn-sm btn-outline-success fw-bold" onclick="exportExcel()">📊 Export Excel</button>
+                        </div>
                     </div>
                     
                     <div class="card-body text-center" id="emptyState">
                         <h1 class="display-1 text-muted opacity-25 mt-5">📈</h1>
-                        <p class="text-muted mt-3">Silakan isi data dan klik <strong>"Hitung Analisis"</strong> untuk melihat hasil statistik lengkap beserta interpretasinya.</p>
+                        <p class="text-muted mt-3">Silakan isi data (atau Upload CSV) lalu klik <strong>"Hitung"</strong> untuk melihat hasil statistik.</p>
                     </div>
 
                     <div class="card-body" id="resultArea" style="display: none;">
@@ -184,7 +211,10 @@
                                 <button class="nav-link text-orange fw-bold" id="mediation-tab" data-bs-toggle="tab" data-bs-target="#mediation" type="button">4. Mediasi</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="conclusion-tab" data-bs-toggle="tab" data-bs-target="#conclusion" type="button">5. Kesimpulan</button>
+                                <button class="nav-link" id="viz-tab" data-bs-toggle="tab" data-bs-target="#viz" type="button">5. Visualisasi</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="conclusion-tab" data-bs-toggle="tab" data-bs-target="#conclusion" type="button">6. Kesimpulan</button>
                             </li>
                         </ul>
 
@@ -228,7 +258,24 @@
                                 <div id="mediationOutput"></div>
                             </div>
 
-                            <!-- TAB 5: KESIMPULAN -->
+                            <!-- TAB 5: VISUALISASI (CHART) -->
+                            <div class="tab-pane fade" id="viz" role="tabpanel">
+                                <h6 class="fw-bold mb-3">Visualisasi Grafik Analisis</h6>
+                                
+                                <div class="card mb-4 border-0 shadow-sm" style="background-color: #f8f9fa;">
+                                    <div class="card-body">
+                                        <h6 class="fw-bold text-primary mb-3">A. Grafik Rata-rata (Mean) Seluruh Variabel</h6>
+                                        <div class="chart-container">
+                                            <canvas id="meanChart"></canvas>
+                                        </div>
+                                        <div id="meanChartExplanation" class="explanation-box bg-white mt-3 border-primary"></div>
+                                    </div>
+                                </div>
+
+                                <div id="betaChartsContainer"></div>
+                            </div>
+
+                            <!-- TAB 6: KESIMPULAN -->
                             <div class="tab-pane fade" id="conclusion" role="tabpanel">
                                 <div id="conclusionOutput"></div>
                                 <div class="alert alert-warning border-0 shadow-sm mt-3">
@@ -262,6 +309,12 @@
             { x: [65], m: [68], y: [75] },
             { x: [80], m: [85], y: [86] }
         ];
+
+        // Global Chart Instances
+        let meanChartInstance = null;
+        let betaChartInstances = [];
+        let globalAllMeans = [];
+        let globalRegressionResults = [];
 
         // Library Operasi Matriks Lanjutan
         const MatrixMath = {
@@ -345,14 +398,226 @@
             return { beta, se, tStats, mse };
         }
 
-        // UI RENDERERS
+        // ==========================================
+        // FITUR CSV & PDF & EXCEL
+        // ==========================================
+
+        function downloadCSVTemplate() {
+            let headers = ["No"];
+            varsX.forEach((v, i) => headers.push(`${v} (X${i+1})`));
+            varsM.forEach((v, i) => headers.push(`${v} (M${i+1})`));
+            varsY.forEach((v, i) => headers.push(`${v} (Y${i+1})`));
+            
+            let csvContent = "\uFEFF"; // BOM for UTF-8
+            csvContent += headers.join(",") + "\n";
+            
+            for(let i=1; i<=3; i++) {
+                let row = [i];
+                varsX.forEach(() => row.push(Math.floor(Math.random() * 20) + 70));
+                varsM.forEach(() => row.push(Math.floor(Math.random() * 20) + 70));
+                varsY.forEach(() => row.push(Math.floor(Math.random() * 20) + 70));
+                csvContent += row.join(",") + "\n";
+            }
+
+            let blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            let link = document.createElement("a");
+            let url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", "Template_Data_Kuesioner.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function uploadCSV(event) {
+            let file = event.target.files[0];
+            if(!file) return;
+
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                let text = e.target.result;
+                let rows = text.split("\n").map(r => r.trim()).filter(r => r);
+                
+                if(rows.length < 2) { alert("Data CSV kosong atau hanya berisi header."); return; }
+
+                let headers = rows[0].split(",");
+                let newVarsX = [], newVarsM = [], newVarsY = [];
+                let colMapping = [];
+
+                headers.forEach((h, i) => {
+                    if(i === 0) return;
+                    let cleanH = h.replace(/\"/g, ""); 
+                    if(cleanH.includes("(X")) { newVarsX.push(cleanH.split(" (")[0].trim()); colMapping.push({type: 'x', idx: newVarsX.length-1}); }
+                    else if(cleanH.includes("(M")) { newVarsM.push(cleanH.split(" (")[0].trim()); colMapping.push({type: 'm', idx: newVarsM.length-1}); }
+                    else if(cleanH.includes("(Y")) { newVarsY.push(cleanH.split(" (")[0].trim()); colMapping.push({type: 'y', idx: newVarsY.length-1}); }
+                    else { colMapping.push(null); }
+                });
+
+                if(newVarsX.length === 0 || newVarsY.length === 0) {
+                    alert("Format header tidak sesuai. Harap unduh dan gunakan template CSV yang disediakan.");
+                    return;
+                }
+
+                varsX = newVarsX; varsM = newVarsM; varsY = newVarsY;
+                dataSet = [];
+
+                for(let i=1; i<rows.length; i++) {
+                    let cols = rows[i].split(",");
+                    let rowData = {x: Array(varsX.length).fill(0), m: Array(varsM.length).fill(0), y: Array(varsY.length).fill(0)};
+                    cols.forEach((val, colIdx) => {
+                        if(colIdx === 0) return;
+                        let map = colMapping[colIdx-1];
+                        if(map) rowData[map.type][map.idx] = parseFloat(val) || 0;
+                    });
+                    dataSet.push(rowData);
+                }
+
+                renderUI();
+                alert("Data CSV berhasil di-upload!");
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        function exportPDF() {
+            if (document.getElementById('emptyState').style.display !== 'none') {
+                alert('Silakan Klik "Hitung Analisis" terlebih dahulu sebelum mendownload PDF.');
+                return;
+            }
+
+            let printDiv = document.createElement('div');
+            printDiv.style.padding = '20px';
+            printDiv.style.color = '#000';
+            printDiv.style.fontFamily = 'Arial, sans-serif';
+
+            // Menyiapkan gambar dari Chart Canvas agar bisa dirender ke PDF
+            let meanChartImgHTML = '';
+            let meanCanvas = document.getElementById('meanChart');
+            if(meanCanvas) {
+                meanChartImgHTML = `<img src="${meanCanvas.toDataURL()}" style="width:100%; max-width:600px; height:auto; margin-bottom:10px;">`;
+            }
+
+            let betaChartsHTML = '';
+            globalRegressionResults.forEach((res, i) => {
+                let bCanvas = document.getElementById(`betaChart_${i}`);
+                let bExpl = document.getElementById(`betaChartExplanation_${i}`).innerHTML;
+                if(bCanvas) {
+                    betaChartsHTML += `
+                        <h5 style="margin-top:15px;">Grafik Koefisien Pengaruh terhadap ${res.nameY}</h5>
+                        <img src="${bCanvas.toDataURL()}" style="width:100%; max-width:600px; height:auto; margin-bottom:10px;">
+                        <div style="background-color:#eef2f5; padding:10px; border-left:4px solid #3498db;">${bExpl}</div><br>
+                    `;
+                }
+            });
+
+            let htmlContent = `
+                <h2 style="text-align:center; margin-bottom:30px; font-weight:bold;">Laporan Lengkap Hasil Analisis Kuantitatif</h2>
+                
+                <h4 style="border-bottom: 2px solid #000; padding-bottom:5px;">1. Statistik Deskriptif</h4>
+                <div style="margin-bottom:20px;">${document.getElementById('desc').innerHTML}</div>
+                
+                <h4 style="border-bottom: 2px solid #000; padding-bottom:5px;">2. Analisis Korelasi Pearson</h4>
+                <div style="margin-bottom:20px;">${document.getElementById('corr').innerHTML}</div>
+                
+                <h4 style="border-bottom: 2px solid #000; padding-bottom:5px;">3. Analisis Regresi & Determinasi</h4>
+                <div style="margin-bottom:20px;">${document.getElementById('reg').innerHTML}</div>
+            `;
+
+            if(varsM.length > 0) {
+                htmlContent += `
+                    <h4 style="border-bottom: 2px solid #000; padding-bottom:5px;">4. Analisis Mediasi</h4>
+                    <div style="margin-bottom:20px;">${document.getElementById('mediation').innerHTML}</div>
+                `;
+            }
+
+            htmlContent += `
+                <h4 style="border-bottom: 2px solid #000; padding-bottom:5px;">${varsM.length > 0 ? '5' : '4'}. Visualisasi Grafik</h4>
+                <div style="margin-bottom:20px;">
+                    <h5>Grafik Rata-rata (Mean)</h5>
+                    ${meanChartImgHTML}
+                    <div style="background-color:#eef2f5; padding:10px; border-left:4px solid #3498db; margin-bottom:20px;">${document.getElementById('meanChartExplanation').innerHTML}</div>
+                    ${betaChartsHTML}
+                </div>
+
+                <h4 style="border-bottom: 2px solid #000; padding-bottom:5px;">${varsM.length > 0 ? '6' : '5'}. Kesimpulan Utama</h4>
+                <div>${document.getElementById('conclusion').innerHTML}</div>
+            `;
+
+            printDiv.innerHTML = htmlContent;
+
+            let resultBoxes = printDiv.querySelectorAll('.result-box, .explanation-box');
+            resultBoxes.forEach(el => {
+                el.style.border = '1px solid #ccc';
+                el.style.padding = '10px';
+                el.style.marginBottom = '10px';
+                el.style.backgroundColor = '#fcfcfc';
+                el.style.borderRadius = '5px';
+            });
+
+            html2pdf().from(printDiv).set({
+                margin: 10,
+                filename: 'Laporan_Analisis_Data.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            }).save();
+        }
+
+        function exportExcel() {
+            if (document.getElementById('emptyState').style.display !== 'none') {
+                alert('Silakan Klik "Hitung Analisis" terlebih dahulu sebelum mendownload Excel.');
+                return;
+            }
+
+            let wb = XLSX.utils.book_new();
+
+            // SHEET 1: DATA
+            let wsData = [];
+            let headerData = ["No", ...varsX.map((v,i)=>`${v} (X${i+1})`), ...varsM.map((v,i)=>`${v} (M${i+1})`), ...varsY.map((v,i)=>`${v} (Y${i+1})`)];
+            wsData.push(headerData);
+            dataSet.forEach((r, i) => wsData.push([i+1, ...r.x, ...r.m, ...r.y]));
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(wsData), "Data Mentah");
+
+            // SHEET 2: DESKRIPTIF
+            let tableDesc = document.querySelector("#descTableBody").parentNode;
+            let wsDesc = XLSX.utils.table_to_sheet(tableDesc);
+            XLSX.utils.book_append_sheet(wb, wsDesc, "Statistik Deskriptif");
+
+            // SHEET 3: KORELASI
+            let wsCorr = [["Variabel 1", "Variabel 2", "Nilai Pearson (r)", "Interpretasi Hubungan"]];
+            varsY.forEach((nameY, yi) => {
+                varsX.forEach((nameX, xi) => {
+                    let r = getPearsonCorrelation(dataSet.map(r => r.x[xi]), dataSet.map(r => r.y[yi]));
+                    wsCorr.push([`X${xi+1} (${nameX})`, `Y${yi+1} (${nameY})`, r.toFixed(3), getCorrelationInterpretation(r)]);
+                });
+                varsM.forEach((nameM, mi) => {
+                    let r = getPearsonCorrelation(dataSet.map(r => r.m[mi]), dataSet.map(r => r.y[yi]));
+                    wsCorr.push([`M${mi+1} (${nameM})`, `Y${yi+1} (${nameY})`, r.toFixed(3), getCorrelationInterpretation(r)]);
+                });
+            });
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(wsCorr), "Hasil Korelasi");
+
+            XLSX.writeFile(wb, "Eksport_Tabel_Analisis.xlsx");
+        }
+
+
+        // ==========================================
+        // UI RENDERERS DAN MANAJEMEN VARIABEL UMUM
+        // ==========================================
+
         function renderUI() {
             renderVarSetup();
             renderTable();
+            
+            // Adjust tabs visibility
             if(varsM.length > 0) {
                 document.getElementById('mediationTabContainer').style.display = 'block';
+                document.getElementById('viz-tab').innerText = "5. Visualisasi";
+                document.getElementById('conclusion-tab').innerText = "6. Kesimpulan";
             } else {
                 document.getElementById('mediationTabContainer').style.display = 'none';
+                document.getElementById('viz-tab').innerText = "4. Visualisasi";
+                document.getElementById('conclusion-tab').innerText = "5. Kesimpulan";
             }
         }
 
@@ -455,6 +720,10 @@
             renderTable();
         }
 
+        // ==========================================
+        // FUNGSI MATEMATIKA & PERHITUNGAN
+        // ==========================================
+
         function getPearsonCorrelation(arr1, arr2) {
             let n = arr1.length;
             let sum1 = 0, sum2 = 0, sum1Sq = 0, sum2Sq = 0, pSum = 0;
@@ -489,6 +758,111 @@
             return Math.abs(tStat) > 1.96;
         }
 
+        // ==========================================
+        // RENDER GRAFIK (CHART.JS)
+        // ==========================================
+        function renderVisualizations(allMeans, regResults) {
+            // 1. Chart Rata-rata (Mean)
+            if (meanChartInstance) meanChartInstance.destroy();
+            
+            const meanCtx = document.getElementById('meanChart').getContext('2d');
+            const meanLabels = allMeans.map(m => m.name);
+            const meanData = allMeans.map(m => m.mean);
+            
+            // Assign colors based on variable type: X (Blue), M (Orange), Y (Green)
+            let colorArray = [];
+            varsX.forEach(() => colorArray.push('rgba(52, 152, 219, 0.8)'));
+            varsM.forEach(() => colorArray.push('rgba(253, 126, 20, 0.8)'));
+            varsY.forEach(() => colorArray.push('rgba(46, 204, 113, 0.8)'));
+
+            meanChartInstance = new Chart(meanCtx, {
+                type: 'bar',
+                data: {
+                    labels: meanLabels,
+                    datasets: [{
+                        label: 'Nilai Rata-rata (Mean)',
+                        data: meanData,
+                        backgroundColor: colorArray,
+                        borderColor: colorArray.map(c => c.replace('0.8', '1')),
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, title: { display: true, text: 'Nilai Rata-rata' } } }
+                }
+            });
+
+            let highestMean = allMeans.reduce((p, c) => p.mean > c.mean ? p : c);
+            let lowestMean = allMeans.reduce((p, c) => p.mean < c.mean ? p : c);
+            document.getElementById('meanChartExplanation').innerHTML = `
+                <strong>📖 Penjelasan Grafik Rata-rata:</strong><br>
+                Grafik batang di atas memvisualisasikan nilai rata-rata dari seluruh instrumen variabel penelitian. Variabel <strong>${highestMean.name}</strong> memiliki batang tertinggi dengan rata-rata <strong>${highestMean.mean.toFixed(2)}</strong>, yang menunjukkan bahwa pada indikator ini, responden memberikan persetujuan atau penilaian paling tinggi. Sebaliknya, variabel <strong>${lowestMean.name}</strong> memiliki rata-rata terendah sebesar <strong>${lowestMean.mean.toFixed(2)}</strong>, yang dapat menjadi area evaluasi bagi peneliti atau praktisi.`;
+
+
+            // 2. Chart Koefisien Beta (Regresi)
+            const betaContainer = document.getElementById('betaChartsContainer');
+            betaContainer.innerHTML = ''; // Clear existing
+            betaChartInstances.forEach(c => c.destroy());
+            betaChartInstances = [];
+
+            regResults.forEach((res, i) => {
+                let cardHTML = `
+                    <div class="card mb-4 border-0 shadow-sm" style="background-color: #f8f9fa;">
+                        <div class="card-body">
+                            <h6 class="fw-bold text-success mb-3">B. Grafik Pengaruh Variabel terhadap ${res.nameY}</h6>
+                            <div class="chart-container">
+                                <canvas id="betaChart_${i}"></canvas>
+                            </div>
+                            <div id="betaChartExplanation_${i}" class="explanation-box bg-white mt-3 border-success"></div>
+                        </div>
+                    </div>
+                `;
+                betaContainer.insertAdjacentHTML('beforeend', cardHTML);
+
+                const betaCtx = document.getElementById(`betaChart_${i}`).getContext('2d');
+                let bChart = new Chart(betaCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: res.labels,
+                        datasets: [{
+                            label: 'Koefisien Regresi (Beta)',
+                            data: res.betas,
+                            backgroundColor: 'rgba(155, 89, 182, 0.8)',
+                            borderColor: 'rgba(142, 68, 173, 1)',
+                            borderWidth: 1,
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { title: { display: true, text: 'Nilai Koefisien' } } }
+                    }
+                });
+                betaChartInstances.push(bChart);
+
+                // Find Dominant Variable
+                let maxBetaIdx = 0;
+                let maxBetaVal = Math.abs(res.betas[0]);
+                for(let j=1; j<res.betas.length; j++){
+                    if(Math.abs(res.betas[j]) > maxBetaVal) { maxBetaVal = Math.abs(res.betas[j]); maxBetaIdx = j; }
+                }
+
+                document.getElementById(`betaChartExplanation_${i}`).innerHTML = `
+                    <strong>📖 Penjelasan Grafik Koefisien Pengaruh:</strong><br>
+                    Grafik di atas menggambarkan besaran koefisien regresi (dampak/pengaruh) dari masing-masing variabel prediktor (X dan M) terhadap variabel <strong>${res.nameY}</strong>. Semakin panjang batang grafik ke atas (positif) maupun ke bawah (negatif), semakin besar dampak variabel tersebut.<br><br>
+                    Berdasarkan visualisasi, variabel <strong>${res.labels[maxBetaIdx]}</strong> memiliki batang grafik paling dominan dengan nilai koefisien <strong>${res.betas[maxBetaIdx].toFixed(3)}</strong>. Hal ini berarti bahwa <strong>${res.labels[maxBetaIdx]}</strong> adalah faktor pendorong paling kuat yang memengaruhi naik-turunnya ${res.nameY}.`;
+            });
+        }
+
+        // ==========================================
+        // PROSES UTAMA (HITUNG ANALISIS)
+        // ==========================================
         function calculateAll() {
             saveCurrentData();
             let n = dataSet.length;
@@ -498,21 +872,22 @@
                 return;
             }
 
+            globalAllMeans = [];
+            globalRegressionResults = [];
+
             // --- 1. DESKRIPTIF ---
             let descHTML = '';
-            let allMeans = [];
             const addToDesc = (name, code, arr) => {
                 let stats = getDescStats(arr);
                 descHTML += `<tr><td><strong>${name} (${code})</strong></td><td>${stats.n}</td><td>${stats.min}</td><td>${stats.max}</td><td>${stats.mean.toFixed(2)}</td><td>${stats.stdDev.toFixed(2)}</td></tr>`;
-                allMeans.push({name: name, mean: stats.mean, std: stats.stdDev});
+                globalAllMeans.push({name: `${name} (${code})`, mean: stats.mean, std: stats.stdDev});
             };
             varsX.forEach((name, i) => addToDesc(name, `X${i+1}`, dataSet.map(r => r.x[i])));
             varsM.forEach((name, i) => addToDesc(name, `M${i+1}`, dataSet.map(r => r.m[i])));
             varsY.forEach((name, i) => addToDesc(name, `Y${i+1}`, dataSet.map(r => r.y[i])));
             document.getElementById('descTableBody').innerHTML = descHTML;
 
-            // Penjelasan Deskriptif
-            let highestMean = allMeans.reduce((prev, current) => (prev.mean > current.mean) ? prev : current);
+            let highestMean = globalAllMeans.reduce((prev, current) => (prev.mean > current.mean) ? prev : current);
             document.getElementById('descExplanation').innerHTML = `
                 <strong>Penjelasan Hasil Deskriptif:</strong><br>
                 Berdasarkan tabel statistik deskriptif di atas dari total ${n} sampel data, terlihat bahwa rata-rata (Mean) digunakan untuk mengukur nilai tengah dari jawaban atau data yang terkumpul. Variabel dengan rata-rata tertinggi adalah <strong>${highestMean.name}</strong> (${highestMean.mean.toFixed(2)}), yang mengindikasikan bahwa responden cenderung memberikan penilaian paling tinggi pada variabel ini dibandingkan variabel lainnya. Sementara itu, nilai Standar Deviasi menunjukkan seberapa bervariasi (menyebar) data dari rata-ratanya; semakin kecil nilainya, semakin seragam jawaban responden.`;
@@ -577,23 +952,31 @@
                 let r2 = sst !== 0 ? ssr / sst : 0;
                 if(r2 > 1) r2 = 1; if(r2 < 0) r2 = 0;
 
-                // Teks persamaan
+                // Teks persamaan dan Koleksi Data Chart Beta
                 let eqText = `Y${yi+1} = ${reg.beta[0].toFixed(3)}`;
                 let pIdx = 1;
                 let eqInterpretations = `<li><strong>Konstanta (a) = ${reg.beta[0].toFixed(3)}:</strong> Artinya, jika semua variabel independen dan mediasi diasumsikan bernilai 0 (tidak ada), maka nilai ${nameY} secara konsisten adalah ${reg.beta[0].toFixed(3)}.</li>`;
                 
+                let currentRegResult = { nameY: nameY, labels: [], betas: [] };
+
                 varsX.forEach((name, xi) => { 
                     let b = reg.beta[pIdx];
                     eqText += ` ${(b>=0?'+':'-')} ${Math.abs(b).toFixed(3)}X${xi+1}`; 
                     eqInterpretations += `<li><strong>Koefisien X${xi+1} = ${b.toFixed(3)}:</strong> Menunjukkan bahwa setiap peningkatan 1 satuan pada ${name}, akan ${b>=0?'meningkatkan':'menurunkan'} ${nameY} sebesar ${Math.abs(b).toFixed(3)} satuan (dengan asumsi variabel lain tetap).</li>`;
+                    currentRegResult.labels.push(`X${xi+1} (${name})`);
+                    currentRegResult.betas.push(b);
                     pIdx++; 
                 });
                 varsM.forEach((name, mi) => { 
                     let b = reg.beta[pIdx];
                     eqText += ` ${(b>=0?'+':'-')} ${Math.abs(b).toFixed(3)}M${mi+1}`; 
                     eqInterpretations += `<li><strong>Koefisien M${mi+1} = ${b.toFixed(3)}:</strong> Menunjukkan bahwa setiap peningkatan 1 satuan pada ${name}, akan ${b>=0?'meningkatkan':'menurunkan'} ${nameY} sebesar ${Math.abs(b).toFixed(3)} satuan.</li>`;
+                    currentRegResult.labels.push(`M${mi+1} (${name})`);
+                    currentRegResult.betas.push(b);
                     pIdx++; 
                 });
+
+                globalRegressionResults.push(currentRegResult);
 
                 regHTML += `
                     <div class="mb-4">
@@ -732,6 +1115,9 @@
                 
                 document.getElementById('mediationOutput').innerHTML = medHTML;
             }
+
+            // Panggil fungsi render visualisasi Chart
+            renderVisualizations(globalAllMeans, globalRegressionResults);
 
             document.getElementById('emptyState').style.display = 'none';
             document.getElementById('resultArea').style.display = 'block';
