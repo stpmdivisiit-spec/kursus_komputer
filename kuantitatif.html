@@ -79,24 +79,48 @@
             justify-content: center;
             flex-direction: column;
         }
+        .api-status {
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
     </style>
 </head>
 <body>
 
     <!-- Loading Overlay -->
-    <div id="loadingOverlay">
-        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-        <h4 class="mt-3 text-primary">AI Sedang Menganalisis...</h4>
-        <p class="text-muted" id="loadingText">Mohon tunggu sebentar.</p>
-    </div>
-
-    <!-- Header -->
-    <div class="header-banner text-center">
+    <div class="header-banner text-center position-relative">
         <div class="container">
             <h1 class="fw-bold"><i class="fa-solid fa-microscope"></i> Sistem Analisis Penelitian Skripsi</h1>
             <p class="lead mb-0">Platform Cerdas Terintegrasi AI (Miles & Huberman / Analisis Dinamis)</p>
+            
+            <!-- API Settings Button -->
+            <button class="btn btn-light btn-sm position-absolute top-0 end-0 m-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#apiModal">
+                <i class="fa-solid fa-gear"></i> Pengaturan API
+            </button>
+            <div id="apiStatusBadge" class="api-status text-light"><i class="fa-solid fa-circle-xmark text-danger"></i> API Key Belum Diatur</div>
+        </div>
+    </div>
+
+    <!-- API Key Modal -->
+    <div class="modal fade" id="apiModal" tabindex="-1" aria-labelledby="apiModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="apiModalLabel"><i class="fa-solid fa-key"></i> Pengaturan Gemini API Key</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="small text-muted">Untuk alasan keamanan (karena di-hosting publik), aplikasi ini tidak menyimpan API Key secara permanen di kode. Silakan masukkan API Key Anda. Key akan disimpan dengan aman di memori lokal browser Anda (Local Storage).</p>
+                    <div class="mb-3">
+                        <label for="apiKeyInput" class="form-label fw-bold">Gemini API Key</label>
+                        <input type="password" class="form-control" id="apiKeyInput" placeholder="AIzaSy...">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-primary" onclick="saveApiKey()">Simpan Key</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -272,8 +296,44 @@
         // Data Store
         const collectedData = [];
 
-        // Gemini API Initialization (Provided by environment)
-        const apiKey = "AIzaSyDH9Lc7SzziJ1-eboG7aTb__ji0ycPMgl0"; 
+        // Fetch API Key from Local Storage on load
+        let apiKey = localStorage.getItem("gemini_api_key") || ""; 
+
+        // Initial setup for API Status
+        document.addEventListener("DOMContentLoaded", () => {
+            updateApiStatusUI();
+            if(apiKey) {
+                document.getElementById("apiKeyInput").value = apiKey;
+            } else {
+                // Show modal if no key is found on load
+                var myModal = new bootstrap.Modal(document.getElementById('apiModal'));
+                myModal.show();
+            }
+        });
+
+        function saveApiKey() {
+            const inputKey = document.getElementById("apiKeyInput").value.trim();
+            if(inputKey) {
+                apiKey = inputKey;
+                localStorage.setItem("gemini_api_key", apiKey);
+                updateApiStatusUI();
+                showMessage("API Key berhasil disimpan di browser!", "success");
+                var myModalEl = document.getElementById('apiModal');
+                var modal = bootstrap.Modal.getInstance(myModalEl);
+                modal.hide();
+            } else {
+                alert("API Key tidak boleh kosong.");
+            }
+        }
+
+        function updateApiStatusUI() {
+            const statusBadge = document.getElementById("apiStatusBadge");
+            if (apiKey) {
+                statusBadge.innerHTML = `<i class="fa-solid fa-circle-check text-success"></i> API Key Tersimpan (Siap digunakan)`;
+            } else {
+                statusBadge.innerHTML = `<i class="fa-solid fa-circle-xmark text-danger"></i> API Key Belum Diatur`;
+            }
+        }
 
         // Helper: Show custom messages
         function showMessage(msg, type = "info") {
@@ -358,6 +418,12 @@
 
         // --- GEMINI API CALLER ---
         async function callGeminiAPI(promptText) {
+            if (!apiKey) {
+                var myModal = new bootstrap.Modal(document.getElementById('apiModal'));
+                myModal.show();
+                throw new Error("API Key belum diisi. Silakan masukkan di Pengaturan.");
+            }
+
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
             const payload = {
                 contents: [{ parts: [{ text: promptText }] }],
