@@ -87,7 +87,15 @@
 </head>
 <body>
 
-    <!-- Loading Overlay -->
+    <!-- Loading Overlay (Ini yang sebelumnya terhapus) -->
+    <div id="loadingOverlay">
+        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <h4 class="mt-3 text-primary" id="loadingTitle">AI Sedang Menganalisis...</h4>
+        <p class="text-muted" id="loadingText">Mohon tunggu sebentar.</p>
+    </div>
+
     <div class="header-banner text-center position-relative">
         <div class="container">
             <h1 class="fw-bold"><i class="fa-solid fa-microscope"></i> Sistem Analisis Penelitian Skripsi</h1>
@@ -303,11 +311,15 @@
         document.addEventListener("DOMContentLoaded", () => {
             updateApiStatusUI();
             if(apiKey) {
-                document.getElementById("apiKeyInput").value = apiKey;
+                const keyInput = document.getElementById("apiKeyInput");
+                if(keyInput) keyInput.value = apiKey;
             } else {
                 // Show modal if no key is found on load
-                var myModal = new bootstrap.Modal(document.getElementById('apiModal'));
-                myModal.show();
+                const modalEl = document.getElementById('apiModal');
+                if(modalEl) {
+                    var myModal = new bootstrap.Modal(modalEl);
+                    myModal.show();
+                }
             }
         });
 
@@ -318,9 +330,12 @@
                 localStorage.setItem("gemini_api_key", apiKey);
                 updateApiStatusUI();
                 showMessage("API Key berhasil disimpan di browser!", "success");
+                
                 var myModalEl = document.getElementById('apiModal');
-                var modal = bootstrap.Modal.getInstance(myModalEl);
-                modal.hide();
+                if(myModalEl) {
+                    var modal = bootstrap.Modal.getInstance(myModalEl) || new bootstrap.Modal(myModalEl);
+                    modal.hide();
+                }
             } else {
                 alert("API Key tidak boleh kosong.");
             }
@@ -338,6 +353,7 @@
         // Helper: Show custom messages
         function showMessage(msg, type = "info") {
             const box = document.getElementById("messageBox");
+            if(!box) return;
             box.innerHTML = `
                 <div class="alert alert-${type} alert-dismissible fade show" role="alert">
                     ${msg}
@@ -349,14 +365,20 @@
 
         // Helper: Loading Overlay
         function toggleLoading(show, text = "Mohon tunggu sebentar.") {
-            document.getElementById("loadingText").innerText = text;
-            document.getElementById("loadingOverlay").style.display = show ? "flex" : "none";
+            const loadingText = document.getElementById("loadingText");
+            const loadingOverlay = document.getElementById("loadingOverlay");
+            
+            if(loadingText) loadingText.innerText = text;
+            if(loadingOverlay) loadingOverlay.style.display = show ? "flex" : "none";
         }
 
         // Helper: Update Markdown Preview
         function updatePreview(editorId, previewId) {
-            const text = document.getElementById(editorId).value;
-            document.getElementById(previewId).innerHTML = marked.parse(text);
+            const editor = document.getElementById(editorId);
+            const previewBox = document.getElementById(previewId);
+            if(editor && previewBox) {
+                previewBox.innerHTML = marked.parse(editor.value);
+            }
         }
 
         // --- STEP 1: Add Data ---
@@ -381,14 +403,17 @@
             const emptyMsg = document.getElementById("emptyDataMsg");
             const countSpan = document.getElementById("dataCount");
 
-            countSpan.innerText = collectedData.length;
+            if(countSpan) countSpan.innerText = collectedData.length;
 
-            // Tampilkan atau sembunyikan pesan kosong
-            if (collectedData.length > 0) {
-                emptyMsg.style.display = "none";
-            } else {
-                emptyMsg.style.display = "block";
+            if(emptyMsg) {
+                if (collectedData.length > 0) {
+                    emptyMsg.style.display = "none";
+                } else {
+                    emptyMsg.style.display = "block";
+                }
             }
+
+            if(!container) return;
 
             container.innerHTML = "";
             collectedData.forEach((data, index) => {
@@ -416,15 +441,26 @@
             renderDataList();
         }
 
-        // --- GEMINI API CALLER ---
+        // --- GEMINI API CALLER DENGAN AUTO-FALLBACK ---
         async function callGeminiAPI(promptText) {
             if (!apiKey) {
-                var myModal = new bootstrap.Modal(document.getElementById('apiModal'));
-                myModal.show();
+                const modalEl = document.getElementById('apiModal');
+                if(modalEl) {
+                    var myModal = new bootstrap.Modal(modalEl);
+                    myModal.show();
+                }
                 throw new Error("API Key belum diisi. Silakan masukkan di Pengaturan.");
             }
 
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+            // Daftar model dari yang terbaru hingga yang paling stabil
+            const availableModels = [
+                "gemini-2.5-flash",
+                "gemini-2.0-flash",
+                "gemini-1.5-flash-latest",
+                "gemini-1.5-flash",
+                "gemini-1.5-pro"
+            ];
+
             const payload = {
                 contents: [{ parts: [{ text: promptText }] }],
                 systemInstruction: { 
@@ -432,32 +468,46 @@
                 }
             };
 
-            let retries = 5;
-            const delays = [1000, 2000, 4000, 8000, 16000];
+            let lastErrorMessage = "";
 
-            for (let i = 0; i < retries; i++) {
+            // Sistem Auto-Fallback: Mencoba model satu per satu
+            for (let modelName of availableModels) {
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
+                
                 try {
+                    console.log(`Mencoba menghubungi AI dengan model: ${modelName}...`);
                     const response = await fetch(url, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify(payload)
                     });
                     
-                    if (!response.ok) {
-                        throw new Error(`API Error: ${response.status}`);
+                    if (response.ok) {
+                        const result = await response.json();
+                        return result.candidates?.[0]?.content?.parts?.[0]?.text || "Respons kosong dari AI.";
                     }
                     
-                    const result = await response.json();
-                    return result.candidates?.[0]?.content?.parts?.[0]?.text || "Respons kosong dari AI.";
+                    // Jika gagal, baca errornya
+                    const errorData = await response.json().catch(() => ({}));
+                    lastErrorMessage = errorData.error?.message || `API Error: ${response.status}`;
+                    
+                    // Jika Error 404 (Model tidak ditemukan), lanjut ke model berikutnya di array
+                    if (response.status === 404) {
+                        console.warn(`[Info] Model ${modelName} tidak tersedia. Mencoba versi lain...`);
+                        continue; 
+                    } else {
+                        // Jika error lain (seperti 400, 403 API Key salah), langsung hentikan dan beri tahu user
+                        throw new Error(lastErrorMessage);
+                    }
                     
                 } catch (error) {
-                    if (i === retries - 1) {
-                        console.error("Gemini API Error:", error);
-                        return `Terjadi kesalahan saat menghubungi AI: ${error.message}`;
-                    }
-                    await new Promise(res => setTimeout(res, delays[i]));
+                    // Hentikan proses jika error jaringan atau otorisasi (selain 404)
+                    throw error;
                 }
             }
+
+            // Jika looping selesai tapi semua model 404
+            throw new Error(`Semua versi model AI tidak ditemukan di akun Anda. Pastikan API Key valid. Error terakhir: ${lastErrorMessage}`);
         }
 
         // --- STEP 2: Process Reduksi ---
@@ -467,15 +517,15 @@
                 return;
             }
 
-            toggleLoading(true, "Membaca dan mereduksi data mentah...");
+            try {
+                toggleLoading(true, "Membaca dan mereduksi data mentah...");
 
-            // Prepare prompt
-            let rawDataString = "Berikut adalah data mentah penelitian:\n\n";
-            collectedData.forEach((d, i) => {
-                rawDataString += `[Data ${i+1} - ${d.type}] Sumber: ${d.source}\nKonten: ${d.content}\n\n`;
-            });
+                let rawDataString = "Berikut adalah data mentah penelitian:\n\n";
+                collectedData.forEach((d, i) => {
+                    rawDataString += `[Data ${i+1} - ${d.type}] Sumber: ${d.source}\nKonten: ${d.content}\n\n`;
+                });
 
-            const prompt = `Lakukan REDUKSI DATA berdasarkan teks di bawah ini. 
+                const prompt = `Lakukan REDUKSI DATA berdasarkan teks di bawah ini. 
 Instruksi:
 1. Rangkum poin-poin utama yang muncul.
 2. Buang informasi yang berulang atau tidak relevan dengan esensi temuan.
@@ -485,27 +535,36 @@ Instruksi:
 Data Mentah:
 ${rawDataString}`;
 
-            const responseText = await callGeminiAPI(prompt);
-            
-            document.getElementById("reduksiEditor").value = responseText;
-            updatePreview("reduksiEditor", "reduksiPreview");
-            
-            toggleLoading(false);
-            showMessage("Reduksi data selesai. Anda bisa mengedit hasilnya.", "success");
+                const responseText = await callGeminiAPI(prompt);
+                
+                const editor = document.getElementById("reduksiEditor");
+                if(editor) {
+                    editor.value = responseText;
+                    updatePreview("reduksiEditor", "reduksiPreview");
+                }
+                
+                showMessage("Reduksi data selesai. Anda bisa mengedit hasilnya.", "success");
+            } catch(error) {
+                showMessage(`Gagal: ${error.message}`, "danger");
+            } finally {
+                toggleLoading(false);
+            }
         }
 
         // --- STEP 3: Process Penyajian ---
         async function processPenyajian() {
-            const reduksiText = document.getElementById("reduksiEditor").value;
+            const editor = document.getElementById("reduksiEditor");
+            const reduksiText = editor ? editor.value : "";
             
             if (!reduksiText.trim()) {
                 showMessage("Lakukan Reduksi Data terlebih dahulu di tahap sebelumnya.", "warning");
                 return;
             }
 
-            toggleLoading(true, "Menyusun penyajian data naratif dan tabel...");
+            try {
+                toggleLoading(true, "Menyusun penyajian data naratif dan tabel...");
 
-            const prompt = `Lakukan PENYAJIAN DATA berdasarkan hasil reduksi berikut.
+                const prompt = `Lakukan PENYAJIAN DATA berdasarkan hasil reduksi berikut.
 Instruksi:
 1. Buat narasi yang terstruktur, mengalir, dan akademis.
 2. Jelaskan kaitan antar tema yang ditemukan.
@@ -514,27 +573,36 @@ Instruksi:
 Data Reduksi:
 ${reduksiText}`;
 
-            const responseText = await callGeminiAPI(prompt);
-            
-            document.getElementById("penyajianEditor").value = responseText;
-            updatePreview("penyajianEditor", "penyajianPreview");
-            
-            toggleLoading(false);
-            showMessage("Penyajian data selesai.", "success");
+                const responseText = await callGeminiAPI(prompt);
+                
+                const targetEditor = document.getElementById("penyajianEditor");
+                if(targetEditor) {
+                    targetEditor.value = responseText;
+                    updatePreview("penyajianEditor", "penyajianPreview");
+                }
+                
+                showMessage("Penyajian data selesai.", "success");
+            } catch(error) {
+                showMessage(`Gagal: ${error.message}`, "danger");
+            } finally {
+                toggleLoading(false);
+            }
         }
 
         // --- STEP 4: Process Kesimpulan ---
         async function processKesimpulan() {
-            const penyajianText = document.getElementById("penyajianEditor").value;
+            const editor = document.getElementById("penyajianEditor");
+            const penyajianText = editor ? editor.value : "";
             
             if (!penyajianText.trim()) {
                 showMessage("Harap selesaikan tahap Penyajian Data terlebih dahulu.", "warning");
                 return;
             }
 
-            toggleLoading(true, "Menarik kesimpulan dari penyajian data...");
+            try {
+                toggleLoading(true, "Menarik kesimpulan dari penyajian data...");
 
-            const prompt = `Lakukan PENARIKAN KESIMPULAN penelitian berdasarkan penyajian data berikut.
+                const prompt = `Lakukan PENARIKAN KESIMPULAN penelitian berdasarkan penyajian data berikut.
 Instruksi:
 1. Tarik benang merah dari keseluruhan penyajian data.
 2. Buat kesimpulan yang padat, lugas, dan menjawab inti penelitian.
@@ -544,27 +612,39 @@ Instruksi:
 Penyajian Data:
 ${penyajianText}`;
 
-            const responseText = await callGeminiAPI(prompt);
-            
-            document.getElementById("kesimpulanEditor").value = responseText;
-            updatePreview("kesimpulanEditor", "kesimpulanPreview");
-            
-            toggleLoading(false);
-            showMessage("Kesimpulan akhir berhasil ditarik!", "success");
+                const responseText = await callGeminiAPI(prompt);
+                
+                const targetEditor = document.getElementById("kesimpulanEditor");
+                if(targetEditor) {
+                    targetEditor.value = responseText;
+                    updatePreview("kesimpulanEditor", "kesimpulanPreview");
+                }
+                
+                showMessage("Kesimpulan akhir berhasil ditarik!", "success");
+            } catch(error) {
+                showMessage(`Gagal: ${error.message}`, "danger");
+            } finally {
+                toggleLoading(false);
+            }
         }
 
         // --- STEP 5: Generate Hasil & Download PDF ---
         function generateHasil() {
-            const reduksiText = document.getElementById("reduksiEditor").value;
-            const penyajianText = document.getElementById("penyajianEditor").value;
-            const kesimpulanText = document.getElementById("kesimpulanEditor").value;
+            const reduksiEditor = document.getElementById("reduksiEditor");
+            const penyajianEditor = document.getElementById("penyajianEditor");
+            const kesimpulanEditor = document.getElementById("kesimpulanEditor");
+
+            const reduksiText = reduksiEditor ? reduksiEditor.value : "";
+            const penyajianText = penyajianEditor ? penyajianEditor.value : "";
+            const kesimpulanText = kesimpulanEditor ? kesimpulanEditor.value : "";
 
             if (collectedData.length === 0 || !reduksiText || !penyajianText || !kesimpulanText) {
                 showMessage("Harap lengkapi tahap 1 sampai 4 terlebih dahulu sebelum mencetak hasil laporan.", "warning");
                 return;
             }
 
-            document.getElementById("hasilPlaceholder").style.display = "none";
+            const placeholder = document.getElementById("hasilPlaceholder");
+            if(placeholder) placeholder.style.display = "none";
 
             let htmlContent = `
                 <div style="text-align: center; margin-bottom: 2rem;">
@@ -612,8 +692,12 @@ ${penyajianText}`;
                 <div style="text-align: justify; line-height: 1.6;">${marked.parse(kesimpulanText)}</div>
             `;
 
-            document.getElementById("hasilContent").innerHTML = htmlContent;
-            document.getElementById("btnDownloadPDF").style.display = "inline-block";
+            const targetContent = document.getElementById("hasilContent");
+            if(targetContent) targetContent.innerHTML = htmlContent;
+            
+            const btnDownload = document.getElementById("btnDownloadPDF");
+            if(btnDownload) btnDownload.style.display = "inline-block";
+            
             showMessage("Rekap laporan berhasil dibuat! Silakan periksa dan klik Unduh PDF.", "success");
         }
 
