@@ -521,7 +521,6 @@
                 tStats.push(stdErr !== 0 ? beta[j] / stdErr : 0);
             }
 
-            // R Square & F-Stat
             let ssReg = sst - ssr; // Regression sum of squares
             let p = k - 1; // Number of predictors
             let fStat = 0;
@@ -540,9 +539,6 @@
             return Math.abs(tStat) > 1.96; 
         }
 
-        // ==========================================
-        // FITUR CSV & PDF & EXCEL
-        // ==========================================
 
         function downloadCSVTemplate() {
             let headers = ["No"];
