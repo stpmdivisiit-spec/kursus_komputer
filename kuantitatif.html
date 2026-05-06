@@ -118,13 +118,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="small text-muted">Untuk alasan keamanan (karena di-hosting publik), aplikasi ini tidak menyimpan API Key secara permanen di kode. Silakan masukkan API Key Anda. Key akan disimpan dengan aman di memori lokal browser Anda (Local Storage).</p>
+                    <p class="small text-muted">Silakan login dan akses halaman ini https://aistudio.google.com/app/apikey atau klik tombol "Dapatkan API Key" lalu klik Create API Key untuk mendapatkan kunci API Anda.</p>
                     <div class="mb-3">
                         <label for="apiKeyInput" class="form-label fw-bold">Gemini API Key</label>
                         <input type="password" class="form-control" id="apiKeyInput" placeholder="AIzaSy...">
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <a href="https://aistudio.google.com/app/apikey" target="_blank" class="btn btn-outline-primary">Dapatkan API Key</a>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                     <button type="button" class="btn btn-primary" onclick="saveApiKey()">Simpan Key</button>
                 </div>

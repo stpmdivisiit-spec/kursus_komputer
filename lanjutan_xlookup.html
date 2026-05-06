@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul Praktikum: Master Data Lookup Excel</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --excel-green: #107c41;
+            --excel-green-light: #e6f2eb;
+            --excel-green-hover: #185c37;
+            --xlookup-teal: #0d9488;
+            --xlookup-teal-light: #ccfbf1;
+            --hlookup-orange: #f59e0b;
+            --hlookup-orange-light: #fef3c7;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f6f9;
+            color: #334155;
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #064e3b 0%, #107c41 100%);
+            color: white;
+            padding: 80px 0 60px;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            margin-bottom: 50px;
+            box-shadow: 0 10px 30px rgba(16, 124, 65, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+        }
+
+        .section-title {
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-weight: 800;
+            color: #1e3a8a;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 80px;
+            height: 5px;
+            background-color: #f59e0b;
+            border-radius: 3px;
+        }
+
+        /* General Cards */
+        .card-custom {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+        }
+
+        .card-custom:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+
+        .icon-box {
+            width: 70px;
+            height: 70px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 25px;
+            flex-shrink: 0;
+        }
+
+        .bg-green { background-color: var(--excel-green-light); color: var(--excel-green); }
+        .bg-orange { background-color: var(--hlookup-orange-light); color: var(--hlookup-orange); }
+        .bg-teal { background-color: var(--xlookup-teal-light); color: var(--xlookup-teal); }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background-color: #f1f5f9;
+            padding: 3px 8px;
+            border-radius: 6px;
+            color: #db2777;
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+
+        /* Formula Explanation Badges */
+        .formula-badge {
+            background-color: var(--excel-green);
+            color: white;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+            word-break: break-all;
+            box-shadow: 0 4px 10px rgba(16, 124, 65, 0.2);
+            width: 100%;
+            text-align: left;
+        }
+        
+        .formula-badge.hlookup-badge {
+            background-color: var(--hlookup-orange);
+            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.2);
+        }
+
+        .formula-badge.xlookup-badge {
+            background-color: var(--xlookup-teal);
+            box-shadow: 0 4px 10px rgba(13, 148, 136, 0.2);
+        }
+
+        .arg-badge {
+            background-color: #e9ecef;
+            color: #212529;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            border: 1px solid #ced4da;
+            display: inline-block;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        /* Excel Simulation Tables */
+        .excel-sim {
+            background-color: #fff;
+            border: 1px solid #ced4da;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-bottom: 1.5rem;
+        }
+
+        .excel-table {
+            border-collapse: collapse;
+            width: 100%;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            margin-bottom: 0;
+            min-width: 600px;
+        }
+
+        .excel-table th, .excel-table td {
+            border: 1px solid #cbd5e1;
+            padding: 8px 12px;
+            vertical-align: middle;
+        }
+
+        .excel-header {
+            background-color: #f8fafc;
+            text-align: center;
+            font-weight: 600;
+            color: #475569;
+            border-bottom: 2px solid #94a3b8 !important;
+        }
+
+        .excel-row-num {
+            background-color: #f8fafc;
+            text-align: center;
+            font-weight: 600;
+            color: #475569;
+            width: 40px;
+            border-right: 2px solid #94a3b8 !important;
+        }
+
+        /* Interactive Cell Styles */
+        .excel-cell {
+            transition: all 0.3s ease;
+        }
+
+        .excel-cell.formula-cell {
+            background-color: #f0fdf4 !important;
+            color: #16a34a !important;
+            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            border: 2px solid #22c55e;
+        }
+        
+        .excel-cell.formula-cell.x-cell {
+            background-color: var(--xlookup-teal-light) !important;
+            color: var(--xlookup-teal) !important;
+            border-color: var(--xlookup-teal);
+        }
+
+        .excel-cell.formula-cell.h-cell {
+            background-color: var(--hlookup-orange-light) !important;
+            color: #d97706 !important;
+            border-color: var(--hlookup-orange);
+        }
+
+        .flowchart-container {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            overflow-x: auto;
+        }
+
+        /* Sticky Toggle Button */
+        .toggle-container {
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .btn-toggle-formula {
+            background-color: #1e3a8a;
+            color: white;
+            font-weight: 700;
+            border-radius: 30px;
+            padding: 15px 35px;
+            transition: all 0.3s;
+            border: none;
+            box-shadow: 0 8px 25px rgba(30, 58, 138, 0.4);
+            font-size: 1.1rem;
+        }
+        
+        .btn-toggle-formula:hover {
+            background-color: #172554;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(30, 58, 138, 0.5);
+        }
+        
+        .btn-toggle-formula.showing {
+            background-color: #f59e0b;
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+        }
+        
+        .btn-toggle-formula.showing:hover {
+            background-color: #d97706;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <header class="hero-section text-center" data-aos="fade-down">
+        <div class="container position-relative" style="z-index: 2;">
+            <div class="d-inline-block bg-white text-success fw-bold px-4 py-2 rounded-pill mb-4 shadow-sm" style="font-size: 14px;">
+                <i class="fa-solid fa-magnifying-glass-chart me-2"></i> Modul Spesialisasi Pencarian Data
+            </div>
+            <h1 class="display-4 fw-bold mb-3">Master Lookup & Referensi Excel</h1>
+            <p class="lead mb-4 mx-auto" style="max-width: 800px; opacity: 0.9;">
+                Kuasai teknik menarik data antar tabel secara instan. Modul ini fokus secara eksklusif pada pemahaman mendalam tentang <strong>VLOOKUP, HLOOKUP, dan fungsi modern XLOOKUP</strong>.
+            </p>
+            <a href="#simulasi" class="btn btn-warning btn-lg fw-bold rounded-pill shadow-lg px-5 mt-2 text-dark">
+                Mulai Simulasi Interaktif <i class="fa-solid fa-arrow-down ms-2"></i>
+            </a>
+        </div>
+    </header>
+
+    <div class="container mb-5">
+        
+        <!-- BAGIAN 1: 3 Pilar Lookup -->
+        <h2 class="section-title text-center mx-auto mb-5">3 Pilar Fungsi Referensi Data</h2>
+        
+        <div class="row g-4 mb-5 justify-content-center">
+            <!-- VLOOKUP -->
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card card-custom p-4 border-success border-start border-4">
+                    <div class="icon-box bg-green"><i class="fa-solid fa-arrow-down-long"></i></div>
+                    <h4 class="fw-bold text-dark mb-2">VLOOKUP</h4>
+                    <p class="text-success small fw-bold mb-3">Pencarian Vertikal</p>
+                    <p class="text-muted small mb-0">Digunakan ketika <strong>Tabel Master</strong> Anda memanjang ke bawah (header berada di baris atas). VLOOKUP akan mencari nilai kunci di kolom paling kiri, lalu mengambil hasil di kolom sebelah kanannya.</p>
+                </div>
+            </div>
+
+            <!-- HLOOKUP -->
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card card-custom p-4 border-warning border-start border-4">
+                    <div class="icon-box bg-orange"><i class="fa-solid fa-arrow-right-long"></i></div>
+                    <h4 class="fw-bold text-dark mb-2">HLOOKUP</h4>
+                    <p class="text-warning small fw-bold mb-3" style="color: #d97706 !important;">Pencarian Horizontal</p>
+                    <p class="text-muted small mb-0">Digunakan ketika <strong>Tabel Master</strong> Anda memanjang ke samping (header berada di kolom paling kiri). HLOOKUP akan mencari kunci di baris paling atas, lalu mengambil hasil di baris bawahnya.</p>
+                </div>
+            </div>
+            
+            <!-- XLOOKUP -->
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="card card-custom p-4 border-info border-start border-4">
+                    <div class="icon-box bg-teal"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                    <h4 class="fw-bold text-dark mb-2">XLOOKUP</h4>
+                    <p class="small fw-bold mb-3" style="color: var(--xlookup-teal);">Pencarian Modern Fleksibel</p>
+                    <p class="text-muted small mb-0">Generasi terbaru pengganti VLOOKUP/HLOOKUP. Bebas mencari ke arah <strong>kiri maupun atas</strong>, tidak perlu menghitung nomor kolom, dan sudah memiliki fitur anti-error (pengganti IFERROR) bawaan.</p>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-5 opacity-25">
+
+        <!-- BAGIAN 2: Anatomi Rumus & Aturan Emas -->
+        <div class="row mb-4" data-aos="fade-up">
+            <div class="col-12">
+                <h2 class="section-title">Anatomi Rumus & Aturan Emas</h2>
+                
+                <!-- Aturan Emas -->
+                <div class="bg-white border rounded-4 p-4 border-start border-danger border-5 shadow-sm mb-5">
+                    <h5 class="fw-bold text-danger mb-3"><i class="fa-solid fa-triangle-exclamation me-2"></i>Aturan Emas: KUNCI TABEL MASTER (F4)</h5>
+                    <p class="text-muted mb-0">
+                        Kesalahan paling umum yang membuat rumus Lookup error menjadi <code>#N/A</code> saat diseret (di-copy) ke bawah adalah karena rentang tabel master bergeser. <br>
+                        <strong>Solusi Mutlak:</strong> Setelah menyorot/blok Tabel Master, Anda <strong>wajib menekan tombol F4</strong> di keyboard satu kali hingga muncul simbol Dolar (<strong>$</strong>). <br>
+                        Contoh: <code>F3:H5</code> menjadi <code class="text-danger fw-bold">$F$3:$H$5</code>.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detail Anatomi Rumus -->
+        <div class="row g-4 mb-5" data-aos="fade-up">
+            <!-- VLOOKUP Anatomi -->
+            <div class="col-lg-4">
+                <div class="card card-custom p-4 bg-light border-0 shadow-sm">
+                    <h5 class="fw-bold text-success mb-3">Syntax VLOOKUP</h5>
+                    <div class="formula-badge">
+                        =VLOOKUP(<br>
+                        &nbsp;&nbsp;<span class="text-warning fw-bold">key</span>,<br>
+                        &nbsp;&nbsp;<span class="text-info fw-bold">tabel</span>,<br>
+                        &nbsp;&nbsp;<span class="text-warning fw-bold">col_num</span>,<br>
+                        &nbsp;&nbsp;<span class="text-light fw-bold">0</span><br>
+                        )
+                    </div>
+                    <ul class="list-unstyled small text-muted mt-3">
+                        <li class="mb-3 d-flex align-items-center"><span class="arg-badge me-2">key</span> Nilai yang mau dicari (Sel acuan).</li>
+                        <li class="mb-3 d-flex align-items-center"><span class="arg-badge me-2">tabel</span> Blok Master Data (Wajib F4).</li>
+                        <li class="mb-3 d-flex align-items-center"><span class="arg-badge me-2">col_num</span> Urutan kolom hasil (Angka 1, 2, 3..).</li>
+                        <li class="mb-0 d-flex align-items-center"><span class="arg-badge me-2">0 / FALSE</span> Agar pencarian spesifik/akurat.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- HLOOKUP Anatomi -->
+            <div class="col-lg-4">
+                <div class="card card-custom p-4 bg-light border-0 shadow-sm">
+                    <h5 class="fw-bold" style="color: var(--hlookup-orange);">Syntax HLOOKUP</h5>
+                    <div class="formula-badge hlookup-badge">
+                        =HLOOKUP(<br>
+                        &nbsp;&nbsp;<span class="text-dark fw-bold">key</span>,<br>
+                        &nbsp;&nbsp;<span class="text-light fw-bold">tabel</span>,<br>
+                        &nbsp;&nbsp;<span class="text-dark fw-bold">row_num</span>,<br>
+                        &nbsp;&nbsp;<span class="text-light fw-bold">0</span><br>
+                        )
+                    </div>
+                    <ul class="list-unstyled small text-muted mt-3">
+                        <li class="mb-3">Parameter 1, 2, dan 4 sama persis dengan VLOOKUP.</li>
+                        <li class="mb-0 d-flex align-items-center"><span class="arg-badge me-2">row_num</span> Hitung <strong>urutan Baris</strong> dari atas ke bawah untuk mengambil data (Angka 1, 2, 3..).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- XLOOKUP Anatomi -->
+            <div class="col-lg-4">
+                <div class="card card-custom p-4 bg-light border-0 shadow-sm">
+                    <h5 class="fw-bold" style="color: var(--xlookup-teal);">Syntax XLOOKUP</h5>
+                    <div class="formula-badge xlookup-badge">
+                        =XLOOKUP(<br>
+                        &nbsp;&nbsp;<span class="text-warning fw-bold">key</span>,<br>
+                        &nbsp;&nbsp;<span class="text-light fw-bold">array_cari</span>,<br>
+                        &nbsp;&nbsp;<span class="text-light fw-bold">array_hasil</span>,<br>
+                        &nbsp;&nbsp;<span class="text-warning fw-bold">"jika_error"</span><br>
+                        )
+                    </div>
+                    <ul class="list-unstyled small text-muted mt-3">
+                        <li class="mb-3 d-flex align-items-center"><span class="arg-badge me-2">key</span> Nilai yang mau dicari.</li>
+                        <li class="mb-3 d-flex align-items-center"><span class="arg-badge me-2">array_cari</span> Blok 1 kolom saja tempat key berada (F4).</li>
+                        <li class="mb-3 d-flex align-items-center"><span class="arg-badge me-2">array_hasil</span> Blok 1 kolom hasil (F4).</li>
+                        <li class="mb-0 d-flex align-items-center"><span class="arg-badge me-2">jika_error</span> (Opsional) Teks jika tidak ketemu.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-5 opacity-25">
+
+        <!-- BAGIAN 3: Flowchart Pengambilan Keputusan -->
+        <div class="row mb-5" data-aos="fade-up">
+            <div class="col-12">
+                <h2 class="section-title">Pohon Keputusan: Kapan Pakai Rumus Apa?</h2>
+                <p class="text-muted mb-4">Gunakan alur pemikiran di bawah ini untuk menentukan fungsi referensi yang tepat berdasarkan kondisi tabel data yang Anda hadapi.</p>
+                
+                <div class="flowchart-container text-center">
+                    <!-- Mermaid Diagram -->
+                    <div class="mermaid">
+                        graph TD
+                            A([Mulai: Analisis Master Data]) --> B{Bagaimana Bentuk<br/>Tabel Master?}
+                            
+                            B -- Memanjang ke Bawah<br/>(Header di Atas) --> C{Di mana letak Data Target<br/>berada terhadap Kunci?}
+                            B -- Memanjang ke Samping<br/>(Header di Kiri) --> D[Gunakan HLOOKUP<br/>atau XLOOKUP]
+
+                            C -- Di sebelah Kiri Kunci --> E[Wajib Gunakan XLOOKUP]
+                            C -- Di sebelah Kanan Kunci --> F{Menggunakan Excel<br/>Versi Berapa?}
+
+                            F -- Office 365 / Excel 2021+ --> G[Gunakan XLOOKUP<br/>(Lebih disarankan)]
+                            F -- Excel 2019 / Versi Lama --> H[Gunakan VLOOKUP]
+
+                            classDef startEnd fill:#1e3a8a,stroke:#1e3a8a,color:white,font-weight:bold,rx:20;
+                            classDef decision fill:#f59e0b,stroke:#d97706,color:#fff,font-weight:bold;
+                            classDef actionV fill:#107c41,stroke:#185c37,color:#fff,font-weight:bold;
+                            classDef actionH fill:#d97706,stroke:#b45309,color:#fff,font-weight:bold;
+                            classDef actionX fill:#0d9488,stroke:#0f766e,color:#fff,font-weight:bold;
+                            
+                            class A startEnd;
+                            class B,C,F decision;
+                            class H actionV;
+                            class D actionH;
+                            class E,G actionX;
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BAGIAN 4: Simulasi Interaktif & Studi Kasus -->
+        <div id="simulasi">
+            
+            <!-- Global Toggle Button -->
+            <div class="toggle-container" data-aos="fade-left">
+                <button class="btn btn-toggle-formula" onclick="toggleFormulas()" id="toggleBtn">
+                    <i class="fa-solid fa-eye-slash me-2"></i> Tampilkan Rumus Excel di Semua Tabel
+                </button>
+            </div>
+
+            <!-- Kasus 1: VLOOKUP Exact Match -->
+            <div class="card excel-sim p-4 p-lg-5 mb-5 shadow-sm border-success border-start border-4" data-aos="fade-up">
+                <h3 class="h4 fw-bold mb-3 text-success"><i class="fa-solid fa-1 me-2"></i>Kasus 1: Tabel Vertikal (VLOOKUP - Exact Match)</h3>
+                <p class="text-muted small mb-4">Skenario: Kasir memasukkan Kode Barang. Nama Barang dan Harga harus terisi otomatis. Akhiran <code>FALSE</code> atau <code>0</code> digunakan karena pencarian kode harus persis 100%.</p>
+                
+                <div class="table-responsive border rounded pb-1">
+                    <table class="excel-table">
+                        <thead>
+                            <tr>
+                                <th class="excel-header" style="width: 40px;"></th>
+                                <th class="excel-header">A</th>
+                                <th class="excel-header">B (Key)</th>
+                                <th class="excel-header">C (Kol 2)</th>
+                                <th class="excel-header">D (Kol 3)</th>
+                                <th class="excel-header border-start border-2 border-dark" style="width:15px;"></th>
+                                <th class="excel-header" style="background-color: #e6f2eb;">F (Key)</th>
+                                <th class="excel-header" style="background-color: #e6f2eb;">G (Kol 2)</th>
+                                <th class="excel-header" style="background-color: #e6f2eb;">H (Kol 3)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="excel-row-num">1</td>
+                                <td colspan="4" class="fw-bold bg-light border-bottom text-center text-primary">TABEL TRANSAKSI (Area Kerja)</td>
+                                <td class="border-start border-2 border-dark border-bottom-0 bg-light"></td>
+                                <td colspan="3" class="fw-bold bg-light border-bottom text-center text-success">TABEL MASTER (Vertikal)</td>
+                            </tr>
+                            <tr>
+                                <td class="excel-row-num">2</td>
+                                <td class="fw-bold bg-light">No</td>
+                                <td class="fw-bold bg-light">Kode Input</td>
+                                <td class="fw-bold bg-light text-success">Nama Barang</td>
+                                <td class="fw-bold bg-light text-success">Harga Satuan</td>
+                                <td class="border-start border-2 border-dark border-bottom-0 border-top-0 bg-light"></td>
+                                <td class="fw-bold" style="background-color: #e6f2eb;">KODE</td>
+                                <td class="fw-bold" style="background-color: #e6f2eb;">NAMA</td>
+                                <td class="fw-bold" style="background-color: #e6f2eb;">HARGA</td>
+                            </tr>
+                            <tr>
+                                <td class="excel-row-num">3</td>
+                                <td>1</td>
+                                <td class="fw-bold">A-02</td>
+                                <td class="excel-cell" data-val="Keyboard" data-formula="=VLOOKUP(B3, $F$3:$H$5, 2, 0)">Keyboard</td>
+                                <td class="excel-cell fw-bold" data-val="120000" data-formula="=VLOOKUP(B3, $F$3:$H$5, 3, 0)">120000</td>
+                                <td class="border-start border-2 border-dark border-bottom-0 border-top-0 bg-light"></td>
+                                <td class="fw-bold">A-01</td>
+                                <td>Mouse Wireless</td>
+                                <td>85000</td>
+                            </tr>
+                            <tr>
+                                <td class="excel-row-num">4</td>
+                                <td>2</td>
+                                <td class="fw-bold">A-03</td>
+                                <td class="excel-cell" data-val="Flashdisk 32G" data-formula="=VLOOKUP(B4, $F$3:$H$5, 2, 0)">Flashdisk 32G</td>
+                                <td class="excel-cell fw-bold" data-val="60000" data-formula="=VLOOKUP(B4, $F$3:$H$5, 3, 0)">60000</td>
+                                <td class="border-start border-2 border-dark border-bottom-0 border-top-0 bg-light"></td>
+                                <td class="fw-bold text-danger">A-02</td>
+                                <td class="text-danger">Keyboard</td>
+                                <td class="text-danger">120000</td>
+                            </tr>
+                            <tr>
+                                <td class="excel-row-num">5</td>
+                                <td>3</td>
+                                <td class="fw-bold text-danger">A-99</td>
+                                <td class="excel-cell text-danger fw-bold fst-italic" data-val="#N/A" data-formula="=VLOOKUP(B5, $F$3:$H$5, 2, 0)">#N/A</td>
+                                <td class="excel-cell text-danger fw-bold fst-italic" data-val="#N/A" data-formula="=VLOOKUP(B5, $F$3:$H$5, 3, 0)">#N/A</td>
+                                <td class="border-start border-2 border-dark border-bottom-0 border-top-0 bg-light"></td>
+                                <td class="fw-bold">A-03</td>
+                                <td>Flashdisk 32G</td>
+                                <td>60000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Kasus 2: HLOOKUP Exact Match -->
+            <div class="card excel-sim p-4 p-lg-5 mb-5 shadow-sm border-warning border-start border-4" data-aos="fade-up">
+                <h3 class="h4 fw-bold mb-3" style="color: var(--hlookup-orange);"><i class="fa-solid fa-2 me-2"></i>Kasus 2: Tabel Horizontal (HLOOKUP)</h3>
+                <p class="text-muted small mb-4">Skenario: Tabel tarif ekspedisi dibuat mendatar untuk menghemat ruang kertas. Kita wajib menghitung <strong>urutan baris dari atas</strong>. Baris Tujuan adalah baris 1, Tarif baris 2, Waktu baris 3.</p>
+                
+                <div class="table-responsive border rounded pb-1">
+                    <table class="excel-table">
+                        <thead>
+                            <tr>
+                                <th class="excel-header" style="width: 40px;"></th>
+                                <th class="excel-header">A</th>
+                                <th class="excel-header">B</th>
+                                <th class="excel-header">C</th>
+                                <th class="excel-header">D</th>
+                                <th class="excel-header">E</th>
+                                <th class="excel-header">F</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="excel-row-num">1</td>
+                                <td colspan="6" class="fw-bold bg-light border-bottom" style="color: var(--hlookup-orange);">TABEL MASTER (Horizontal)</td>
+                            </tr>
+                            <tr>
+                                <td class="excel-row-num">2</td>
+                                <td colspan="2" class="fw-bold" style="background-color: var(--hlookup-orange-light);">Tujuan (Baris 1)</td>
+                                <td class="fw-bold">JKT</td>
+                                <td class="fw-bold text-danger">BDG</td>
+                                <td class="fw-bold">SBY</td>
+                                <td class="fw-bold">MDN</td>
+                            </tr>
+                            <tr>
+                                <td class="excel-row-num">3</td>
+                                <td colspan="2" class="fw-bold" style="background-color: var(--hlookup-orange-light);">Tarif (Baris 2)</td>
+                                <td>10.000</td>
+                                <td class="text-danger">15.000</td>
+                                <td>25.000</td>
+                                <td>40.000</td>
+                            </tr>
+                            <tr>
+                                <td class="excel-row-num">4</td>
+                                <td colspan="2" class="fw-bold" style="background-color: var(--hlookup-orange-light);">Waktu (Baris 3)</td>
+                                <td>1 Hari</td>
+                                <td class="text-danger">2 Hari</td>
+                                <td>3 Hari</td>
+                                <td>4 Hari</td>
+                            </tr>
+                            <tr>
+                                <td class="excel-row-num">5</td>
+                                <td colspan="6" class="bg-light border-0"></td>
+                            </tr>
+                            <tr>
+                                <td class="excel-row-num">6</td>
+                                <td colspan="6" class="fw-bold bg-light border-bottom text-primary">TABEL TRANSAKSI (Area Kerja)</td>
+                            </tr>
+                            <tr>
+                                <td class="excel-row-num">7</td>
+                                <td class="fw-bold bg-light">No. Resi</td>
+                                <td class="fw-bold bg-light">Kode Kota</td>
+                                <td class="fw-bold bg-light" style="color: var(--hlookup-orange);">Biaya Kirim</td>
+                                <td class="fw-bold bg-light" style="color: var(--hlookup-orange);">Waktu Tiba</td>
+                                <td colspan="2" class="bg-light"></td>
+                            </tr>
+                            <tr>
+                                <td class="excel-row-num">8</td>
+                                <td>R-001</td>
+                                <td class="fw-bold">BDG</td>
+                                <!-- HLOOKUP for Tarif (Baris 2) -->
+                                <td class="excel-cell" data-val="15.000" data-formula="=HLOOKUP(B8, $C$2:$F$4, 2, 0)" data-type="hlookup">15.000</td>
+                                <!-- HLOOKUP for Waktu (Baris 3) -->
+                                <td class="excel-cell fw-bold" data-val="2 Hari" data-formula="=HLOOKUP(B8, $C$2:$F$4, 3, 0)" data-type="hlookup">2 Hari</td>
+                                <td colspan="2"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Kasus 3: XLOOKUP (Pencarian Kiri) -->
+            <div class="card excel-sim p-4 p-lg-5 mb-5 shadow-sm border-info border-3 border-start" data-aos="fade-up">
+                <h3 class="h4 fw-bold mb-3" style="color: var(--xlookup-teal);"><i class="fa-solid fa-3 me-2"></i>Kasus 3: Pencarian Terbalik (Kehebatan XLOOKUP)</h3>
+                <p class="text-muted small mb-4">Skenario: Di Tabel Master, NIK berada di kolom tengah. VLOOKUP <strong>TIDAK BISA</strong> mengambil Nama Pegawai karena letaknya di kiri NIK. Solusinya adalah XLOOKUP.</p>
+                
+                <div class="table-responsive border rounded pb-1">
+                    <table class="excel-table">
+                        <thead>
+                            <tr>
+                                <th class="excel-header" style="width: 40px;"></th>
+                                <th class="excel-header">A</th>
+                                <th class="excel-header">B (Input NIK)</th>
+                                <th class="excel-header">C (Target)</th>
+                                <th class="excel-header border-start border-2 border-dark" style="width:15px;"></th>
+                                <th class="excel-header" style="background-color: var(--xlookup-teal-light);">F (Hasil)</th>
+                                <th class="excel-header" style="background-color: #fef08a;">G (KUNCI)</th>
+                                <th class="excel-header" style="background-color: #f1f5f9;">H</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="excel-row-num">1</td>
+                                <td colspan="3" class="fw-bold bg-light border-bottom text-center text-primary">PENCARIAN (XLOOKUP)</td>
+                                <td class="border-start border-2 border-dark border-bottom-0 bg-light"></td>
+                                <td colspan="3" class="fw-bold bg-light border-bottom text-center text-info">MASTER PEGAWAI</td>
+                            </tr>
+                            <tr>
+                                <td class="excel-row-num">2</td>
+                                <td class="fw-bold bg-light">No</td>
+                                <td class="fw-bold bg-light">Input NIK</td>
+                                <td class="fw-bold bg-light" style="color: var(--xlookup-teal);">Cari Nama (Kiri)</td>
+                                <td class="border-start border-2 border-dark border-bottom-0 border-top-0 bg-light"></td>
+                                <td class="fw-bold" style="background-color: var(--xlookup-teal-light);">NAMA</td>
+                                <td class="fw-bold" style="background-color: #fef08a;">NIK</td>
+                                <td class="fw-bold" style="background-color: #f1f5f9;">DIVISI</td>
+                            </tr>
+                            <tr>
+                                <td class="excel-row-num">3</td>
+                                <td>1</td>
+                                <td class="fw-bold">P-02</td>
+                                <!-- XLOOKUP Kiri -->
+                                <td class="excel-cell" data-val="Budi" data-formula='=XLOOKUP(B3, $G$3:$G$5, $F$3:$F$5, "Tidak Ada")' data-type="xlookup">Budi</td>
+                                <td class="border-start border-2 border-dark border-bottom-0 border-top-0 bg-light"></td>
+                                <td>Andi</td>
+                                <td class="fw-bold">P-01</td>
+                                <td>IT</td>
+                            </tr>
+                            <tr>
+                                <td class="excel-row-num">4</td>
+                                <td>2</td>
+                                <td class="fw-bold text-danger">P-99</td>
+                                <!-- XLOOKUP Error Handling -->
+                                <td class="excel-cell text-danger fw-bold fst-italic" data-val="Tidak Ada" data-formula='=XLOOKUP(B4, $G$3:$G$5, $F$3:$F$5, "Tidak Ada")' data-type="xlookup">Tidak Ada</td>
+                                <td class="border-start border-2 border-dark border-bottom-0 border-top-0 bg-light"></td>
+                                <td class="text-danger">Budi</td>
+                                <td class="fw-bold text-danger">P-02</td>
+                                <td class="text-danger">Keuangan</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Kasus 4: VLOOKUP Approximate Match -->
+            <div class="card excel-sim p-4 p-lg-5 mb-5 shadow-sm border-success border-start border-4" data-aos="fade-up">
+                <h3 class="h4 fw-bold mb-3 text-success"><i class="fa-solid fa-4 me-2"></i>Kasus 4: Pengelompokan Rentang (VLOOKUP - TRUE)</h3>
+                <p class="text-muted small mb-4">Skenario: Mencari diskon atau nilai huruf (A, B, C) berdasarkan rentang nilai angka. Gunakan akhiran <code>TRUE</code> atau <code>1</code> (Approximate Match). Syarat wajib: Tabel master harus diurutkan dari nilai terkecil ke terbesar.</p>
+                
+                <div class="table-responsive border rounded pb-1">
+                    <table class="excel-table">
+                        <thead>
+                            <tr>
+                                <th class="excel-header" style="width: 40px;"></th>
+                                <th class="excel-header">A</th>
+                                <th class="excel-header">B</th>
+                                <th class="excel-header">C</th>
+                                <th class="excel-header border-start border-2 border-dark" style="width:15px;"></th>
+                                <th class="excel-header" style="background-color: #e6f2eb;">E</th>
+                                <th class="excel-header" style="background-color: #e6f2eb;">F</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="excel-row-num">1</td>
+                                <td colspan="3" class="fw-bold bg-light border-bottom text-center text-primary">REKAP NILAI MAHASISWA</td>
+                                <td class="border-start border-2 border-dark border-bottom-0 bg-light"></td>
+                                <td colspan="2" class="fw-bold bg-light border-bottom text-center text-success">SKALA PREDIKAT</td>
+                            </tr>
+                            <tr>
+                                <td class="excel-row-num">2</td>
+                                <td class="fw-bold bg-light">Nama</td>
+                                <td class="fw-bold bg-light">Skor Akhir</td>
+                                <td class="fw-bold bg-light text-success">Predikat</td>
+                                <td class="border-start border-2 border-dark border-bottom-0 border-top-0 bg-light"></td>
+                                <td class="fw-bold" style="background-color: #e6f2eb;">Batas Bawah</td>
+                                <td class="fw-bold" style="background-color: #e6f2eb;">Huruf</td>
+                            </tr>
+                            <tr>
+                                <td class="excel-row-num">3</td>
+                                <td>Andi</td>
+                                <td class="fw-bold">65</td>
+                                <td class="excel-cell text-success fw-bold" data-val="C" data-formula="=VLOOKUP(B3, $E$3:$F$5, 2, TRUE)">C</td>
+                                <td class="border-start border-2 border-dark border-bottom-0 border-top-0 bg-light"></td>
+                                <td class="fw-bold">0</td>
+                                <td>D</td>
+                            </tr>
+                            <tr>
+                                <td class="excel-row-num">4</td>
+                                <td>Budi</td>
+                                <td class="fw-bold">88</td>
+                                <td class="excel-cell text-success fw-bold" data-val="A" data-formula="=VLOOKUP(B4, $E$3:$F$5, 2, TRUE)">A</td>
+                                <td class="border-start border-2 border-dark border-bottom-0 border-top-0 bg-light"></td>
+                                <td class="fw-bold">60</td>
+                                <td>C</td>
+                            </tr>
+                            <tr>
+                                <td class="excel-row-num">5</td>
+                                <td>Citra</td>
+                                <td class="fw-bold text-danger">75</td>
+                                <td class="excel-cell text-danger fw-bold" data-val="B" data-formula="=VLOOKUP(B5, $E$3:$F$5, 2, TRUE)">B</td>
+                                <td class="border-start border-2 border-dark border-bottom-0 border-top-0 bg-light"></td>
+                                <td class="fw-bold text-danger">75</td>
+                                <td class="text-danger">B</td>
+                            </tr>
+                            <tr>
+                                <td class="excel-row-num">6</td>
+                                <td colspan="4" class="border-0"></td>
+                                <td class="border-start border-2 border-dark border-bottom-0 border-top-0 bg-light"></td>
+                                <td class="fw-bold">85</td>
+                                <td>A</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Kasus 5: Integrasi VLOOKUP, HLOOKUP, XLOOKUP -->
+            <div class="card excel-sim p-4 p-lg-5 shadow-sm border-primary border-3 border-top" data-aos="fade-up">
+                <h3 class="h4 fw-bold mb-3 text-primary"><i class="fa-solid fa-star me-2 text-warning"></i>Kasus 5: Integrasi Multi-Tabel (Sistem Invoice)</h3>
+                <p class="text-muted small mb-4">Ujian Praktik: Sebuah sistem invoice kasir menarik nama pegawai dari Tabel HLOOKUP, menarik Harga dari Tabel VLOOKUP, dan menarik Kategori (dari arah kiri) menggunakan XLOOKUP secara bersamaan.</p>
+                
+                <div class="table-responsive border rounded pb-3">
+                    <!-- Reference Tables Area -->
+                    <div class="d-flex flex-wrap gap-4 p-3 bg-light border-bottom">
+                        
+                        <!-- Table Master Kasir (HLOOKUP) -->
+                        <div class="flex-grow-1">
+                            <span class="badge" style="background-color: var(--hlookup-orange);">Master Kasir (Horizontal)</span>
+                            <table class="excel-table bg-white mt-1" style="min-width: 300px;">
+                                <tbody>
+                                    <tr>
+                                        <th class="excel-header">ID Kasir</th>
+                                        <th class="fw-bold">K-01</th>
+                                        <th class="fw-bold">K-02</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="excel-header">Nama</th>
+                                        <td>Sinta</td>
+                                        <td>Rian</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <small class="text-muted d-block mt-1">Range: <code>$B$1:$C$2</code></small>
+                        </div>
+
+                        <!-- Table Master Barang (XLOOKUP & VLOOKUP) -->
+                        <div class="flex-grow-1">
+                            <span class="badge bg-success me-2">Master Barang (Vertikal)</span>
+                            <table class="excel-table bg-white mt-1" style="min-width: 400px;">
+                                <thead>
+                                    <tr>
+                                        <th class="excel-header text-white bg-info" style="font-size:11px;">Kategori (Kol 1)</th>
+                                        <th class="excel-header text-white bg-success">ID Brg (Kol 2)</th>
+                                        <th class="excel-header text-white bg-success">Nama (Kol 3)</th>
+                                        <th class="excel-header text-white bg-success">Harga (Kol 4)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Aksesoris</td>
+                                        <th class="fw-bold">BR-1</th>
+                                        <td>Mouse</td>
+                                        <td>80000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Monitor</td>
+                                        <th class="fw-bold">BR-2</th>
+                                        <td>LCD 24"</td>
+                                        <td>1500000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <small class="text-muted d-block mt-1">Range Data VLOOKUP (Kol 2 ke Kanan): <code>$B$1:$D$3</code></small>
+                            <small class="text-muted d-block">Range Kolom XLOOKUP: Kategori di <code>$A$2:$A$3</code>, ID di <code>$B$2:$B$3</code></small>
+                        </div>
+                    </div>
+
+                    <!-- Main Data Table -->
+                    <div class="px-3">
+                        <span class="badge bg-primary mb-2 mt-4">Tabel Transaksi Invoice (Penggabungan Rumus)</span>
+                        <table class="excel-table">
+                            <thead>
+                                <tr>
+                                    <th class="excel-header">Inv</th>
+                                    <th class="excel-header bg-light">Input ID Kasir</th>
+                                    <th class="excel-header" style="color: var(--hlookup-orange);">Nama Kasir<br><small>(HLOOKUP)</small></th>
+                                    <th class="excel-header bg-light">Input ID Brg</th>
+                                    <th class="excel-header" style="color: var(--xlookup-teal);">Kategori Brg<br><small>(XLOOKUP Kiri)</small></th>
+                                    <th class="excel-header text-success">Nama Brg<br><small>(VLOOKUP Kol 2)</small></th>
+                                    <th class="excel-header text-success">Harga<br><small>(VLOOKUP Kol 3)</small></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Row 1 -->
+                                <tr>
+                                    <td class="text-center">#001</td>
+                                    <td class="text-center fw-bold bg-light">K-02</td>
+                                    <!-- HLOOKUP -->
+                                    <td class="excel-cell fw-bold" data-val="Rian" data-formula="=HLOOKUP(B2, Kasir!$B$1:$C$2, 2, 0)" data-type="hlookup">Rian</td>
+                                    
+                                    <td class="text-center fw-bold bg-light">BR-1</td>
+                                    
+                                    <!-- XLOOKUP -->
+                                    <td class="excel-cell" data-val="Aksesoris" data-formula="=XLOOKUP(D2, Brg!$B$2:$B$3, Brg!$A$2:$A$3, &quot;-&quot;)" data-type="xlookup">Aksesoris</td>
+                                    
+                                    <!-- VLOOKUP Name (Kolom 2 dari Blok B-D) -->
+                                    <td class="excel-cell" data-val="Mouse" data-formula="=VLOOKUP(D2, Brg!$B$2:$D$3, 2, 0)">Mouse</td>
+                                    
+                                    <!-- VLOOKUP Harga (Kolom 3 dari Blok B-D) -->
+                                    <td class="excel-cell text-end" data-val="80000" data-formula="=VLOOKUP(D2, Brg!$B$2:$D$3, 3, 0)">80000</td>
+                                </tr>
+
+                                <!-- Row 2 -->
+                                <tr>
+                                    <td class="text-center">#002</td>
+                                    <td class="text-center fw-bold bg-light">K-01</td>
+                                    <!-- HLOOKUP -->
+                                    <td class="excel-cell fw-bold" data-val="Sinta" data-formula="=HLOOKUP(B3, Kasir!$B$1:$C$2, 2, 0)" data-type="hlookup">Sinta</td>
+                                    
+                                    <td class="text-center fw-bold bg-light">BR-2</td>
+                                    
+                                    <!-- XLOOKUP -->
+                                    <td class="excel-cell" data-val="Monitor" data-formula="=XLOOKUP(D3, Brg!$B$2:$B$3, Brg!$A$2:$A$3, &quot;-&quot;)" data-type="xlookup">Monitor</td>
+                                    
+                                    <!-- VLOOKUP Name -->
+                                    <td class="excel-cell" data-val="LCD 24&quot;" data-formula="=VLOOKUP(D3, Brg!$B$2:$D$3, 2, 0)">LCD 24"</td>
+                                    
+                                    <!-- VLOOKUP Harga -->
+                                    <td class="excel-cell text-end" data-val="1500000" data-formula="=VLOOKUP(D3, Brg!$B$2:$D$3, 3, 0)">1500000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Bootstrap & Vendor JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.css"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    
+    <script>
+        // Initialize AOS Animations
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 50
+        });
+
+        // Initialize Mermaid for Flowchart
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+
+        // Interactive Toggle Logic for ALL Excel Simulation Tables
+        let showingFormulas = false;
+
+        function toggleFormulas() {
+            const cells = document.querySelectorAll('.excel-cell');
+            const btn = document.getElementById('toggleBtn');
+            
+            showingFormulas = !showingFormulas;
+
+            cells.forEach(cell => {
+                if (showingFormulas) {
+                    // Show Formula
+                    cell.textContent = cell.getAttribute('data-formula');
+                    cell.classList.add('formula-cell');
+                    
+                    // Special coloring based on lookup type to differentiate
+                    if(cell.getAttribute('data-type') === 'xlookup') {
+                        cell.classList.add('x-cell');
+                    } else if (cell.getAttribute('data-type') === 'hlookup') {
+                        cell.classList.add('h-cell');
+                    }
+
+                } else {
+                    // Show Value
+                    cell.textContent = cell.getAttribute('data-val');
+                    cell.classList.remove('formula-cell');
+                    cell.classList.remove('x-cell');
+                    cell.classList.remove('h-cell');
+                }
+            });
+
+            if (showingFormulas) {
+                btn.classList.add('showing');
+                btn.innerHTML = '<i class="fa-solid fa-eye me-2"></i> Sembunyikan Rumus (Lihat Hasil)';
+            } else {
+                btn.classList.remove('showing');
+                btn.innerHTML = '<i class="fa-solid fa-eye-slash me-2"></i> Tampilkan Rumus Excel di Semua Tabel';
+            }
+        }
+    </script>
+</body>
+</html>

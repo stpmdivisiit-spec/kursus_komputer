@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Absensi Terintegrasi</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body { background-color: #f8f9fa; }
+        .loading-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.8); display: none;
+            justify-content: center; align-items: center; z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+            <span class="visually-hidden">Memuat...</span>
+        </div>
+    </div>
+
+    <div class="container py-5">
+        <div class="row mb-4">
+            <div class="col-12 text-center">
+                <h2 class="fw-bold text-primary">Sistem Absensi Mahasiswa</h2>
+                <p class="text-muted">Data tersimpan langsung ke Google Sheets</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Form Absensi (Create) -->
+            <div class="col-lg-4 mb-4">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-header bg-primary text-white border-0 py-3">
+                        <h5 class="card-title mb-0">Formulir Kehadiran</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="formAbsensi">
+                            <input type="hidden" name="action" value="insert">
+                            
+                            <!-- NIM ditaruh di atas -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">NIM</label>
+                                <input type="text" class="form-control" name="nim" id="inputNim" placeholder="Ketik NIM lalu ketuk di luar kotak..." required>
+                                <small id="nimFeedback" class="text-muted mt-1 d-block"><i class="bi bi-info-circle"></i> Ketik NIM untuk memunculkan nama otomatis</small>
+                            </div>
+
+                            <!-- Nama dibuat Readonly -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Nama Lengkap</label>
+                                <input type="text" class="form-control bg-light" name="nama" id="inputNama" placeholder="Nama otomatis terisi" readonly required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Status</label>
+                                <select class="form-select" name="status" required>
+                                    <option value="" disabled selected>Pilih Status...</option>
+                                    <option value="Hadir">Hadir</option>
+                                    <option value="Izin">Izin</option>
+                                    <option value="Sakit">Sakit</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold">Keterangan (Opsional)</label>
+                                <textarea class="form-control" name="keterangan" rows="2" placeholder="Catatan tambahan..."></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-100 py-2 fw-bold" id="btnSubmit">
+                                Kirim Absensi
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabel Data Absensi (Read) -->
+            <div class="col-lg-8 mb-4">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0 text-dark fw-bold">Riwayat Absensi</h5>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="loadData()" id="btnRefresh">
+                            <i class="bi bi-arrow-clockwise"></i> Muat Ulang Data
+                        </button>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive" style="max-height: 500px;">
+                            <table class="table table-hover table-striped mb-0 text-center">
+                                <thead class="table-light sticky-top">
+                                    <tr>
+                                        <th>Waktu</th>
+                                        <th>Nama</th>
+                                        <th>NIM</th>
+                                        <th>Status</th>
+                                        <th>Keterangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabelData">
+                                    <tr>
+                                        <td colspan="5" class="text-muted py-4">Belum ada data atau tekan 'Muat Ulang Data'</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+
+        const scriptURL = 'MASUKKAN_URL_WEB_APP_GOOGLE_SCRIPT_ANDA_DISINI'; 
+        
+        const form = document.forms['formAbsensi'];
+        const btnSubmit = document.getElementById('btnSubmit');
+        const overlay = document.getElementById('loadingOverlay');
+        const tabelData = document.getElementById('tabelData');
+        
+        const inputNim = document.getElementById('inputNim');
+        const inputNama = document.getElementById('inputNama');
+        const nimFeedback = document.getElementById('nimFeedback');
+
+        function showLoading() { overlay.style.display = 'flex'; }
+        function hideLoading() { overlay.style.display = 'none'; }
+
+        // =======================================================
+        // FITUR BARU: Auto-fill Nama berdasarkan NIM
+        // Memicu pencarian ketika pengguna selesai mengetik NIM dan klik di luar kotak (event 'blur')
+        // =======================================================
+        inputNim.addEventListener('blur', function() {
+            const nimValue = this.value.trim();
+            
+            // Jika dikosongkan
+            if (nimValue.length === 0) {
+                inputNama.value = '';
+                nimFeedback.innerHTML = '<i class="bi bi-info-circle"></i> Ketik NIM untuk memunculkan nama otomatis';
+                nimFeedback.className = 'text-muted mt-1 d-block';
+                return;
+            }
+
+            if(scriptURL === 'https://script.google.com/macros/s/AKfycbw_Nq8ZQPLOpxPbnOxVrmCahba3osAXHEZlBmvyJSM2Acfjm3HXw7EM7MUy6vnIw4rw/exec') return;
+
+            // Menampilkan indikator loading pencarian
+            nimFeedback.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Mencari nama mahasiswa...';
+            nimFeedback.className = 'text-primary mt-1 d-block fw-semibold';
+            inputNama.value = ''; // Kosongkan nama sementara
+
+            // Melakukan request GET ke API
+            fetch(scriptURL + "?action=check_nim&nim=" + encodeURIComponent(nimValue))
+            .then(response => response.json())
+            .then(result => {
+                if(result.status === 'found') {
+                    inputNama.value = result.nama;
+                    nimFeedback.innerHTML = '<i class="bi bi-check-circle-fill"></i> Data ditemukan';
+                    nimFeedback.className = 'text-success mt-1 d-block fw-semibold';
+                } else {
+                    inputNama.value = '';
+                    nimFeedback.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> NIM tidak ditemukan di sistem!';
+                    nimFeedback.className = 'text-danger mt-1 d-block fw-semibold';
+                }
+            })
+            .catch(error => {
+                console.error('Error checking NIM:', error);
+                nimFeedback.innerHTML = '<i class="bi bi-x-circle-fill"></i> Gagal mengecek data. Periksa koneksi.';
+                nimFeedback.className = 'text-danger mt-1 d-block';
+            });
+        });
+
+        // =======================================================
+        // MENGIRIM DATA ABSENSI
+        // =======================================================
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            
+            if(scriptURL === 'https://script.google.com/macros/s/AKfycbw_Nq8ZQPLOpxPbnOxVrmCahba3osAXHEZlBmvyJSM2Acfjm3HXw7EM7MUy6vnIw4rw/exec') {
+                alert("GAGAL: Anda belum memasukkan URL Google Apps Script di kode HTML.");
+                return;
+            }
+
+            // Validasi tambahan: Jangan izinkan kirim jika nama belum terisi (NIM salah)
+            if(inputNama.value.trim() === '') {
+                alert("Silakan masukkan NIM yang valid hingga Nama otomatis terisi sebelum mengirim absensi.");
+                inputNim.focus();
+                return;
+            }
+
+            showLoading();
+            btnSubmit.disabled = true;
+
+            const formData = new FormData(form);
+            const dataObj = Object.fromEntries(formData.entries());
+
+            fetch(scriptURL, { 
+                method: 'POST', 
+                body: JSON.stringify(dataObj) 
+            })
+            .then(response => response.json())
+            .then(result => {
+                if(result.status === 'success') {
+                    alert('Sukses! Data absensi berhasil dikirim.');
+                    form.reset();
+                    // Kembalikan teks feedback NIM ke awal
+                    nimFeedback.innerHTML = '<i class="bi bi-info-circle"></i> Ketik NIM untuk memunculkan nama otomatis';
+                    nimFeedback.className = 'text-muted mt-1 d-block';
+                    loadData(); 
+                } else {
+                    alert('Terjadi kesalahan pada server Google.');
+                }
+            })
+            .catch(error => {
+                console.error('Error!', error.message);
+                alert('Gagal mengirim data. Pastikan koneksi internet stabil dan URL benar.');
+            })
+            .finally(() => {
+                hideLoading();
+                btnSubmit.disabled = false;
+            });
+        });
+
+        // =======================================================
+        // MENGAMBIL DATA RIWAYAT
+        // =======================================================
+        function loadData() {
+            if(scriptURL === 'https://script.google.com/macros/s/AKfycbw_Nq8ZQPLOpxPbnOxVrmCahba3osAXHEZlBmvyJSM2Acfjm3HXw7EM7MUy6vnIw4rw/exec') return;
+
+            const btnRefresh = document.getElementById('btnRefresh');
+            btnRefresh.innerHTML = 'Memuat...';
+            btnRefresh.disabled = true;
+
+            fetch(scriptURL + "?action=read")
+            .then(response => response.json())
+            .then(data => {
+                tabelData.innerHTML = ''; 
+                
+                if(data.length === 0) {
+                    tabelData.innerHTML = '<tr><td colspan="5" class="text-muted">Data kosong</td></tr>';
+                    return;
+                }
+
+                for(let i = data.length - 1; i > 0; i--) {
+                    let row = data[i];
+                    
+                    let badgeClass = 'bg-success';
+                    if(row[3] === 'Izin') badgeClass = 'bg-warning text-dark';
+                    if(row[3] === 'Sakit') badgeClass = 'bg-danger';
+
+                    let waktu = new Date(row[0]).toLocaleString('id-ID', {
+                        day: 'numeric', month: 'short', year: 'numeric', 
+                        hour: '2-digit', minute:'2-digit'
+                    });
+                    if(waktu === 'Invalid Date') waktu = row[0]; 
+
+                    let tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><small>${waktu}</small></td>
+                        <td class="fw-semibold">${row[1] || '-'}</td>
+                        <td>${row[2] || '-'}</td>
+                        <td><span class="badge ${badgeClass}">${row[3] || '-'}</span></td>
+                        <td class="text-start"><small>${row[4] || '-'}</small></td>
+                    `;
+                    tabelData.appendChild(tr);
+                }
+            })
+            .catch(error => {
+                console.error('Gagal mengambil data:', error);
+                tabelData.innerHTML = '<tr><td colspan="5" class="text-danger">Gagal memuat data. Periksa konsol.</td></tr>';
+            })
+            .finally(() => {
+                btnRefresh.innerHTML = '<i class="bi bi-arrow-clockwise"></i> Muat Ulang Data';
+                btnRefresh.disabled = false;
+            });
+        }
+
+        window.addEventListener('load', loadData);
+    </script>
+</body>
+</html>
