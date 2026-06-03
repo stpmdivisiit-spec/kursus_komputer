@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panduan Belajar Microsoft Office</title>
+    <title>Panduan Belajar Microsoft Office & AI</title>
     
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
     
     <style>
         body {
@@ -50,7 +51,7 @@
             box-shadow: 0 .5rem 1rem rgba(253, 126, 20, 0.15);
         }
 
-        /* Custom Colors for PPT (Orange) */
+        /* Custom Colors for PPT & AI (Orange) */
         .bg-orange { background-color: #fd7e14 !important; }
         .text-orange { color: #fd7e14 !important; }
         .bg-orange-subtle { background-color: #fff3cd !important; }
@@ -67,21 +68,61 @@
         .feature-item:hover h5 {
             color: #495057;
         }
+        .cursor-pointer {
+            cursor: pointer;
+        }
+
+        /* Penyesuaian Select2 di Bootstrap 5 */
+        .input-group > .select2-container--bootstrap-5 {
+            flex: 1 1 auto;
+            width: 1% !important;
+        }
+        .input-group > .select2-container--bootstrap-5 .select2-selection {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            padding: 0.375rem 0.75rem;
+            min-height: calc(1.5em + 0.75rem + 2px);
+        }
     </style>
 </head>
 <body>
 
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary d-flex align-items-center gap-2" href="#">
+                <i class="bi bi-pc-display-horizontal fs-4"></i>
+                Kursus Komputer
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center gap-2">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Modul</a>
+                    </li>
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                        <button class="btn btn-primary rounded-pill px-4 fw-medium shadow-sm d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#absensiModal">
+                            <i class="bi bi-person-check"></i> Absensi
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <div class="container py-5">
         
-        <!-- Header -->
         <div class="text-center mb-5">
             <h1 class="display-5 fw-bold text-dark mb-3">Kursus Komputer</h1>
             <p class="lead text-muted mx-auto" style="max-width: 600px;">
-                Kita akan pelajari fitur-fitur esensial dari Microsoft Word, Excel, dan PowerPoint, AI dari tingkat dasar hingga mahir.
+                Kita akan pelajari fitur-fitur esensial dari Microsoft Word, Excel, PowerPoint, dan AI dari tingkat dasar hingga mahir.
             </p>
         </div>
 
-        <!-- Navigation Tabs -->
         <ul class="nav nav-pills d-flex flex-column flex-md-row justify-content-center gap-3 mb-5" id="office-tabs" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link custom-tab word-tab active w-100 d-flex align-items-center gap-3 py-3 px-4 rounded-4" id="word-tab" data-bs-toggle="pill" data-bs-target="#word" type="button" role="tab" aria-selected="true">
@@ -110,38 +151,30 @@
                     </div>
                 </button>
             </li>
-
             <li class="nav-item" role="presentation">
                 <button class="nav-link custom-tab ppt-tab w-100 d-flex align-items-center gap-3 py-3 px-4 rounded-4" id="chatgpt-tab" data-bs-toggle="pill" data-bs-target="#chatgpt" type="button" role="tab" aria-selected="false">
-                    <img class="" style="height: 30px;" src="https://cdn-icons-png.flaticon.com/512/12222/12222589.png"> 
+                    <img style="height: 30px;" src="https://cdn-icons-png.flaticon.com/512/12222/12222589.png"> 
                     <div>
                         <small class="d-block opacity-75 fw-medium lh-1 mb-1">Artificial Intelegen</small>
                         <strong class="fs-5 lh-1">ChatGPT AI</strong>
                     </div>
                 </button>
             </li>
-
-
             <li class="nav-item" role="presentation">
                 <button class="nav-link custom-tab ppt-tab w-100 d-flex align-items-center gap-3 py-3 px-4 rounded-4" id="gemini-tab" data-bs-toggle="pill" data-bs-target="#gemini" type="button" role="tab" aria-selected="false">
-                    <img class="" style="height: 30px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Google_Gemini_icon_2025.svg/960px-Google_Gemini_icon_2025.svg.png"> 
+                    <img style="height: 30px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Google_Gemini_icon_2025.svg/960px-Google_Gemini_icon_2025.svg.png"> 
                     <div>
                         <small class="d-block opacity-75 fw-medium lh-1 mb-1">Artificial Intelegen</small>
                         <strong class="fs-5 lh-1">Gemini AI</strong>
                     </div>
                 </button>
             </li>
-
-
         </ul>
 
-        <!-- Tab Content Area -->
         <div class="tab-content" id="office-tabsContent">
-
-            <!-- ===================== WORD PANE ===================== -->
+            
             <div class="tab-pane fade show active" id="word" role="tabpanel" aria-labelledby="word-tab">
                 <div class="card shadow rounded-4 border-0 border-top border-primary border-5">
-                    <!-- App Header -->
                     <div class="card-header bg-primary-subtle p-4 d-flex align-items-center gap-3 border-bottom-0 rounded-top-4">
                         <div class="bg-white text-primary p-3 rounded-3 shadow-sm d-inline-flex">
                             <i class="bi bi-file-earmark-word fs-2 lh-1"></i>
@@ -152,11 +185,8 @@
                         </div>
                     </div>
                     
-                    <!-- App Content -->
                     <div class="card-body p-4 p-md-5">
                         <div class="row g-5">
-                            
-                            <!-- Dasar -->
                             <div class="col-md-4">
                                 <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4">
                                     <div class="p-2 bg-primary-subtle text-primary rounded">
@@ -164,40 +194,36 @@
                                     </div>
                                     <h3 class="h5 fw-bold mb-0">Tingkat Dasar</h3>
                                 </div>
-                               
                                 <div class="feature-item mb-4 cursor-pointer">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="pendahuluan_word.html">Pengenalan Esensial Word</a> 
+                                        <a href="pendahuluan_word.html" class="text-decoration-none">Pengenalan Esensial Word</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Menguasai Microsoft Word bukan hanya tentang bisa mengetik dengan cepat. Anda harus tahu cara menyimpan file dengan aman, mengedit teks secara efisien, serta mengatur kerangka judul agar dokumen Anda rapi dan siap untuk pengaturan tingkat lanjut (seperti Daftar Isi Otomatis).</p>
+                                    <p class="small text-muted ms-4 mb-0">Menguasai Microsoft Word bukan hanya tentang bisa mengetik dengan cepat. Anda harus tahu cara menyimpan file dengan aman, mengedit teks secara efisien, serta mengatur kerangka judul agar dokumen Anda rapi.</p>
                                 </div>
-
-                                
                                 <div class="feature-item mb-4 cursor-pointer">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="word.html">Pengenalan Antarmuka</a> 
+                                        <a href="word.html" class="text-decoration-none">Pengenalan Antarmuka</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Di bagian atas terdapat Ribbon yang mengelompokkan perintah dalam berbagai tab, serta Quick Access Toolbar untuk akses cepat ke tombol seperti Save (simpan), Undo (membatalkan tindakan), dan Redo.</p>
+                                    <p class="small text-muted ms-4 mb-0">Di bagian atas terdapat Ribbon yang mengelompokkan perintah dalam berbagai tab, serta Quick Access Toolbar untuk akses cepat ke tombol seperti Save, Undo, dan Redo.</p>
                                 </div>
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
-                                       <a href="margin.html">Pengaturan Kertas & Margin</a> 
+                                       <a href="margin.html" class="text-decoration-none">Pengaturan Kertas & Margin</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Margin adalah batas ukuran tepi lembar kerja (atas, bawah, kiri, kanan). Anda bisa mengaturnya melalui tab Layout > Margins. Orientasi kertas juga dapat diubah menjadi Portrait atau Landscape melalui Layout > Orientation.</p>
+                                    <p class="small text-muted ms-4 mb-0">Margin adalah batas ukuran tepi lembar kerja. Anda bisa mengaturnya melalui tab Layout > Margins. Orientasi kertas juga dapat diubah menjadi Portrait atau Landscape.</p>
                                 </div>
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="Tipografi.html">Tipografi & Paragraf</a> 
+                                        <a href="Tipografi.html" class="text-decoration-none">Tipografi & Paragraf</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Mengubah font, ukuran, warna teks, serta menebalkan (Bold), memiringkan (Italic), dan memberi garis bawah (Underline) ada di tab Home. Perataan paragraf dan jarak spasi baris juga diatur di tab ini.</p>
+                                    <p class="small text-muted ms-4 mb-0">Mengubah font, ukuran, warna teks, serta menebalkan, memiringkan, dan memberi garis bawah. Perataan paragraf dan jarak spasi baris juga diatur di tab ini.</p>
                                 </div>
                             </div>
 
-                            <!-- Menengah -->
                             <div class="col-md-4">
                                 <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4">
                                     <div class="p-2 bg-primary-subtle text-primary rounded">
@@ -205,40 +231,36 @@
                                     </div>
                                     <h3 class="h5 fw-bold mb-0">Tingkat Menengah</h3>
                                 </div>
-                                
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="word_lanjutan.html">Lanjutan Word</a> 
+                                        <a href="word_lanjutan.html" class="text-decoration-none">Lanjutan Word</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Di tingkat ini, Anda tidak lagi hanya mengetik lurus dari atas ke bawah. Anda akan belajar bagaimana memanipulasi struktur fisik kertas (sebagian portrait, sebagian landscape), membuat desain multi-kolom layaknya majalah, hingga melakukan revisi dokumen bersama rekan kerja.</p>
-                                </div>
-
-
-                                <div class="feature-item mb-4">
-                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
-                                        <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="menyisipkan_tabel.html">Menyisipkan Tabel</a> 
-                                    </h5>
-                                    <p class="small text-muted ms-4 mb-0">Tabel membantu menyajikan data secara sederhana. Klik Insert > Table dan tentukan jumlah baris dan kolom. Anda juga bisa menggabungkan sel (Merge Cells).</p>
+                                    <p class="small text-muted ms-4 mb-0">Di tingkat ini, Anda akan belajar bagaimana memanipulasi struktur fisik kertas, membuat desain multi-kolom layaknya majalah, hingga melakukan revisi dokumen bersama rekan kerja.</p>
                                 </div>
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="gambar_Ilustrasi.html">Gambar dan Ilustrasi</a> 
+                                        <a href="menyisipkan_tabel.html" class="text-decoration-none">Menyisipkan Tabel</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Masukkan gambar melalui Insert > Pictures. Gunakan fitur Wrap Text untuk mengatur bagaimana teks mengelilingi gambar, seperti Square, Tight, Behind Text, atau In Front of Text.</p>
+                                    <p class="small text-muted ms-4 mb-0">Tabel membantu menyajikan data secara sederhana. Klik Insert > Table dan tentukan jumlah baris dan kolom. Anda juga bisa menggabungkan sel.</p>
                                 </div>
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="header_footer.html">Header, Footer, & Page Number</a> 
+                                        <a href="gambar_Ilustrasi.html" class="text-decoration-none">Gambar dan Ilustrasi</a> 
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Masukkan gambar melalui Insert > Pictures. Gunakan fitur Wrap Text untuk mengatur bagaimana teks mengelilingi gambar.</p>
+                                </div>
+                                <div class="feature-item mb-4">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
+                                        <a href="header_footer.html" class="text-decoration-none">Header, Footer, & Page Number</a> 
                                     </h5>
                                     <p class="small text-muted ms-4 mb-0">Header untuk catatan berulang di bagian atas, Footer di bawah, dan Page Number untuk penomoran halaman yang bisa disisipkan dari tab Insert.</p>
                                 </div>
                             </div>
 
-                            <!-- Mahir -->
                             <div class="col-md-4">
                                 <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4">
                                     <div class="p-2 bg-primary-subtle text-primary rounded">
@@ -246,37 +268,33 @@
                                     </div>
                                     <h3 class="h5 fw-bold mb-0">Tingkat Mahir</h3>
                                 </div>
-                                
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="mailing.html">Mail Merge (Surat Massal)</a> 
+                                        <a href="mailing.html" class="text-decoration-none">Mail Merge (Surat Massal)</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Digunakan untuk membuat surat, label, atau amplop dalam jumlah banyak menggunakan template Word dan daftar penerima (misalnya dari data Excel). Contoh: Membuat surat undangan dengan nama/alamat yang berubah otomatis tanpa diketik satu per satu.</p>
+                                    <p class="small text-muted ms-4 mb-0">Digunakan untuk membuat surat, label, atau amplop dalam jumlah banyak menggunakan template Word dan daftar penerima.</p>
                                 </div>
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="daftar_isi.html">Daftar Isi & Indeks Otomatis</a> 
+                                        <a href="daftar_isi.html" class="text-decoration-none">Daftar Isi & Indeks Otomatis</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Pembuatan Daftar Isi otomatis (Table of Content) mempermudah navigasi. Pembuatan indeks menggunakan AutoMark (Concordance Index) berguna untuk dokumen panjang.</p>
+                                    <p class="small text-muted ms-4 mb-0">Pembuatan Daftar Isi otomatis (Table of Content) mempermudah navigasi dokumen yang berhalaman panjang.</p>
                                 </div>
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="kuantitatif.html">Simulasi Penelitian Kuantitatif</a> 
+                                        <a href="kuantitatif.html" class="text-decoration-none">Simulasi Penelitian Kuantitatif</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Pembuatan Daftar Isi otomatis (Table of Content) mempermudah navigasi. Pembuatan indeks menggunakan AutoMark (Concordance Index) berguna untuk dokumen panjang.</p>
+                                    <p class="small text-muted ms-4 mb-0">Tata kelola penyajian data hasil penelitian kuantitatif dalam format dokumen akademik.</p>
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- ===================== EXCEL PANE ===================== -->
             <div class="tab-pane fade" id="excel" role="tabpanel" aria-labelledby="excel-tab">
                 <div class="card shadow rounded-4 border-0 border-top border-success border-5">
                     <div class="card-header bg-success-subtle p-4 d-flex align-items-center gap-3 border-bottom-0 rounded-top-4">
@@ -285,13 +303,12 @@
                         </div>
                         <div>
                             <h2 class="h3 fw-bold text-success mb-1">Microsoft Excel</h2>
-                            <p class="text-secondary mb-0">Sangat fundamental dalam analisis data, manajemen basis data, dan komputasi menggunakan sel yang terstruktur dalam baris dan kolom.</p>
+                            <p class="text-secondary mb-0">Sangat fundamental dalam analisis data, manajemen basis data, dan komputasi menggunakan sel terstruktur.</p>
                         </div>
                     </div>
                     
                     <div class="card-body p-4 p-md-5">
                         <div class="row g-5">
-                            <!-- Dasar -->
                             <div class="col-md-4">
                                 <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4">
                                     <div class="p-2 bg-success-subtle text-success rounded">
@@ -299,32 +316,29 @@
                                     </div>
                                     <h3 class="h5 fw-bold mb-0">Tingkat Dasar</h3>
                                 </div>
-
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-success mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="workbook_excel.html">Mengenal Workbook Excel</a> 
+                                        <a href="workbook_excel.html" class="text-decoration-none">Mengenal Workbook Excel</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Lakukan perhitungan aritmatika langsung di sel menggunakan operator seperti + (penjumlahan), - (pengurangan), * (perkalian), dan / (pembagian).</p>
-                                </div>
-
-                                <div class="feature-item mb-4">
-                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
-                                        <i class="bi bi-chevron-right text-success mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="operasi_aritmatika.html">Operasi Matematika</a> 
-                                    </h5>
-                                    <p class="small text-muted ms-4 mb-0">Lakukan perhitungan aritmatika langsung di sel menggunakan operator seperti + (penjumlahan), - (pengurangan), * (perkalian), dan / (pembagian).</p>
+                                    <p class="small text-muted ms-4 mb-0">Pemahaman antarmuka, sel, baris, dan kolom pada lembar kerja Excel.</p>
                                 </div>
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-success mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="rumus_statistik.html">Rumus Statistik Sederhana</a> 
+                                        <a href="operasi_aritmatika.html" class="text-decoration-none">Operasi Matematika</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Gunakan =SUM() untuk total jumlah, =AVERAGE() untuk nilai rata-rata, =MIN() untuk nilai terkecil, dan =MAX() untuk nilai terbesar.</p>
+                                    <p class="small text-muted ms-4 mb-0">Lakukan perhitungan aritmatika langsung di sel menggunakan operator penambahan, pengurangan, perkalian, dan pembagian.</p>
+                                </div>
+                                <div class="feature-item mb-4">
+                                    <h5 class="h6 fw-bold mb-2 d-flex gap-2">
+                                        <i class="bi bi-chevron-right text-success mt-1" style="font-size: 0.75rem;"></i>
+                                        <a href="rumus_statistik.html" class="text-decoration-none">Rumus Statistik Sederhana</a> 
+                                    </h5>
+                                    <p class="small text-muted ms-4 mb-0">Gunakan fungsi dasar seperti SUM, AVERAGE, MIN, dan MAX untuk analisis cepat.</p>
                                 </div>
                             </div>
 
-                            <!-- Menengah -->
                             <div class="col-md-4">
                                 <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4">
                                     <div class="p-2 bg-success-subtle text-success rounded">
@@ -335,37 +349,33 @@
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-success mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="fungsi_logika.html">Fungsi Logika (IF, AND, OR)</a> 
+                                        <a href="fungsi_logika.html" class="text-decoration-none">Fungsi Logika (IF, AND, OR)</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Digunakan untuk mengambil keputusan otomatis berdasarkan kondisi tertentu. Contoh: =IF(A1>=60, "Lulus", "Gagal").</p>
+                                    <p class="small text-muted ms-4 mb-0">Digunakan untuk mengambil keputusan otomatis berdasarkan kondisi tertentu. Contoh pengolahan nilai kelulusan.</p>
                                 </div>
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-success mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="vlookup_hlookup.html">Referensi (VLOOKUP & HLOOKUP)</a> 
+                                        <a href="vlookup_hlookup.html" class="text-decoration-none">Referensi (VLOOKUP & HLOOKUP)</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Mencari dan menampilkan data dari referensi lain. Contoh: =VLOOKUP(B4, Sheet2!A:C, 2, FALSE) akan mencari data pada kolom pertama dan mengembalikan nilai dari kolom kedua.</p>
+                                    <p class="small text-muted ms-4 mb-0">Mencari dan menampilkan data secara otomatis dari referensi tabel lain, sangat berguna untuk database skala kecil.</p>
                                 </div>
-
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-success mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="lanjutan_xlookup.html">Referensi (XLOOKUP dan Referensi Excel)</a> 
+                                        <a href="lanjutan_xlookup.html" class="text-decoration-none">Fungsi XLOOKUP</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">MKuasai teknik menarik data antar tabel secara instan. Modul ini fokus secara eksklusif pada pemahaman mendalam tentang VLOOKUP, HLOOKUP, dan fungsi modern XLOOKUP.</p>
+                                    <p class="small text-muted ms-4 mb-0">Kuasai teknik menarik data antar tabel secara instan menggunakan fungsi modern XLOOKUP yang lebih fleksibel.</p>
                                 </div>
-
-
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-success mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="excel_menengah_ljtn.html">Excel Menengah Lanjutan</a>
+                                        <a href="excel_menengah_ljtn.html" class="text-decoration-none">Excel Menengah Lanjutan</a>
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Di tingkat menengah, Anda tidak sekadar menjumlahkan angka. Anda akan belajar memotong teks (ID Karyawan), menghitung umur otomatis, membuat aturan validasi data, hingga melakukan proyeksi skenario bisnis dengan What-If Analysis.</p>
+                                    <p class="small text-muted ms-4 mb-0">Belajar memotong teks, menghitung umur otomatis, membuat validasi data, hingga proyeksi skenario bisnis.</p>
                                 </div>
                             </div>
 
-                            <!-- Mahir -->
                             <div class="col-md-4">
                                 <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4">
                                     <div class="p-2 bg-success-subtle text-success rounded">
@@ -378,30 +388,28 @@
                                         <i class="bi bi-chevron-right text-success mt-1" style="font-size: 0.75rem;"></i>
                                         Pivot Table
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Fitur untuk merangkum, menganalisis, dan mengeksplorasi ribuan baris data besar tanpa mengubah data asli secara interaktif (drag-and-drop).</p>
+                                    <p class="small text-muted ms-4 mb-0">Fitur drag-and-drop interaktif untuk merangkum dan menganalisis ribuan baris data tanpa merusak struktur asli.</p>
                                 </div>
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-success mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="excel_tingkat_lanjut.html">Microsoft Excel Lanjutan</a>
+                                        <a href="excel_tingkat_lanjut.html" class="text-decoration-none">Microsoft Excel Lanjutan</a>
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Di tingkat ini, Anda bukan lagi seorang Data Entry, melainkan seorang Data Analyst. Anda akan belajar menembus batas 1 juta baris Excel dengan Data Model, membersihkan data yang sangat kotor secara otomatis dengan Power Query, dan membuat Dashboard interaktif yang mengesankan atasan Anda.</p>
+                                    <p class="small text-muted ms-4 mb-0">Menembus batas 1 juta baris dengan Data Model, pembersihan data lewat Power Query, dan penyusunan Dashboard interaktif.</p>
                                 </div>
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-success mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="simulasi_satistik_kuantitatif.html">Simulasi Perhitungan Kuantitatif</a>
+                                        <a href="simulasi_satistik_kuantitatif.html" class="text-decoration-none">Perhitungan Kuantitatif</a>
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Simulasi Statistik Deskriptif, Korelasi, dan Regresi Berganda</p>
+                                    <p class="small text-muted ms-4 mb-0">Simulasi Statistik Deskriptif, Korelasi, dan Regresi Berganda di dalam lingkungan spreadsheet.</p>
                                 </div>
-                                
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- ===================== POWERPOINT PANE ===================== -->
             <div class="tab-pane fade" id="ppt" role="tabpanel" aria-labelledby="ppt-tab">
                 <div class="card shadow rounded-4 border-0 border-top border-orange border-5">
                     <div class="card-header bg-orange-subtle p-4 d-flex align-items-center gap-3 border-bottom-0 rounded-top-4">
@@ -416,7 +424,6 @@
                     
                     <div class="card-body p-4 p-md-5">
                         <div class="row g-5">
-                            <!-- Dasar -->
                             <div class="col-md-4">
                                 <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4">
                                     <div class="p-2 bg-orange-subtle text-orange rounded">
@@ -427,20 +434,19 @@
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-orange mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="powerpoint_dasar.html">Desain Slide</a> 
+                                        <a href="powerpoint_dasar.html" class="text-decoration-none">Desain Slide</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Memilih Layout dan Themes (tema). Minimalisir teks (gunakan poin-poin utama) dan fokus pada visual seperti gambar, ikon, atau diagram untuk memudahkan audiens.</p>
+                                    <p class="small text-muted ms-4 mb-0">Memilih Layout dan Themes. Minimalisir teks dan fokus pada daya tarik visual menggunakan gambar, ikon, atau diagram.</p>
                                 </div>
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-orange mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="penyisipan_objek.html">Pemformatan & Penyisipan Objek</a> 
+                                        <a href="penyisipan_objek.html" class="text-decoration-none">Penyisipan Objek</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Mengatur font agar terbaca dan menyisipkan tabel, grafik, hingga SmartArt untuk menggambarkan alur atau struktur organisasi secara dinamis.</p>
+                                    <p class="small text-muted ms-4 mb-0">Mengatur tipografi presentasi serta menyisipkan tabel, grafik, hingga objek SmartArt secara estetik.</p>
                                 </div>
                             </div>
 
-                            <!-- Menengah -->
                             <div class="col-md-4">
                                 <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4">
                                     <div class="p-2 bg-orange-subtle text-orange rounded">
@@ -451,20 +457,19 @@
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-orange mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="transisi_powerpoint.html">Transisi (Transitions)</a> 
+                                        <a href="transisi_powerpoint.html" class="text-decoration-none">Transisi (Transitions)</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Efek perpindahan halaman dari satu slide ke slide lainnya agar presentasi tidak monoton.</p>
+                                    <p class="small text-muted ms-4 mb-0">Menerapkan efek perpindahan antar slide yang profesional agar presentasi mengalir mulus.</p>
                                 </div>
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-orange mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="Animasi.html">Animasi (Animations)</a> 
+                                        <a href="Animasi.html" class="text-decoration-none">Animasi (Animations)</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Efek pergerakan objek di dalam satu halaman slide. Dibagi menjadi Entrance (efek masuk), Emphasis (penekanan), dan Exit (keluar).</p>
+                                    <p class="small text-muted ms-4 mb-0">Mengatur kemunculan objek di dalam slide tunggal menggunakan efek Entrance, Emphasis, dan Exit.</p>
                                 </div>
                             </div>
 
-                            <!-- Mahir -->
                             <div class="col-md-4">
                                 <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4">
                                     <div class="p-2 bg-orange-subtle text-orange rounded">
@@ -475,23 +480,23 @@
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-orange mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="morph.html">Transisi Morph</a> 
+                                        <a href="morph.html" class="text-decoration-none">Transisi Morph</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Efek transisi canggih yang mengubah dan memindahkan objek antar slide secara sangat halus, seolah objek tersebut menyatu dan bertransformasi.</p>
+                                    <p class="small text-muted ms-4 mb-0">Menggunakan efek transisi canggih untuk mentransformasi objek secara sinematik antar halaman slide.</p>
                                 </div>
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-orange mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="slide_master.html">Slide Master</a> 
+                                        <a href="slide_master.html" class="text-decoration-none">Slide Master</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Fitur kontrol terpusat untuk membuat kerangka template desain (tata letak, font, background, posisi logo) secara konsisten pada semua slide.</p>
+                                    <p class="small text-muted ms-4 mb-0">Fitur kontrol backend untuk merancang kerangka template institusi dengan format layout, logo, dan font absolut.</p>
                                 </div>
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-orange mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="navigasi_ppt.html">Navigasi & Presenter View</a> 
+                                        <a href="navigasi_ppt.html" class="text-decoration-none">Presenter View</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Membuat hyperlink untuk presentasi non-linear, dan mengatur tampilan ganda (di proyektor untuk audiens, dan layar laptop untuk catatan pembicara).</p>
+                                    <p class="small text-muted ms-4 mb-0">Pengaturan tampilan dual-screen: proyektor untuk audiens, dan dasbor dengan catatan privat untuk pembicara.</p>
                                 </div>
                             </div>
                         </div>
@@ -499,7 +504,6 @@
                 </div>
             </div>
 
-            <!-- ===================== ChatGPT PANE ===================== -->
             <div class="tab-pane fade" id="chatgpt" role="tabpanel" aria-labelledby="chatgpt-tab">
                 <div class="card shadow rounded-4 border-0 border-top border-orange border-5">
                     <div class="card-header bg-orange-subtle p-4 d-flex align-items-center gap-3 border-bottom-0 rounded-top-4">
@@ -514,7 +518,6 @@
                     
                     <div class="card-body p-4 p-md-5">
                         <div class="row g-5">
-                            <!-- Dasar -->
                             <div class="col-md-4">
                                 <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4">
                                     <div class="p-2 bg-orange-subtle text-orange rounded">
@@ -527,18 +530,17 @@
                                         <i class="bi bi-chevron-right text-orange mt-1" style="font-size: 0.75rem;"></i>
                                         <a href="chatgpt_dasar.html" class="text-decoration-none">Pengenalan & Prompt Dasar</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Memahami cara kerja LLM dan menyusun perintah (prompt) sederhana yang spesifik dan terarah agar jawaban AI tidak ambigu atau terlalu umum.</p>
+                                    <p class="small text-muted ms-4 mb-0">Memahami cara kerja sistem bahasa AI dan merumuskan perintah dasar yang tidak memancing kebingungan.</p>
                                 </div>
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-orange mt-1" style="font-size: 0.75rem;"></i>
                                         <a href="chatgpt_etika.html" class="text-decoration-none">Etika & Batasan AI</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Mengenali masalah halusinasi (informasi palsu yang meyakinkan) pada AI, serta panduan menjaga keamanan privasi data saat berinteraksi.</p>
+                                    <p class="small text-muted ms-4 mb-0">Mengidentifikasi fenomena "halusinasi" AI dan panduan krusial keamanan privasi data saat berinteraksi.</p>
                                 </div>
                             </div>
 
-                            <!-- Menengah -->
                             <div class="col-md-4">
                                 <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4">
                                     <div class="p-2 bg-orange-subtle text-orange rounded">
@@ -551,18 +553,17 @@
                                         <i class="bi bi-chevron-right text-orange mt-1" style="font-size: 0.75rem;"></i>
                                         <a href="chatgpt_formula.html" class="text-decoration-none">Formula Prompt Profesional</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Menerapkan kerangka kerja RTCF (Role, Task, Context, Format) untuk memposisikan AI sebagai ahli dan menghasilkan output yang terstruktur.</p>
+                                    <p class="small text-muted ms-4 mb-0">Penerapan kerangka kerja RTCF (Role, Task, Context, Format) untuk memposisikan AI sebagai ekspert spesifik.</p>
                                 </div>
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-orange mt-1" style="font-size: 0.75rem;"></i>
                                         <a href="chatgpt_iterasi.html" class="text-decoration-none">Iterasi & Refinement</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Melakukan penyempurnaan bertahap pada memori chat dengan memberikan instruksi perbaikan gaya bahasa, panjang teks, atau format tabel.</p>
+                                    <p class="small text-muted ms-4 mb-0">Penyempurnaan output bertahap dengan memanipulasi rentang memori chat dan kalibrasi tata bahasa.</p>
                                 </div>
                             </div>
 
-                            <!-- Mahir -->
                             <div class="col-md-4">
                                 <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4">
                                     <div class="p-2 bg-orange-subtle text-orange rounded">
@@ -575,14 +576,14 @@
                                         <i class="bi bi-chevron-right text-orange mt-1" style="font-size: 0.75rem;"></i>
                                         <a href="chatgpt_data.html" class="text-decoration-none">Advanced Data Analysis</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Memanfaatkan fitur unggah dokumen (Excel, CSV, PDF) agar AI dapat mengekstrak teks, membersihkan data, dan merender grafik secara mandiri.</p>
+                                    <p class="small text-muted ms-4 mb-0">Penggunaan fitur unggah dokumen (Spreadsheet/PDF) untuk ekstraksi, pembersihan, dan perenderan grafik mandiri oleh AI.</p>
                                 </div>
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-orange mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="chatgpt_chain.html" class="text-decoration-none">Chain of Thought & Few-Shot</a> 
+                                        <a href="chatgpt_chain.html" class="text-decoration-none">Chain of Thought</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Memandu AI memecahkan masalah logika langkah demi langkah, serta memberikan pola sampel (input-output) agar AI meniru gaya penulisan spesifik.</p>
+                                    <p class="small text-muted ms-4 mb-0">Praktik pemberian pola sampel (Few-Shot) agar AI mampu menyelesaikan rumusan logika secara struktural.</p>
                                 </div>
                             </div>
                         </div>
@@ -590,20 +591,10 @@
                 </div>
             </div>
 
-
-
-
-
-
-
-            <!-- ===================== ChatGPT PANE ===================== -->
-
- <!-- ===================== Gemini PANE ===================== -->
             <div class="tab-pane fade" id="gemini" role="tabpanel" aria-labelledby="gemini-tab">
                 <div class="card shadow rounded-4 border-0 border-top border-primary border-5">
                     <div class="card-header bg-primary-subtle p-4 d-flex align-items-center gap-3 border-bottom-0 rounded-top-4">
                         <div class="bg-white text-primary p-3 rounded-3 shadow-sm d-inline-flex">
-                            <!-- Ikon Bintang Gemini -->
                             <img style="height: 30px;" src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Google_Gemini_logo.svg" alt="Gemini AI"> 
                         </div>
                         <div>
@@ -614,7 +605,6 @@
                     
                     <div class="card-body p-4 p-md-5">
                         <div class="row g-5">
-                            <!-- Dasar -->
                             <div class="col-md-4">
                                 <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4">
                                     <div class="p-2 bg-primary-subtle text-primary rounded">
@@ -625,20 +615,19 @@
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="gemini_dasar_prompt.html" class="text-decoration-none">Pengenalan & Prompt Multimodal</a> 
+                                        <a href="gemini_dasar_prompt.html" class="text-decoration-none">Prompt Multimodal</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Memahami antarmuka Gemini dan cara memberikan instruksi berbasis teks, suara, maupun gambar (multimodal) untuk interaksi yang dinamis.</p>
+                                    <p class="small text-muted ms-4 mb-0">Instruksi komprehensif mengawinkan input berbasis teks, penangkapan gambar (vision), dan analisis audio.</p>
                                 </div>
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="gemini_dasar_verifikasi.html" class="text-decoration-none">Verifikasi Fakta (Double-Check)</a> 
+                                        <a href="gemini_dasar_verifikasi.html" class="text-decoration-none">Verifikasi Fakta</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Mencegah halusinasi AI dengan menggunakan fitur ikon "G" (Double-check response) untuk memvalidasi jawaban secara otomatis dengan hasil pencarian Google.</p>
+                                    <p class="small text-muted ms-4 mb-0">Otomatisasi pengkoreksian fakta AI dengan modul Google Search terintegrasi melalui fitur Double-check.</p>
                                 </div>
                             </div>
 
-                            <!-- Menengah -->
                             <div class="col-md-4">
                                 <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4">
                                     <div class="p-2 bg-primary-subtle text-primary rounded">
@@ -651,18 +640,17 @@
                                         <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
                                         <a href="gemini_menengah_tools.html" class="text-decoration-none">Ekstensi & Alat Bawaan</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Mengaktifkan <strong>Extensions</strong> (dengan mengetik <code>@</code>) untuk menarik data langsung dari YouTube, Google Maps, dan Google Flights dalam satu obrolan.</p>
+                                    <p class="small text-muted ms-4 mb-0">Memanggil modul khusus untuk menyedot rangkuman video YouTube atau informasi rute Google Maps langsung ke dalam chat.</p>
                                 </div>
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="gemini_menengah_workspace.html" class="text-decoration-none">Integrasi Google Workspace</a> 
+                                        <a href="gemini_menengah_workspace.html" class="text-decoration-none">Integrasi Workspace</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Menghubungkan Gemini dengan Google Drive, Gmail, dan Docs untuk merangkum ratusan email, mencari dokumen spesifik, dan mengekstrak data dari file pribadi.</p>
+                                    <p class="small text-muted ms-4 mb-0">Penelusuran kotak masuk Gmail dan ekstraksi paksa data dari Google Drive secara real-time.</p>
                                 </div>
                             </div>
 
-                            <!-- Mahir -->
                             <div class="col-md-4">
                                 <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4">
                                     <div class="p-2 bg-primary-subtle text-primary rounded">
@@ -675,14 +663,14 @@
                                         <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
                                         <a href="gemini_mahir_gems.html" class="text-decoration-none">Gems (Asisten Kustom)</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Merancang <strong>Gems</strong>—karakter AI kustom yang diprogram dengan instruksi sistem khusus, kepribadian, dan pedoman ketat untuk tugas profesional yang berulang.</p>
+                                    <p class="small text-muted ms-4 mb-0">Memprogram kepribadian dan pedoman ketat karakter AI (Gems) guna mengeksekusi beban kerja profesional yang repetitif.</p>
                                 </div>
                                 <div class="feature-item mb-4">
                                     <h5 class="h6 fw-bold mb-2 d-flex gap-2">
                                         <i class="bi bi-chevron-right text-primary mt-1" style="font-size: 0.75rem;"></i>
-                                        <a href="gemini_mahir_data.html" class="text-decoration-none">Analisis Konteks Masif & Kode</a> 
+                                        <a href="gemini_mahir_data.html" class="text-decoration-none">Analisis Konteks Masif</a> 
                                     </h5>
-                                    <p class="small text-muted ms-4 mb-0">Menganalisis puluhan dokumen PDF tebal sekaligus dengan memanfaatkan jendela konteks raksasa (hingga 2 juta token), serta menjalankan dan memodifikasi kode Python.</p>
+                                    <p class="small text-muted ms-4 mb-0">Pemanfaatan jendela memori raksasa (2 juta token) untuk mencerna perpustakaan dokumen PDF sekaligus.</p>
                                 </div>
                             </div>
                         </div>
@@ -690,16 +678,233 @@
                 </div>
             </div>
 
-
-
-
-
         </div>
     </div>
 
-    <!-- Bootstrap 5 JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.css"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="modal fade" id="absensiModal" tabindex="-1" aria-labelledby="absensiModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-primary text-white border-0">
+                    <h5 class="modal-title fw-bold" id="absensiModalLabel">
+                        <i class="bi bi-person-check-fill me-2"></i>Absensi Mahasiswa
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                <div class="modal-body p-4 p-md-5">
+                    <div class="text-center mb-4">
+                        <h4 class="fw-bold text-dark">Form Kehadiran</h4>
+                        <p class="text-muted small">Ketik NIM Anda. Nama dan Kelas akan terisi otomatis.</p>
+                    </div>
+                    
+                    <form id="formAbsensi" onsubmit="submitKeSpreadsheet(event)">
+                        <div class="mb-3">
+                            <label for="inputNIM" class="form-label fw-medium">NIM (Nomor Induk Mahasiswa)</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-card-heading"></i></span>
+                                <input type="number" class="form-control" id="inputNIM" name="nim" placeholder="Ketik NIM Anda..." required autocomplete="off">
+                            </div>
+                            <div id="nimError" class="form-text text-danger d-none mt-2">
+                                <i class="bi bi-exclamation-circle me-1"></i> NIM tidak ditemukan di sistem.
+                            </div>
+                        </div>
 
+                        <div class="mb-3">
+                            <label for="inputNama" class="form-label fw-medium">Nama Lengkap</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-person"></i></span>
+                                <input type="text" class="form-control bg-light text-muted" id="inputNama" name="nama" placeholder="Terisi otomatis..." readonly required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="inputSemester" class="form-label fw-medium">Kelas / Semester</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-mortarboard"></i></span>
+                                <input type="text" class="form-control bg-light text-muted" id="inputSemester" name="semester" placeholder="Terisi otomatis..." readonly required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="inputKomputer" class="form-label fw-medium">Pilih Komputer</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-pc-display"></i></span>
+                                <select class="form-select select2" id="inputKomputer" name="komputer" required>
+                                    <option value="" disabled selected>Cari & Pilih Komputer...</option>
+                                    <option value="230.03 - 001 - 041">Komputer 41 (230.03-001-041)</option>
+                                    <option value="230.03 - 001 - 042">Komputer 42 (230.03-001-042)</option>
+                                    <option value="230.03 - 001 - 043">Komputer 43 (230.03-001-043)</option>
+                                    <option value="230.03 - 001 - 044">Komputer 44 (230.03-001-044)</option>
+                                    <option value="230.03 - 001 - 045">Komputer 45 (230.03-001-045)</option>
+                                    <option value="230.03 - 001 - 046">Komputer 46 (230.03-001-046)</option>
+                                    <option value="230.03 - 001 - 047">Komputer 47 (230.03-001-047)</option>
+                                    <option value="230.03 - 001 - 048">Komputer 48 (230.03-001-048)</option>
+                                    <option value="230.03 - 001 - 049">Komputer 49 (230.03-001-049)</option>
+                                    <option value="230.03 - 001 - 050">Komputer 50 (230.03-001-050)</option>
+                                    <option value="230.03 - 001 - 051">Komputer 51 (230.03-001-051)</option>
+                                    <option value="230.03 - 001 - 052">Komputer 52 (230.03-001-052)</option>
+                                    <option value="230.03 - 001 - 053">Komputer 53 (230.03-001-053)</option>
+                                    <option value="230.03 - 001 - 054">Komputer 54 (230.03-001-054)</option>
+                                    <option value="230.03 - 001 - 055">Komputer 55 (230.03-001-055)</option>
+                                    <option value="230.03 - 001 - 056">Komputer 56 (230.03-001-056)</option>
+                                    <option value="230.03 - 001 - 057">Komputer 57 (230.03-001-057)</option>
+                                    <option value="230.03 - 001 - 058">Komputer 58 (230.03-001-058)</option>
+                                    <option value="230.03 - 001 - 059">Komputer 59 (230.03-001-059)</option>
+                                    <option value="230.03 - 001 - 060">Komputer 60 (230.03-001-060)</option>
+                                    <option value="230.03 - 001 - 061">Komputer 61 (230.03-001-061)</option>
+                                    <option value="230.03 - 001 - 062">Komputer 62 (230.03-001-062)</option>
+                                    <option value="230.03 - 001 - 063">Komputer 63 (230.03-001-063)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold shadow-sm" id="btnMasuk" disabled>
+                            Masuk
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Inisialisasi Select2
+            $('.select2').select2({
+                theme: 'bootstrap-5',
+                dropdownParent: $('#absensiModal'), 
+                width: '100%'
+            });
+        });
+
+        const dataMahasiswa = {
+            "68201232583": { nama: "AGNES EMA KOTEN", kelas: "Semester 6A2" },
+            "68201232585": { nama: "ALEXANDER YANUAR NOBE", kelas: "Semester 6A2" },
+            "68201232586": { nama: "APOLONI ELISAI BUNGA RAJA", kelas: "Semester 6A2" },
+            "68201232587": { nama: "BENEDIKTUS BOLONG", kelas: "Semester 6A2" },
+            "68201232592": { nama: "MANDA PRATIWI IBRAHIM", kelas: "Semester 6A2" },
+            "68201232594": { nama: "MARIA ERMELINDA SINTA", kelas: "Semester 6A2" },
+            "68201232597": { nama: "RITA PUTRI SRI GAMBE", kelas: "Semester 6A2" },
+            "68201232599": { nama: "SANTRIANA ALEKSIA DHAWE", kelas: "Semester 6A2" },
+            "68201232601": { nama: "YOHANES DESNATAL ALO RASI", kelas: "Semester 6A2" },
+            "68201232603": { nama: "YOHANISTA GAMO", kelas: "Semester 6A2" },
+            "68201232605": { nama: "DOROTHEA KAROLINA PUTRI", kelas: "Semester 6A2" },
+            "68201232607": { nama: "FEBRIYANTI NAO", kelas: "Semester 6A2" },
+            "68201232608": { nama: "FERNANDO T. A. W. DELU", kelas: "Semester 6A2" },
+            "68201232609": { nama: "FULGENTINUS KURIANGKOS BHAGO", kelas: "Semester 6A2" },
+            "68201232610": { nama: "GERVANSIUS AJI", kelas: "Semester 6A2" },
+            "68201232611": { nama: "KAROLUS DEKE", kelas: "Semester 6A2" },
+            "68201232612": { nama: "MARIA CHARMELITA GUWA", kelas: "Semester 6A2" },
+            "68201232613": { nama: "MARIA INES THERESIA MEO", kelas: "Semester 6A2" },
+            "68201232614": { nama: "MARIA OKTAVIANI LIDEN", kelas: "Semester 6A2" },
+            "68201232615": { nama: "MARIA SUSANTI BIDI", kelas: "Semester 6A2" },
+            "68201232616": { nama: "MARIANUS RICHARDUS DOA", kelas: "Semester 6A2" },
+            "68201232617": { nama: "ODILIA INGRIYANI SENGA", kelas: "Semester 6A2" },
+            "68201232618": { nama: "RENYA ROSARI TRIVIONIA SAPU", kelas: "Semester 6A2" },
+            "68201232619": { nama: "YASINTA IMELDA NENI", kelas: "Semester 6A2" },
+            "68201232620": { nama: "YOHANA FRANSISKA IMA", kelas: "Semester 6A2" },
+            "68201232621": { nama: "YOHANES KIRI MUDA", kelas: "Semester 6A2" },
+            "68201232562": { nama: "ADELBERTA LUNA", kelas: "Semester 6A1" },
+            "68201232565": { nama: "HUBERTUS MARTINO MULU", kelas: "Semester 6A1" },
+            "68201232566": { nama: "IMELDA NIDA MALE", kelas: "Semester 6A1" },
+            "68201232567": { nama: "INDRI SAFITRI", kelas: "Semester 6A1" },
+            "68201232568": { nama: "JOPAULA ALTARIA SALEH", kelas: "Semester 6A1" },
+            "68201232569": { nama: "KRISANTI KOLO MUKE", kelas: "Semester 6A1" },
+            "68201232570": { nama: "KRISTOFORUS SENDA", kelas: "Semester 6A1" },
+            "68201232572": { nama: "MARIA GUALBERTA WATU", kelas: "Semester 6A1" },
+            "68201232573": { nama: "MARIA MARGARETA POJA", kelas: "Semester 6A1" },
+            "68201232576": { nama: "SESARIA TANTIANA JEHAPU", kelas: "Semester 6A1" },
+            "68201232577": { nama: "SIRILUS TAGU", kelas: "Semester 6A1" },
+            "68201232579": { nama: "WILHELMUS FEDNO DALA", kelas: "Semester 6A1" },
+            "68201232581": { nama: "YOHANES BENYAMIN ROGO", kelas: "Semester 6A1" },
+            "68201232582": { nama: "YOHANES TIPO PANI", kelas: "Semester 6A1" },
+            "65201241339": { nama: "AGUSTINUS CHAROLUS LEMO", kelas: "Semester 4A1" },
+            "65201241340": { nama: "ALEKSANDRO RIVALDUS NDEWA", kelas: "Semester 4A1" },
+            "65201241341": { nama: "AMANDUS GRATIA BATE", kelas: "Semester 4A1" },
+            "65201241342": { nama: "BERTIN WEA", kelas: "Semester 4A1" },
+            "65201241343": { nama: "DIONISIUS SETO", kelas: "Semester 4A1" },
+            "65201241345": { nama: "EGIL FALENTINO A. FETO", kelas: "Semester 4A1" },
+            "65201241347": { nama: "FRANSISKUS SALESTINUS LIU", kelas: "Semester 4A1" },
+            "65201241348": { nama: "FREDERIKUS DHOGHO", kelas: "Semester 4A1" },
+            "65201241350": { nama: "HIDAYAH TULLAH", kelas: "Semester 4A1" },
+            "65201241351": { nama: "KOSMAS WIRO", kelas: "Semester 4A1" },
+            "65201241352": { nama: "MARIA INGRIDA LABO", kelas: "Semester 4A1" },
+            "65201241354": { nama: "MUHAMAD ISNAIN QADRI", kelas: "Semester 4A1" },
+            "65201241355": { nama: "OKTAVIANUS DEDE", kelas: "Semester 4A1" },
+            "65201241356": { nama: "PETRONIA LODA", kelas: "Semester 4A1" },
+            "65201241357": { nama: "SAVERINUS M. GAWI", kelas: "Semester 4A1" },
+            "65201241359": { nama: "SIPRIANI DELVINA ASO", kelas: "Semester 4A1" },
+            "65201241360": { nama: "TRESIA MODHE", kelas: "Semester 4A1" },
+            "65201241361": { nama: "TRIFONIUS WATU", kelas: "Semester 4A1" },
+            "65201241362": { nama: "VINSENSIUS BERNADINUS LENGU", kelas: "Semester 4A1" }
+        };
+
+        const inputNIM = document.getElementById('inputNIM');
+        const inputNama = document.getElementById('inputNama');
+        const inputSemester = document.getElementById('inputSemester');
+        const nimError = document.getElementById('nimError');
+        const btnMasuk = document.getElementById('btnMasuk');
+
+        inputNIM.addEventListener('input', function() {
+            const nim = this.value.trim();
+            if (nim.length > 0) {
+                if (dataMahasiswa[nim]) {
+                    inputNama.value = dataMahasiswa[nim].nama;
+                    inputSemester.value = dataMahasiswa[nim].kelas;
+                    nimError.classList.add('d-none');
+                    btnMasuk.disabled = false;
+                } else {
+                    inputNama.value = "";
+                    inputSemester.value = "";
+                    nimError.classList.remove('d-none');
+                    btnMasuk.disabled = true;
+                }
+            } else {
+                inputNama.value = "";
+                inputSemester.value = "";
+                nimError.classList.add('d-none');
+                btnMasuk.disabled = true;
+            }
+        });
+
+        function submitKeSpreadsheet(e) {
+            e.preventDefault(); 
+            btnMasuk.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Menyimpan...';
+            btnMasuk.disabled = true;
+
+            const formData = new FormData(document.getElementById('formAbsensi'));
+            const now = new Date();
+            const tanggalOtomatis = now.toLocaleDateString('id-ID') + " " + now.toLocaleTimeString('id-ID');
+            formData.append('tanggal', tanggalOtomatis);
+
+            /*
+            // HAPUS TANDA KOMENTAR INI JIKA GOOGLE SCRIPT SUDAH SIAP
+            fetch('URL_WEB_APP_GOOGLE_SCRIPT_ANDA_DI_SINI', { 
+                method: 'POST', 
+                body: formData 
+            })
+            .then(response => {
+                alert('Absensi berhasil direkam ke Spreadsheet!');
+                document.getElementById('formAbsensi').reset(); 
+                $('.select2').val(null).trigger('change'); 
+                btnMasuk.innerHTML = 'Masuk';
+                btnMasuk.disabled = true;
+            })
+            .catch(error => console.error('Gagal mengirim data!', error.message));
+            */
+
+            setTimeout(() => {
+               alert(`Absensi untuk ${inputNama.value} pada waktu ${tanggalOtomatis} telah tercatat!`);
+               btnMasuk.innerHTML = 'Masuk';
+               document.getElementById('formAbsensi').reset();
+               $('.select2').val(null).trigger('change');
+               btnMasuk.disabled = true; 
+            }, 1000);
+        }
+    </script>
 </body>
 </html>
