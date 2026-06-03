@@ -681,6 +681,17 @@
         </div>
     </div>
 
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+        <div id="notifToast" class="toast align-items-center text-white border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fw-medium" id="toastMessage">
+                    </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+
     <div class="modal fade" id="absensiModal" tabindex="-1" aria-labelledby="absensiModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow">
@@ -871,39 +882,49 @@
             }
         });
 
-        function submitKeSpreadsheet(e) {
+ function submitKeSpreadsheet(e) {
             e.preventDefault(); 
+            
+            // Ubah tombol jadi status loading
             btnMasuk.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Menyimpan...';
             btnMasuk.disabled = true;
 
+            // Ambil semua data form
             const formData = new FormData(document.getElementById('formAbsensi'));
+            
+            // Generate Tanggal Otomatis
             const now = new Date();
             const tanggalOtomatis = now.toLocaleDateString('id-ID') + " " + now.toLocaleTimeString('id-ID');
             formData.append('tanggal', tanggalOtomatis);
 
-            /*
-            // HAPUS TANDA KOMENTAR INI JIKA GOOGLE SCRIPT SUDAH SIAP
-            fetch('URL_WEB_APP_GOOGLE_SCRIPT_ANDA_DI_SINI', { 
+            // Mengirim data ke Google Apps Script URL
+            fetch('https://script.google.com/macros/s/AKfycbwg-wxy2H-X0JNOtL-vjwWXcnlELsOfQUmSpa4mIn_Tz3ip3r4eZvij52AsGeU2oYlEFg/exec', { 
                 method: 'POST', 
                 body: formData 
             })
-            .then(response => {
-                alert('Absensi berhasil direkam ke Spreadsheet!');
-                document.getElementById('formAbsensi').reset(); 
-                $('.select2').val(null).trigger('change'); 
+            .then(response => response.json()) 
+            .then(data => {
+                // Jika sukses terkirim ke Spreadsheet
+                if(data.result === "success") {
+                    alert('Absensi berhasil direkam ke Spreadsheet!');
+                    document.getElementById('formAbsensi').reset(); // Kosongkan form
+                    $('.select2').val(null).trigger('change'); // Kosongkan pilihan komputer
+                } else {
+                    alert('Terjadi kesalahan pada sistem Google Script.');
+                }
+                
+                // Kembalikan tombol ke keadaan semula
                 btnMasuk.innerHTML = 'Masuk';
                 btnMasuk.disabled = true;
             })
-            .catch(error => console.error('Gagal mengirim data!', error.message));
-            */
-
-            setTimeout(() => {
-               alert(`Absensi untuk ${inputNama.value} pada waktu ${tanggalOtomatis} telah tercatat!`);
-               btnMasuk.innerHTML = 'Masuk';
-               document.getElementById('formAbsensi').reset();
-               $('.select2').val(null).trigger('change');
-               btnMasuk.disabled = true; 
-            }, 1000);
+            .catch(error => {
+                // Jika gagal terhubung (misal: koneksi internet terputus)
+                console.error('Gagal mengirim data!', error.message);
+                alert('Gagal terhubung ke server Spreadsheet.');
+                
+                btnMasuk.innerHTML = 'Masuk';
+                btnMasuk.disabled = true;
+            });
         }
     </script>
 </body>
