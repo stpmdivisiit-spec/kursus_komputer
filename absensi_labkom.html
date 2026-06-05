@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Database Absensi - Lab Komputer</title>
+    
+    <link href="css/styles.css" rel="stylesheet" />
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous"></script>
+
+    <style>
+        /* Fix Navbar Mobile Transparent */
+        @media (max-width: 991.98px) {
+            #navbarCollapse {
+                background-color: #ffffff;
+                position: absolute;
+                top: 3.625rem; 
+                left: 0;
+                width: 100%;
+                padding: 1rem 1.5rem;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+                border-top: 1px solid #eaecf4;
+                z-index: 1050;
+            }
+        }
+    </style>
+</head>
+<body class="nav-fixed bg-light">
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary d-flex align-items-center gap-2" href="#">
+                <i class="bi bi-pc-display-horizontal fs-4"></i>
+                Kursus Komputer
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center gap-2">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-primary rounded-pill px-4 fw-medium shadow-sm d-flex align-items-center gap-2" href="absensi_labkom.html">Data Penggunaan Komputer</a>
+                    </li>
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                        <button class="btn btn-primary rounded-pill px-4 fw-medium shadow-sm d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#absensiModal">
+                            <i class="bi bi-person-check"></i> Absensi
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div style="padding-top: 3.625rem; width: 100%;">
+        <main>
+            <header class="page-header page-header-dark bg-primary pb-10">
+                <div class="container-xl px-4">
+                    <div class="page-header-content pt-4">
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col-auto mt-4">
+                                <h1 class="page-header-title text-white">
+                                    <div class="page-header-icon me-3"><i class="fa-solid fa-users-viewfinder"></i></div>
+                                    Database Absensi Lab Komputer
+                                </h1>
+                                <p class="text-white-50 mt-2">Menampilkan rekam data kehadiran mahasiswa dari sistem LMS secara real-time.</p>
+                            </div>
+                            <div class="col-12 col-xl-auto mt-4">
+                                <button class="btn btn-light text-success me-2" onclick="downloadExcel()">
+                                    <i class="fa-solid fa-file-excel me-2"></i>Buka Spreadsheet
+                                </button>
+                                <button class="btn btn-dark" onclick="copyLink(event)">
+                                    <i class="fa-solid fa-link me-2"></i>Copy Link Data
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <div class="container-xl px-4 mt-n10 mb-5">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header border-bottom bg-white">
+                        <ul class="nav nav-tabs card-header-tabs" id="cardTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active fw-bold text-primary" id="overview-tab" href="#overview" data-bs-toggle="tab" role="tab" aria-controls="overview" aria-selected="true">Tabel Rekap Kehadiran</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        
+                        <div class="row mb-4 p-3 bg-light rounded border">
+                            <div class="col-md-4 mb-2 mb-md-0">
+                                <label for="minDate" class="form-label fw-bold small text-muted"><i class="fa-regular fa-calendar me-1"></i> Mulai Tanggal</label>
+                                <input type="date" id="minDate" class="form-control">
+                            </div>
+                            <div class="col-md-4 mb-2 mb-md-0">
+                                <label for="maxDate" class="form-label fw-bold small text-muted"><i class="fa-regular fa-calendar-check me-1"></i> Sampai Tanggal</label>
+                                <input type="date" id="maxDate" class="form-control">
+                            </div>
+                            <div class="col-md-4 d-flex align-items-end">
+                                <button id="btnResetFilter" class="btn btn-outline-secondary w-100"><i class="fa-solid fa-rotate-right me-2"></i>Reset Filter</button>
+                            </div>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table id="tabelAbsensi" class="table table-bordered table-hover w-100 align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Waktu Absen</th>
+                                        <th>NIM</th>
+                                        <th>Nama Lengkap</th>
+                                        <th>Semester / Kelas</th>
+                                        <th>Komputer yang Dipakai</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    </tbody>
+                            </table>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="footer-admin mt-auto footer-light bg-white border-top">
+            <div class="container-xl px-4 py-3">
+                <div class="row">
+                    <div class="col-md-6 small text-muted">Copyright &copy; Sistem LMS STPM 2026</div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+    <script>
+        // MASUKKAN URL GOOGLE APPS SCRIPT KAMU DI SINI (Harus mengembalikan data JSON array-of-arrays)
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwg-wxy2H-X0JNOtL-vjwWXcnlELsOfQUmSpa4mIn_Tz3ip3r4eZvij52AsGeU2oYlEFg/exec';
+        
+        let dataTable;
+
+        function downloadExcel() { 
+            // Ganti URL ini dengan URL Google Spreadsheet kamu
+            window.open("https://docs.google.com/spreadsheets/d/1Rw9fiOHCU3EQRQmnkwQ2s6Lk3T1RxFwD0O0D7kWCj9Q/edit", "_blank"); 
+        }
+        
+        function copyLink(e) {
+            navigator.clipboard.writeText("https://docs.google.com/spreadsheets/d/1Rw9fiOHCU3EQRQmnkwQ2s6Lk3T1RxFwD0O0D7kWCj9Q/edit").then(() => {
+                const btn = e.currentTarget; 
+                const ori = btn.innerHTML;
+                btn.innerHTML = `<i class="fa-solid fa-check me-2"></i> Copied!`;
+                setTimeout(() => { btn.innerHTML = ori; }, 2000);
+            });
+        }
+
+        // ==========================================
+        // LOGIKA FILTER TANGGAL DATATABLES
+        // ==========================================
+        $.fn.dataTable.ext.search.push(
+            function(settings, data, dataIndex) {
+                let minDateStr = $('#minDate').val();
+                let maxDateStr = $('#maxDate').val();
+                
+                // Index 0 adalah kolom Tanggal (sesuaikan jika urutannya berbeda)
+                let tableDateStr = data[0]; 
+
+                if (!minDateStr && !maxDateStr) return true;
+
+                // Konversi string ke format Date
+                let minDate = minDateStr ? new Date(minDateStr) : null;
+                let maxDate = maxDateStr ? new Date(maxDateStr) : null;
+                
+                // Regex sederhana untuk menangkap format "DD/MM/YYYY" atau "DD-MM-YYYY" (asumsi output dari JS form sebelumnya)
+                // Mengubah format ke standar yang dibaca Javascript (YYYY-MM-DD)
+                let dateParts = tableDateStr.split(' ')[0].split(/[\/\-]/); 
+                let tableDate = null;
+                
+                if(dateParts.length === 3) {
+                     // Asumsi format Indonesia: DD/MM/YYYY (parts[0]=DD, parts[1]=MM, parts[2]=YYYY)
+                     tableDate = new Date(`${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`);
+                } else {
+                     tableDate = new Date(tableDateStr); // Format default fallback
+                }
+
+                if (minDate) minDate.setHours(0,0,0,0);
+                if (maxDate) maxDate.setHours(0,0,0,0);
+                if (tableDate && !isNaN(tableDate.getTime())) tableDate.setHours(0,0,0,0);
+
+                if (minDate && maxDate) {
+                    return tableDate >= minDate && tableDate <= maxDate;
+                } else if (minDate) {
+                    return tableDate >= minDate;
+                } else if (maxDate) {
+                    return tableDate <= maxDate;
+                }
+                return true;
+            }
+        );
+
+        // Event listener saat input kalender diubah
+        $('#minDate, #maxDate').on('change', function () {
+            if (dataTable) { dataTable.draw(); }
+        });
+
+        // Tombol Reset Filter
+        $('#btnResetFilter').on('click', function() {
+            $('#minDate').val('');
+            $('#maxDate').val('');
+            if (dataTable) { dataTable.draw(); }
+        });
+        // ==========================================
+
+        async function loadTableData() {
+            try {
+                if(dataTable) {
+                    dataTable.destroy();
+                }
+                $('#tabelAbsensi tbody').html('<tr><td colspan="5" class="text-center py-5"><div class="spinner-border text-primary mb-3"></div><p class="text-muted">Menarik data dari Spreadsheet...</p></td></tr>');
+
+                // Memanggil Google Apps Script dengan parameter ?action=getData (Opsional, tergantung setting backend)
+                // Jika backend GET belum dibuat, abaikan dan pastikan script .gs mengembalikan data JSON array.
+                const response = await fetch(scriptURL + "?action=getData");
+                const dataObj = await response.json();
+                
+                if (dataObj.result === 'success' && dataObj.data.length > 0) {
+                    // Membuang baris pertama jika itu adalah header (Tanggal, Nim, Nama Lengkap...)
+                    // Pastikan backend mengembalikan seluruh baris, termasuk header, atau atur di backend.
+                    let rawData = dataObj.data;
+                    
+                    // Asumsi baris 0 adalah Header (Tanggal, NIM, Nama Lengkap, Semester, Komputer)
+                    // Jika ya, kita potong (slice). Jika tidak, gunakan semua data.
+                    if(rawData[0][0] && rawData[0][0].toString().toLowerCase().includes('tanggal')) {
+                        rawData = rawData.slice(1);
+                    }
+
+                    dataTable = $('#tabelAbsensi').DataTable({
+                        data: rawData,
+                        order: [[0, "desc"]], // Mengurutkan dari waktu terbaru
+                        language: { url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json' }
+                    });
+                } else {
+                    $('#tabelAbsensi tbody').html('<tr><td colspan="5" class="text-center py-4 text-muted">Belum ada data absensi yang terekam.</td></tr>');
+                }
+            } catch (error) { 
+                console.error("Gagal memuat data:", error); 
+                $('#tabelAbsensi tbody').html('<tr><td colspan="5" class="text-center py-4 text-danger"><i class="fa-solid fa-circle-exclamation me-2"></i> Gagal terhubung ke Google Spreadsheet. Pastikan URL dan akses script sudah benar.</td></tr>');
+            }
+        }
+
+        $(document).ready(function() { 
+            loadTableData(); 
+        });
+    </script>
+</body>
+</html>
